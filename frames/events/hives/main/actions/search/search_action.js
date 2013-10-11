@@ -44,7 +44,7 @@ module.exports = {
     },
 
     on_post_input: function (context, done) {
-        request.get(
+        request(
             {
                 url: EVENTFUL_SEARCH_URL,
                 app_key: context.$apiary.get_config('eventful_auth_key'),
