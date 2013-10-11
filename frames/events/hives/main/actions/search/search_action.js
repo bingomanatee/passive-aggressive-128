@@ -59,9 +59,12 @@ module.exports = {
                 if (err) {
                     done(err);
                 } else {
-                    context.$out.set('events', response.toJSON());
-                 //   context.$send(body, done);
-                    done();
+                    try {
+                        context.$out.set('events', JSON.parse(body));
+                        done();
+                    } catch(err){
+                        done(err);
+                    }
                 }
             })
     },

@@ -3,12 +3,14 @@
 <form class="form-horizontal" id="event-search-form" method="POST" action="/search">
     <div class="control-group">
         <label class="control-label" for="search-input">Location</label>
+
         <div class="controls">
             <input type="text" name="location" id="location-input" required placeholder="Search for location">
         </div>
     </div>
     <div class="control-group">
         <label class="control-label" for="search-input">Search Term</label>
+
         <div class="controls">
             <input type="text" name="search" id="search-input" required placeholder="Search for events">
         </div>
@@ -20,8 +22,27 @@
     </div>
 </form>
 
-        <pre>
+<% if (events) { %>
+<h2><%= events.total_items %> Results: (page <%= page_number %> of <%= page_count %>)</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+    </tr>
 
-            <%- JSON.stringify(events, true, 3) %>
+    </thead>
 
-        </pre>
+    <tbody>
+    <% events.events.forEach(function(e){ %>
+    <tr>
+        <td><%= e.title %></td>
+        <td><%= e.description %></td>
+    </tr>
+
+    <% })// end foreach
+    %>
+    </tbody>
+</table>
+<% } // if events
+%>
