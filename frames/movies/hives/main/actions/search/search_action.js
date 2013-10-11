@@ -8,7 +8,7 @@ var _DEBUG = true;
 /* ------------ CLOSURE --------------- */
 
 function _url(context){
-    return 'http://api.eventful.com/rest/events/search?.location=San+Diego&app_key=' + context.$apiary.get_config('eventful_auth_key');
+    return 'http://api.eventful.com/rest/events/search?location=San+Francisco&app_key=' + context.$apiary.get_config('eventful_auth_key');
 }
 /* -------------- EXPORT --------------- */
 
