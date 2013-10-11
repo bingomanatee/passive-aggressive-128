@@ -32,10 +32,26 @@
         </pre>
 <% } // if false
 %>
-<table>
+        <style>
+            .event-listing thead th {
+                font-size: 100%;
+                text-transform: uppercase;
+                text-align: left;
+                vertical-align: top;
+            }
+            .event-listing .title {
+                font-weight: bold;
+                font-size: 150%;
+            }
+            .event-listing .venue {
+                min-width: 30em;
+                font-weight: bold;
+            }
+        </style>
+<table class="event-listing">
     <thead>
     <tr>
-        <th>Title</th>
+        <th>Venue</th>
         <th>Description</th>
     </tr>
 
@@ -44,7 +60,11 @@
     <tbody>
     <% events.events.event.forEach(function(e){ %>
     <tr>
-        <td><%= e.title %></td>
+        <td rowspan="2" class="title"><%= e.title %></td>
+    </tr>
+    <tr>
+        <td class="vanue"><h3><%= e.venu_name %></h3>
+        <address><%= e.venu_address %></address></td>
         <td><%- e.description %></td>
     </tr>
 
