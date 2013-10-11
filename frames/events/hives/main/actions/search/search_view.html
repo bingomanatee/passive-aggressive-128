@@ -45,7 +45,7 @@
     <% events.events.event.forEach(function(e){ %>
     <tr>
         <td><%= e.title %></td>
-        <td><%= e.description %></td>
+        <td><%- e.description %></td>
     </tr>
 
     <% })// end foreach
