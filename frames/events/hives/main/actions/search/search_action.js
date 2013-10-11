@@ -7,11 +7,8 @@ var _DEBUG = true;
 
 /* ------------ CLOSURE --------------- */
 
-function _url(context) {
-    // using the eventful auth key stored in the bootstrapping web.js file.
-    // note that the awesome eventful API lets us get json, xml, or yml by changing the root api term.
-    return 'http://api.eventful.com/json/events/search?location=San+Francisco&app_key=' + context.$apiary.get_config('eventful_auth_key');
-}
+var EVENTFUL_SEARCH_URL = 'http://api.eventful.com/json/events/search';
+
 /* -------------- EXPORT --------------- */
 
 module.exports = {
@@ -39,13 +36,19 @@ module.exports = {
         if (!context.search) {
             // missing search term; we will use very brutal error handling here. No further processing will happen.
             done('no search term found');
+        } else if (!context.location) {
+            done('no location found')
         } else {
             done();
         }
     },
 
     on_post_input: function (context, done) {
-        request.get(_url(context),
+        request.post(EVENTFUL_SEARCH_URL,
+            {
+                app_key: context.$apiary.get_config('eventful_auth_key'),
+                location: context.location, keywords: context.search
+            },
             function (err, response, body) {
                 if (err) {
                     done(err);

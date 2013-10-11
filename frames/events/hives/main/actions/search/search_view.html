@@ -1,8 +1,14 @@
 <form class="form-horizontal" id="event-search-form" method="POST" action="/search">
     <div class="control-group">
+        <label class="control-label" for="search-input">Location</label>
+        <div class="controls">
+            <input type="text" name="location" id="location-input" required placeholder="Search for location">
+        </div>
+    </div>
+    <div class="control-group">
         <label class="control-label" for="search-input">Search Term</label>
         <div class="controls">
-            <input type="text" name="search" id="search-input" placeholder="Search for events">
+            <input type="text" name="search" id="search-input" required placeholder="Search for events">
         </div>
     </div>
     <div class="control-group">
