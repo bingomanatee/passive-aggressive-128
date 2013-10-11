@@ -32,7 +32,6 @@
     "hive-model-mongoose": "0.0.2"
   },
   "devDependencies": {
-    "tap": "~0.4.4",
-    "node-sass": "~0.6.6"
+    "tap": "~0.4.4"
   }
 }
