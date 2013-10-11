@@ -19,7 +19,8 @@
     "url": "https://github.com/bingomanatee/wonderland/issues"
   },
   "dependencies": {
-    "mongoose": "~3.6.19",
+    "hive-loader": "0.0.2",
+    "hive-component": "0.0.1-a",
     "hive-mvc": "~0.1.0",
     "passport": "~0.1.17",
     "express": "~3.3.8",

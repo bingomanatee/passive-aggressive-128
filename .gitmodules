@@ -1,0 +1,3 @@
+[submodule "frames/hive_layout"]
+	path = frames/hive_layout
+	url = https://github.com/node-hive/hive_layout.git
