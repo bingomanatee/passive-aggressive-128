@@ -3,5 +3,6 @@
     "routes": {
         "get": "/search",
         "post": "/search"
-    }
+    },
+    "action_handler_failsafe_time": 10000
 }
