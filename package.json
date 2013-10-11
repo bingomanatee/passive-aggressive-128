@@ -2,7 +2,7 @@
   "name": "passive-aggressive-1248",
   "version": "0.0.1",
   "description": "A hive-mvc sample app",
-  "main": "index.js",
+  "main": "web.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +11,7 @@
     "url": "git://github.com/bingomanatee/passive-aggressive-1248.git"
   },
   "keywords": [
-    "MUD"
+    "hive-mvc"
   ],
   "author": "David Edelhart",
   "license": "BSD",

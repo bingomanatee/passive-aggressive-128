@@ -8,7 +8,6 @@ var express = require('express')
     , util = require('util')
     , mvc = require('hive-mvc')
     , passport = require('passport');
- //   , mongoose = require('mongoose');
 
 var app = express();
 var PORT = process.env.PORT || 5000;
@@ -43,7 +42,6 @@ server.on('close', function () {
 var log_file = path.resolve(__dirname, 'actions.log');
 
 server.listen(app.get('port'), function () {
-  //  mongoose.connect('mongodb://localhost/wonderland');
     var apiary = mvc.Apiary({log_file: log_file, action_handler_failsafe_time: 3000}, __dirname + '/frames');
     apiary._config.setAll(require('./site_identity.json'));
     apiary._config.setAll(require('./passport_config.json'));
