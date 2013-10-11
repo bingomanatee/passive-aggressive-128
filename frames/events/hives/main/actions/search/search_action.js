@@ -66,6 +66,7 @@ function _get_results(context, done) {
         request.get(params, _add_to_events);
     }
 
+    _poll();
 }
 
 /* -------------- EXPORT --------------- */
