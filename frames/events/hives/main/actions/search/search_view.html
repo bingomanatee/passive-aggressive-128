@@ -25,11 +25,13 @@
 <% if (events) { %>
 <h2><%= events.total_items %> Results: (page <%= events.page_number %> of <%= events.page_count %>)</h2>
 
+<% if (false) { %>
         <pre>
             <%- JSON.stringify(events.events, true, 3) %>
 
         </pre>
-        <% if (false) { %>
+<% } // if false
+%>
 <table>
     <thead>
     <tr>
@@ -40,7 +42,7 @@
     </thead>
 
     <tbody>
-    <% events.events.forEach(function(e){ %>
+    <% events.events.event.forEach(function(e){ %>
     <tr>
         <td><%= e.title %></td>
         <td><%= e.description %></td>
@@ -50,7 +52,5 @@
     %>
     </tbody>
 </table>
-        <% } // if false
-        %>
 <% } // if events
 %>
