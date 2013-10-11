@@ -1,0 +1,65 @@
+var _ = require('underscore');
+var util = require('util');
+var path = require('path');
+var fs = require('fs');
+var request = require('request');
+var _DEBUG = true;
+
+/* ------------ CLOSURE --------------- */
+
+function _url(context) {
+    // using the eventful auth key stored in the bootstrapping web.js file.
+    // note that the awesome eventful API lets us get json, xml, or yml by changing the root api term.
+    return 'http://api.eventful.com/json/events/search?location=San+Francisco&app_key=' + context.$apiary.get_config('eventful_auth_key');
+}
+/* -------------- EXPORT --------------- */
+
+module.exports = {
+
+
+    on_get_validate: function (context, done) {
+        done();
+    },
+
+    on_get_input: function (context, done) {
+        done()
+    },
+
+    on_get_process: function (context, done) {
+        done();
+    },
+
+    on_get_output: function (context, done) {
+        done();
+    },
+
+    /* -------------- POST ------------- */
+
+    on_post_validate: function (context, done) {
+        if (!context.search) {
+            // missing search term; we will use very brutal error handling here. No further processing will happen.
+            done('no search term found');
+        } else {
+            done();
+        }
+    },
+
+    on_post_input: function (context, done) {
+        request.get(_url(context),
+            function (err, response, body) {
+                if (err) {
+                    done(err);
+                } else {
+                    context.$send(body, done);
+                }
+            })
+    },
+
+    on_post_process: function (context, done) {
+        done();
+    },
+
+    on_post_output: function (context, done) {
+        done();
+    }
+}
