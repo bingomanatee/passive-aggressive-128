@@ -3,7 +3,7 @@ var util = require('util');
 var path = require('path');
 var fs = require('fs');
 var request = require('request');
-var _DEBUG = true;
+var _DEBUG = false;
 
 /* ------------ CLOSURE --------------- */
 
@@ -52,14 +52,13 @@ module.exports = {
         }
     };
 
-        if (_DEBUG) console.log("requesting %s", util.inspect(params));
         request.get(
             params,
             function (err, response, body) {
-               if (_DEBUG) console.log('response: url %s', response.url)
                 if (err) {
                     done(err);
                 } else {
+                    context.events = util.inspect(response);
                     context.$send(body, done);
                 }
             })
