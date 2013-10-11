@@ -44,13 +44,17 @@ module.exports = {
     },
 
     on_post_input: function (context, done) {
-        request(
-            {
-                url: EVENTFUL_SEARCH_URL,
-                app_key: context.$apiary.get_config('eventful_auth_key'),
-                location: context.location, keywords: context.search
-            },
+        var params = {
+            url: EVENTFUL_SEARCH_URL,
+            app_key: context.$apiary.get_config('eventful_auth_key'),
+            location: context.location, keywords: context.search
+        };
+
+        if (_DEBUG) console.log("requesting %s", util.inspect(params));
+        request.get(
+            params,
             function (err, response, body) {
+               if (_DEBUG) console.log('response: url %s', response.url)
                 if (err) {
                     done(err);
                 } else {
