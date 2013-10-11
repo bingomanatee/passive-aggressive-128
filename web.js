@@ -50,6 +50,10 @@ server.listen(app.get('port'), function () {
     apiary.set_config('god_mode', true);
     console.log('initializing apiary for port %s', PORT);
     apiary.init(function () {
+        var view_helpers =            apiary.Resource.list.find({TYPE: 'view_helper', post: false}).records();
+        view_helpers.forEach(function(h){
+            console.log("found helper %s', h.name");
+        });
         console.log('serving');
         apiary.serve(app, server);
     });
