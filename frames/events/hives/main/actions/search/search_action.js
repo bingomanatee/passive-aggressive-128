@@ -16,7 +16,7 @@ function _get_results(context, done) {
 
     function _add_to_events(err, res, body) {
         if (err) return done(err);
-        
+
         try {
             var new_data = JSON.parse(body);
         } catch (err) {
@@ -62,6 +62,7 @@ function _get_results(context, done) {
             params.qs.page_number = page;
         }
 
+        console.log('polling events: %s', JSON.stringify(params));
         request.get(params, _add_to_events);
     }
 

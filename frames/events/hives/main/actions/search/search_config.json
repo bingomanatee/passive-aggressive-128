@@ -4,5 +4,5 @@
         "get": "/search",
         "post": "/search"
     },
-    "action_handler_failsafe_time": 10000
+    "handler_failsafe_time": 10000
 }
