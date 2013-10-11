@@ -24,6 +24,12 @@
 
 <% if (events) { %>
 <h2><%= events.total_items %> Results: (page <%= events.page_number %> of <%= events.page_count %>)</h2>
+
+        <pre>
+            <%- JSON.stringify(events.events, true, 3 %>
+
+        </pre>
+        <% if (false) { %>
 <table>
     <thead>
     <tr>
@@ -44,5 +50,7 @@
     %>
     </tbody>
 </table>
+        <% } // if false
+        %>
 <% } // if events
 %>
