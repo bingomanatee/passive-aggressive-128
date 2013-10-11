@@ -26,35 +26,45 @@
 <h2><%= events.total_items %> Results: (page <%= events.page_number %> of <%= events.page_count %>)</h2>
 
 <% if (false) { %>
-        <pre>
+<pre>
             <%- JSON.stringify(events.events, true, 3) %>
 
         </pre>
 <% } // if false
 %>
-        <style>
-            .event-listing thead th {
-                font-size: 100%;
-                text-transform: uppercase;
-                text-align: left;
-                vertical-align: top;
-            }
-            .event-listing .title {
-                font-weight: bold;
-                font-size: 150%;
-            }
-            .event-listing .venue {
-                min-width: 30em;
-                font-weight: bold;
-            }
-            .event-listing .venue h3 {
-                font-size: 100%;
-                marign: 0;
-                pardding: 0;
-                margin-bottom: 0.5em;
-                color: magenta;
-            }
-        </style>
+<style>
+    .event-listing tbody td {
+        vertical-align: top;
+        font-size: 85%;
+
+    }
+
+    .event-listing thead th {
+        font-size: 100%;
+        text-transform: uppercase;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    .event-listing .title {
+        font-weight: bold;
+        font-size: 120%;
+        padding: 0em 2em 0em 1em;
+    }
+
+    .event-listing .venue {
+        min-width: 30em;
+        font-weight: bold;
+    }
+
+    .event-listing .venue h3 {
+        font-size: 100%;
+        marign: 0;
+        pardding: 0;
+        margin-bottom: 0.5em;
+        color: magenta;
+    }
+</style>
 <table class="event-listing">
     <thead>
     <tr>
@@ -71,7 +81,16 @@
     </tr>
     <tr>
         <td class="venue"><h3><%= e.venue_name %></h3>
-        <address><%= e.venue_address %></address></td>
+            <address><%= e.venue_address %><br />
+            <%= e.city_name %>, <%= e.region_name %> <%= e.postal_code %>
+            </address>
+            <dl>
+                <dt>from</dt>
+                <dd><%= e.start_time %></dd>
+                <dt>to</dt>
+                <dd><%= e.end_time %></dd>
+            </dl>
+        </td>
         <td><%- e.description %></td>
     </tr>
 
