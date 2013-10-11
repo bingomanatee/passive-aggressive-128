@@ -1,0 +1,7 @@
+{
+    "layout_name": "bootstrap",
+    "routes": {
+        "get": "/search",
+        "post": "/search"
+    }
+}
