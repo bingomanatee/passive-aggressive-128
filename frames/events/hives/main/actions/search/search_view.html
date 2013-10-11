@@ -1,3 +1,5 @@
+<% if (events ) %><h1>Search again</h1><% } else { %><h1>Search for events </h1><% } %>
+
 <form class="form-horizontal" id="event-search-form" method="POST" action="/search">
     <div class="control-group">
         <label class="control-label" for="search-input">Location</label>
@@ -17,3 +19,9 @@
         </div>
     </div>
 </form>
+
+        <pre>
+
+            <%- JSON.stringify(events, true, 3) %>
+
+        </pre>

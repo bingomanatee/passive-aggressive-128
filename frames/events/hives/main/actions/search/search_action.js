@@ -27,6 +27,7 @@ module.exports = {
     },
 
     on_get_output: function (context, done) {
+        context.$out.set('events', '')
         done();
     },
 
@@ -58,8 +59,8 @@ module.exports = {
                 if (err) {
                     done(err);
                 } else {
-                    context.events = util.inspect(response);
-                    context.$send(body, done);
+                    context.$out.set('events', response.toJSON());
+                 //   context.$send(body, done);
                 }
             })
     },
