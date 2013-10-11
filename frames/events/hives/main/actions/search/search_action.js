@@ -61,6 +61,7 @@ module.exports = {
                 } else {
                     context.$out.set('events', response.toJSON());
                  //   context.$send(body, done);
+                    done();
                 }
             })
     },
