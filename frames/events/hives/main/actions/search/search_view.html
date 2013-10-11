@@ -81,8 +81,9 @@
     </tr>
     <tr>
         <td class="venue"><h3><%= e.venue_name %></h3>
-            <address><%= e.venue_address %><br/>
-                <%= e.city_name %>, <%= e.region_name %> <%= e.postal_code %>
+            <address>
+                <% if (e.venu_address) { %><%= e.venue_address %><br/> <% } %>
+                <%= e.city_name %>, <%= e.region_name %> <% if (e.postal_code ){ %> <%= e.postal_code %> <% } %>
             </address>
             <% if (e.start_time && e.end_time){%>
             <dl>
