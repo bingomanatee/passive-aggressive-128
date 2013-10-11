@@ -1,5 +1,5 @@
 {
-    "layout_name": "boostrap",
+    "layout_name": "bootstrap",
     "routes": {
         "get": "/"
     }
