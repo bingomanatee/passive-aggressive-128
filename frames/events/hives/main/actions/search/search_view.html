@@ -60,11 +60,11 @@
     <tbody>
     <% events.events.event.forEach(function(e){ %>
     <tr>
-        <td rowspan="2" class="title"><%= e.title %></td>
+        <td colspan="2" class="title"><%= e.title %></td>
     </tr>
     <tr>
         <td class="vanue"><h3><%= e.venu_name %></h3>
-        <address><%= e.venu_address %></address></td>
+        <address><%= e.venue_address %></address></td>
         <td><%- e.description %></td>
     </tr>
 
