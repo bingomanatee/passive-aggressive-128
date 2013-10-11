@@ -52,7 +52,7 @@ server.listen(app.get('port'), function () {
     apiary.init(function () {
         var view_helpers =            apiary.Resource.list.find({TYPE: 'view_helper', post: false}).records();
         view_helpers.forEach(function(h){
-            console.log("found helper %s', h.name");
+            console.log("found helper %s", h.name);
         });
         console.log('serving');
         apiary.serve(app, server);
