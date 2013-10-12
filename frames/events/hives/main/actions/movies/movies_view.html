@@ -6,6 +6,24 @@
 
 <h2>Movies:</h2>
 
-<pre>
-<%- JSON.stringify(movies, true, 3) %>
-</pre>
+<table class="table table-bordered">
+    <thead>
+    <tr><th>Title</th>
+    <th>Theatres</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% movies.forEach(function(movie){ %>
+    <tr>
+        <td><h4><%= movie.title %>(<%= movie.lang %>)</h4>
+        <div><img src="http://tmsapi.com/<%= movie.preferredImage.url %>" /></div>
+        </td>
+        <td>
+            <%= _.uniq(_.pluck(movie.showtimes, 'theatre')).join(', ') %>
+        </td>
+    </tr>
+
+    <% }) // end forEach movies
+    %>
+    </tbody>
+</table>
