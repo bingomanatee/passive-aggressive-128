@@ -2,6 +2,6 @@
 
 /* required for top navigation based sites */
 body {
-    padding-top: 60px;
+  /*  padding-top: 60px; */
     padding-bottom: 40px;
 }
