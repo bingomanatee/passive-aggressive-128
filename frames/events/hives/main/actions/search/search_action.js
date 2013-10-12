@@ -47,6 +47,10 @@ module.exports = {
     on_post_input: function (context, done) {
         var model = this.model('eventful');
         model.search(context, function (err, event_data) {
+            if (err){
+               return done(err);
+            }
+            console.log('event_data: %s', util.inspect(event_data));
             context.event_data = event_data;
             model.categories(function (err, cats) {
                 context.cats = cats;
