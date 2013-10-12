@@ -2,7 +2,7 @@ var _ = require('underscore');
 var util = require('util');
 var path = require('path');
 var fs = require('fs');
-var moment = require(moment);
+var moment = require('moment');
 
 /* ------------ CLOSURE --------------- */
 
