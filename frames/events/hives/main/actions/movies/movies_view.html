@@ -47,7 +47,7 @@
                         </h4>
                     </div>
                     <div id="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>"
-                         class="panel-collapse collapse <%= open_set ? '' : ' in ' %>">
+                         class="panel-collapse collapse <%= open_set ? ' in ' : '  ' %>">
                         <div class="panel-body">
                             <%- st.times.map(function(t){
                             return t.format('MM DD &gt;&gt; hh:mm a');
