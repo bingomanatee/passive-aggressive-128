@@ -34,10 +34,7 @@ module.exports = {
     /* -------------- POST ------------- */
 
     on_post_validate: function (context, done) {
-        if (!context.search) {
-            // missing search term; we will use very brutal error handling here. No further processing will happen.
-            done('no search term found');
-        } else if (!context.location) {
+         if (!context.location) {
             done('no location found')
         } else {
             done();
