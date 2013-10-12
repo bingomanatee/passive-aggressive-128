@@ -3,12 +3,20 @@
 <p>
     <button class="btn" onClick="document.location='/movies/sanfrancisco'">San Francisco</button>
 </p>
+        <style>
+            .movie .panel-title, .movie .panel-body {
+                font-size: 80%;
+                padding: 2px;
+            }
+
+
+        </style>
 
 <h2>Movies:</h2>
 
 
 <% movies.forEach(function(movie){ %>
-<div class="row-fluid">
+<div class="row-fluid movie">
     <div class="span3"><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% } %></h3><% if
         (movie.genres) { %><br/>
 
