@@ -29,6 +29,9 @@
             <% } %>
         </td>
         <td>
+
+            data-toggle="collapse" data-target="#demo"
+
             <div class="panel-group" id="accordion-<%= movie.tmsId %>">
                 <div class="panel panel-default">
                     <%
@@ -37,17 +40,14 @@
                     if (st.times.length){
                     %>
                     <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle"
-                               data-parent="#accordion-<%= movie.tmsId %>"
+                        <h4 class="panel-title"
                                data-toggle="collapse"
-                               href="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
+                               data-target="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
                                 <%= st.theatre.name %>
-                            </a>
                         </h4>
                     </div>
                     <div id="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>"
-                         class="panel-collapse collapse <%= open_set ? ' in ' : '  ' %>">
+                         class="panel-collapse collapse">
                         <div class="panel-body">
                             <%- st.times.map(function(t){
                             return t.format('MM DD &gt;&gt; hh:mm a');
@@ -67,7 +67,7 @@
             <!-- panel-group -->
         </td>
         </td>
-        <td><%= movie.shortDescription %></td>
+        <td><%= movie.shortDescription  || movie.description || '' %></td>
     </tr>
 
     <% }) // end forEach movies
