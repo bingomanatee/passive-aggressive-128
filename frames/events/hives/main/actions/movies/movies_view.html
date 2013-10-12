@@ -20,7 +20,7 @@
         <div><img src="http://developer.tmsimg.com/<%= movie.preferredImage.uri %>"/></div>
         <% } %>
     </div>
-    <div class="span2">
+    <div class="span4">
 
         <div class="panel-group" id="accordion-<%= movie.tmsId %>">
             <div class="panel panel-default">
@@ -57,7 +57,7 @@
         </div>
         <!-- panel-group -->
     </div>
-    <div class="span7"><%= movie.shortDescription || movie.description || '' %></div>
+    <div class="span5"><%= movie.shortDescription || movie.description || '' %></div>
 </div>
 
 <% }) // end forEach movies
