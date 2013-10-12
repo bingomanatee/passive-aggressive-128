@@ -25,7 +25,6 @@ module.exports = {
                 done();
             });
         }
-        done();
     },
 
     on_process: function (context, done) {
