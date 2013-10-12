@@ -10,11 +10,11 @@ LOCATIONS = {
     sanfrancisco: 94103
 };
 
-function _schedule(showtimes, day){
+function _schedule(showtimes, day) {
     var theatres = {};
 
-    showtimes.forEach(function(showtime){
-        if (!theatres[showtime.theatre.id]){
+    showtimes.forEach(function (showtime) {
+        if (!theatres[showtime.theatre.id]) {
             theatres[showtime.theatre.id] = {theatre: showtime.theatre, times: []}
 
         }
@@ -23,16 +23,17 @@ function _schedule(showtimes, day){
 
     if (!day) day = new moment();
 
-    _.each(theatres, function(t){
-        t.times = _.reject(t.times, function(time){
+    _.each(theatres, function (t) {
+        t.times = _.reject(t.times, function (time) {
             return time.diff(day, 'days');
         })
     });
 
 
-    theatres = _.filter(theatres, function(t){return t.time.length});
+    return _.filter(_.values(theatres), function (t) {
+        return t.times.length
+    });
 
-    return theatres;
 }
 
 /* -------------- EXPORT --------------- */
@@ -45,8 +46,8 @@ module.exports = {
 
     on_input: function (context, done) {
         context.$out.set('movies', {});
-        if (context.location){
-            this.model('tmsapi').search( LOCATIONS[context.location], function(err, data){
+        if (context.location) {
+            this.model('tmsapi').search(LOCATIONS[context.location], function (err, data) {
                 context.movies = data;
                 done();
             });
@@ -61,10 +62,10 @@ module.exports = {
 
     on_output: function (context, done) {
 
-        context.$out.set('movies', context.movies.reduce(function(out, movie){
+        context.$out.set('movies', context.movies.reduce(function (out, movie) {
             var theatres = _schedule(movie.showtimes);
 
-            if (theatres.length){
+            if (theatres.length) {
                 movie.showtimes = theatres;
                 out.push(movie);
             }
