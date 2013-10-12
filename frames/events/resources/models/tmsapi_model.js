@@ -73,6 +73,7 @@ module.exports = function (apiary, cb) {
                     return cb(err);
                 }
 
+                model.cache_files.push(zip);
                 cb(null, data);
             }
 
@@ -86,10 +87,11 @@ module.exports = function (apiary, cb) {
                 if (err) return cb(err);
                 if (!json_string) return cb(new Err('empty cache file'));
                 j = JSON.parse(json_string);
-                console.log('cache file for %s date = %s', zip, j.startDate);
+                console.log('_read_cache_file cache file for %s date = %s', zip, j.startDate);
                 if ((!j.startDate)  || (model.age(j.startDate) > 6)) {
                     model.poll_api(zip, cb);
                 } else {
+                    console.log('..... directly returning cache file');
                     cb(null, j);
                 }
             });
@@ -99,6 +101,7 @@ module.exports = function (apiary, cb) {
         if (_.contains(model.cache_files, zip)) {
             _read_cache_file(zip, cb);
         } else {
+            console.log('__get_movies cannot find zip %s in %s', zip, model.cache_files.join(','));
             model.poll_api(zip, cb);
         }
     }
@@ -108,7 +111,8 @@ module.exports = function (apiary, cb) {
             model.cache_files = _.map(_.reject(files, function (file) {
                 return /\D/.test(file);
             }), Number);
-            model.get_movies(zip, cb);
+            console.log('looking for zip %s in cache files: %s', zip, model.cache_files.join(','));
+            __get_movies(zip, cb);
         })
     }
 
@@ -128,6 +132,7 @@ module.exports = function (apiary, cb) {
     }
 
     function _get_movies(zip, cb) {
+        zip = parseInt(zip);
         if (!model.cache_files) {
             _read_cache_files(zip, cb);
         } else {
