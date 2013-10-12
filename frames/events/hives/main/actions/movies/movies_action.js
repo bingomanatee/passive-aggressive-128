@@ -5,6 +5,10 @@ var fs = require('fs');
 
 /* ------------ CLOSURE --------------- */
 
+LOCATIONS = {
+    sanfrancisco: 9403
+};
+
 /* -------------- EXPORT --------------- */
 
 module.exports = {
@@ -28,8 +32,8 @@ module.exports = {
     },
 
     on_output: function (context, done) {
-        if (context.movies){
-            context.$out.set('movies', context.movies);
+        if (context.location){
+            context.$out.set('movies', LOCATIONS[context.location]);
         } else {
             context.$out.set('movies', {});
         }
