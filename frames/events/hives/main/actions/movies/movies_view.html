@@ -28,7 +28,7 @@
         <td>
             <%
             var lastTitle = '';
-            _.each(schedule(movie.showtimes, function(st){
+            _.each(schedule(movie.showtimes), function(st){
             if (st.times.length){
             %>
             <h4><%= st.theatre.name %></h4>
