@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "A hive-mvc sample app",
   "main": "web.js",
-    "engines": {"node": ">=0.10.15"},
+  "engines": {
+    "node": ">=0.10.15"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -31,7 +33,8 @@
     "async": "~0.2.9",
     "hive-menu": "0.0.1",
     "request": "~2.27.0",
-    "moment": "~2.3.1"
+    "moment": "~2.3.1",
+    "redis": "~0.8.6"
   },
   "devDependencies": {
     "tap": "~0.4.4"

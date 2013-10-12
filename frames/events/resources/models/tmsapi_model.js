@@ -6,7 +6,16 @@ var request = require('request');
 var crypto = require('crypto');
 var _DEBUG = false;
 var moment = require('moment');
-var hash_id = require('./lib/hash_id');
+
+var redis;
+if (process.env.REDISTOGO_URL) {
+    var rtg = require("url").parse(process.env.REDISTOGO_URL);
+    redis = require("redis").createClient(rtg.port, rtg.hostname);
+
+    redis.auth(rtg.auth.split(":")[1]);
+} else {
+    redis = require("redis").createClient();
+}
 
 /* ------------ CLOSURE --------------- */
 
@@ -47,17 +56,10 @@ module.exports = function (apiary, cb) {
     /**
      * saves the data INSTANTLY to the file system.
      *
-     * @param zip
-     * @param body
+     * @param zip {number}
+     * @param cb {function}
      * @private
      */
-    function _save_cache(zip, body) {
-        if (_.isString(body)) {
-            body = JSON.stringify(body);
-        }
-        var save_path = path.resolve(model.CACHE_DIR, zip + '');
-        fs.writeFileSync(save_path, body);
-    }
 
     function _poll_api(zip, cb) {
         console.log('POLLING API......... %s', zip);
@@ -65,59 +67,20 @@ module.exports = function (apiary, cb) {
             if (err) {
                 cb(err);
             } else {
-
                 try {
                     var data = JSON.parse(body);
-                    model.save_cache(zip, {startDate: _now(), data: data});
+                    redis.set(zip + '', JSON.stringify(_current_data(data)), function () {
+                        cb(null, data);
+                    });
                 } catch (err) {
-                    return cb(err);
+                     cb(err);
                 }
-
-                model.cache_files.push(zip);
-                cb(null, data);
             }
-
         });
     }
 
-    function _read_cache_file(zip, cb) {
-        var file_path = path.resolve(model.CACHE_DIR, zip + '');
-        fs.readFile(file_path, 'utf8',
-            function (err, json_string) {
-                if (err) return cb(err);
-                if (!json_string) return cb(new Err('empty cache file'));
-                j = JSON.parse(json_string);
-                console.log('_read_cache_file cache file for %s date = %s', zip, j.startDate);
-                if ((!j.startDate)  || (model.age(j.startDate) > 6)) {
-                    model.poll_api(zip, cb);
-                } else {
-                    console.log('..... directly returning cache file');
-                    cb(null, j);
-                }
-            });
-    }
-
-    function __get_movies(zip, cb) {
-        if (_.contains(model.cache_files, zip)) {
-            _read_cache_file(zip, cb);
-        } else {
-            console.log('__get_movies cannot find zip %s in %s', zip, model.cache_files.join(','));
-            model.poll_api(zip, cb);
-        }
-    }
-
-    function _read_cache_files(zip, cb) {
-        fs.readdir(model.CACHE_DIR, function (err, files) {
-            model.cache_files = _.map(_.reject(files, function (file) {
-                return /\D/.test(file);
-            }), Number);
-            console.log('looking for zip %s in cache files: %s', zip, model.cache_files.join(','));
-            __get_movies(zip, cb);
-        })
-    }
-
     function _params(zip) {
-        var out = {
+        return {
             url: API,
             qs: {
                 startDate: _now(),
@@ -128,16 +91,17 @@ module.exports = function (apiary, cb) {
                 zip: zip
             }
         };
-        return out;
     }
 
     function _get_movies(zip, cb) {
         zip = parseInt(zip);
-        if (!model.cache_files) {
-            _read_cache_files(zip, cb);
-        } else {
-            __get_movies(zip, cb);
-        }
+        redis.get(zip + '', function (err, value) {
+            if (value) {
+                cb(null, JSON.parse(value).data);
+            } else {
+                model.poll_api(zip, cb);
+            }
+        })
     }
 
     function _current_data(data) {
@@ -149,13 +113,10 @@ module.exports = function (apiary, cb) {
 
     var model = {
         name: 'tmsapi',
-        CACHE_DIR: path.resolve(__dirname, 'cache'),
-        cache_files: null,
         search: _get_movies,
         age: _age,
         then: _then,
         poll_api: _poll_api,
-        save_cache: _save_cache,
         get_movies: _get_movies,
         current_data: _current_data
     };
