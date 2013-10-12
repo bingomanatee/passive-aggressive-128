@@ -33,8 +33,8 @@
             %>
             <h4><%= st.theatre.name %></h4>
             <p><%= st.times.map(function(t){
-                return t.format('hh:mm a');
-                }).join('<br />') %></p>
+                return t.format('MM DD &gt;&gt; hh:mm a');
+                }).join('&nbsp;&nbsp;') %></p>
             <%
             } // if
             }) %>
