@@ -260,12 +260,11 @@ module.exports = function (apiary, cb) {
             callback(null, cat_cache);
         } else {
             var params = _params(CATS_URL);
-            console.log('getting catregories: %s ', util.inspect(params));
+            console.log('getting cats: %s ', util.inspect(params).substr(0, 20));
             request.get(params, function (err, req, body) {
                 if (err) {
                     callback(err);
                 } else {
-                    console.log('category body: %s', util.inspect(body));
                     cat_cache = body ? JSON.parse(body).category : [];
                     callback(null, cat_cache);
                 }

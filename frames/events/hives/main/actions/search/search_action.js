@@ -47,7 +47,7 @@ module.exports = {
             if (err) {
                 return done(err);
             }
-            console.log('event_data: %s', util.inspect(event_data));
+            console.log('event_data: %s', util.inspect(event_data, true, 4).substr(0, 50));
             context.event_data = event_data;
             model.categories(function (err, cats) {
                 context.cats = cats;
