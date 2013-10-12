@@ -38,7 +38,7 @@
             <div class="panel panel-default">
                 <%
                 var open_set = false
-                _.each(schedule(movie.showtimes), function(st){
+                _.each(movie.showtimes, function(st){
                 if (st.times.length){
                 %>
                 <div class="panel-heading">

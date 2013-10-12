@@ -29,6 +29,9 @@ function _schedule(showtimes, day){
         })
     });
 
+
+    theatres = _.filter(theatres, function(t){return t.time.length});
+
     return theatres;
 }
 
@@ -57,7 +60,16 @@ module.exports = {
     },
 
     on_output: function (context, done) {
-        context.$out.set('movies', context.movies);
+
+        context.$out.set('movies', context.movies.reduce(function(out, movie){
+            var theatres = _schedule(movie.showtimes);
+
+            if (theatres.length){
+                movie.showtimes = theatres;
+                out.push(movie);
+            }
+            return out;
+        }, []));
         context.$out.set('schedule', _schedule);
         done();
     }
