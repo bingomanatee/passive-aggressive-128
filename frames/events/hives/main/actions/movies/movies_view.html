@@ -38,10 +38,11 @@
                     if (st.times.length){
                     %>
                     <div class="panel-heading">
-                        <h4 class="panel-title"
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle"
                                data-toggle="collapse"
                                data-target="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
-                                <%= st.theatre.name %>
+                                <%= st.theatre.name %></a>
                         </h4>
                     </div>
                     <div id="accordion-<%= movie.tmsId%>-<%= st.theatre.id %>"
@@ -74,6 +75,6 @@
 </table>
 <script language="javascript">
     $(function () {
-        $(".collapse").collapse();
+      //  $(".collapse").collapse();
     })
 </script>
