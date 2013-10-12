@@ -97,9 +97,9 @@
 
     function show_movie(id) {
         location.href = ('#movie-' + id);
-        $('#movie-' + id).css('background-color', 'rgb(255, 225, 200)').animate({
-            'backgroundColor': 'rgb(255,255,255)'
-        }, 4).find('.short-description').hide();
+        $('#movie-' + id).css('background-color', '#FFE1C0').animate({
+            'backgroundColor': '#FFFFFF'
+        }, 4000).find('.short-description').hide();
         $('#movie-' + id).find('.long-description').show();
     }
 </script>
