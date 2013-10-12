@@ -5,3 +5,44 @@ body {
   /*  padding-top: 60px; */
     padding-bottom: 40px;
 }
+
+.movie .panel-heading {
+    padding: 0px;
+}
+
+.movie .panel-title, .movie .panel-body {
+    font-size: 80%;
+    padding: 2px;
+    line-height: 115%;
+}
+
+.movie {
+    padding: 0.5em 0;
+    border-top: 1px dotted rgb(200, 200, 200);
+}
+
+.movie h3 {
+    font-size: 150%;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+
+.movie-list {
+    font-size: 85%;
+    font-weight: bold;
+    list-style: square;
+}
+
+.movie .movie-title {
+    padding-left: 0.8em;
+}
+
+.cities {
+    font-size: 150%;
+
+}
+
+.cities .active {
+    background-color: rgb(255, 131, 2);
+}

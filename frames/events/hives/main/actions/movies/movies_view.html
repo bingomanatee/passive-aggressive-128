@@ -1,47 +1,12 @@
 <h1>Find Movies:</h1>
 
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default cities" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">City:</div>
 
     <button class="btn navbar-btn <%= location == 'sanfrancisco' ? ' active' : '' %>" onClick="document.location='/movies/sanfrancisco'">San Francisco, CA</button>
     <button class="btn navbar-btn <%= location == 'portlandor' ? ' active' : '' %>" onClick="document.location='/movies/portlandor'">Portland, OR</button>
 </nav>
-
-<style>
-    .movie .panel-heading {
-        padding: 0px;
-    }
-
-    .movie .panel-title, .movie .panel-body {
-        font-size: 80%;
-        padding: 2px;
-        line-height: 115%;
-    }
-
-    .movie {
-        padding: 0.5em 0;
-        border-top: 1px dotted rgb(200, 200, 200);
-    }
-
-    .movie h3 {
-        font-size: 150%;
-        font-weight: normal;
-        margin: 0;
-        padding: 0;
-    }
-
-    .movie-list {
-        font-size: 85%;
-        font-weight: bold;
-        list-style: square;
-    }
-
-    .movie .movie-title {
-        padding-left: 0.8em;
-    }
-
-</style>
 
 <div class="row-fluid">
     <h2>Movies</h2>
