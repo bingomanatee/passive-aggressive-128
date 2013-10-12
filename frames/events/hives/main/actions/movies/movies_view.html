@@ -32,20 +32,21 @@
             <div class="panel-group" id="accordion-<%= movie.tmsId %>">
                 <div class="panel panel-default">
                     <%
-                    var lastTitle = '';
+                    var open_set = false
                     _.each(schedule(movie.showtimes), function(st){
                     if (st.times.length){
                     %>
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a class="accordion-toggle"
-                               data-toggle="collapse" data-parent="#accordion-<%= movie.tmsId %>"
-                               href="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>">
+                               data-toggle="collapse"
+                               data-parent="#accordion-<%= movie.tmsId %>"
+                               data-target="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>">
                                 <%= st.theatre.name %>
                             </a>
                         </h4>
                     </div>
-                    <div id="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>" class="panel-collapse collapse">
+                    <div id="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>" class="panel-collapse collapse <%= open_set ? '' : ' in ' %>">
                         <div class="panel-body">
                             <%- st.times.map(function(t){
                             return t.format('MM DD &gt;&gt; hh:mm a');
@@ -53,7 +54,9 @@
                         </div>
                     </div>
                     <!-- collapse -->
-                    <% } // if
+                    <%
+                    open_set = true;
+                    } // if
                     %>
                     <% }) // _.each(schedule(movie.showtimes)...
                     %>
