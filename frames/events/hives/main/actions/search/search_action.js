@@ -47,7 +47,7 @@ module.exports = {
             if (err) {
                 return done(err);
             }
-            console.log('event_data: %s', util.inspect(event_data, true, 4).substr(0, 50));
+            console.log('event_data: %s', util.inspect(event_data, true, 4).substr(0, 200));
             context.event_data = event_data;
             model.categories(function (err, cats) {
                 context.cats = cats;
@@ -57,12 +57,15 @@ module.exports = {
     },
 
     on_post_process: function (context, done) {
-        if (parseInt(context.total_items) > 0) {
+        if (context.event_data.events.event.length > 0) {
 
             var norm_data = this.model('eventful').normalize(context.event_data.events.event);
+            console.log('eee: %s', util.inspect(context.event_data.events.event, true, 5).substr(0, 200));
             _.each(norm_data, function (items, name) {
                 // items are a hash, keyed by ID. We only need the values of the hash.
-                context.$out.set(name, _.values(items));
+                var data =  _.values(items);
+                console.log('%s: %s', name, items.length);
+                context.$out.set(name, data);
             });
         } else {
             context.$out.set('events', []);
