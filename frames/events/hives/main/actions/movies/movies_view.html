@@ -1,8 +1,13 @@
 <h1>Find Movies:</h1>
 
-<p>
-    <button class="btn" onClick="document.location='/movies/sanfrancisco'">San Francisco</button>
-</p>
+<nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">City:</div>
+
+    <button class="btn navbar-btn <%= location == 'sanfrancisco' ? ' active' : '' %>" onClick="document.location='/movies/sanfrancisco'">San Francisco</button>
+    <button class="btn navbar-btn <%= location == 'portlandor' ? ' active' : '' %>" onClick="document.location='/movies/portlandor'">San Francisco</button>
+</nav>
+
 <style>
     .movie .panel-heading {
         padding: 0px;

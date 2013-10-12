@@ -7,7 +7,8 @@ var moment = require('moment');
 /* ------------ CLOSURE --------------- */
 
 LOCATIONS = {
-    sanfrancisco: 94103
+    sanfrancisco: 94103,
+    portlandor: 97204
 };
 
 function _schedule(showtimes, day) {
@@ -72,6 +73,7 @@ module.exports = {
             return out;
         }, []));
         context.$out.set('schedule', _schedule);
+        context.$out.set('location', context.location || 'none');
         done();
     }
 }
