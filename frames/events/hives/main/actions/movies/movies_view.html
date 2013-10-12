@@ -32,9 +32,9 @@
             if (st.times.length){
             %>
             <h4><%= st.theatre.name %></h4>
-            <p><%= st.times.map(function(t){
+            <p><%- st.times.map(function(t){
                 return t.format('MM DD &gt;&gt; hh:mm a');
-                }).join('&nbsp;&nbsp;') %></p>
+                }).join('<br />') %></p>
             <%
             } // if
             }) %>
