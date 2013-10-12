@@ -70,12 +70,12 @@
         <td><%= movie.shortDescription %></td>
     </tr>
 
+    <script language="javascript">
+        $(function () {
+            $("$accordion-<%= movie.tmsId %>").collapse();
+        })
+    </script>
     <% }) // end forEach movies
     %>
     </tbody>
 </table>
-<script language="javascript">
-    $(function () {
-        $(".collapse").collapse();
-    })
-</script>
