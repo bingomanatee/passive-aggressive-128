@@ -18,9 +18,10 @@ var ITEMS_PER_PAGE = 50;
  * @return void
  */
 
+var hash_algorithm = crypto.gethashes()[0];
 
 function _create_eid(title, description) {
-    var shasum = crypto.createHash('sha1');
+    var shasum = crypto.createHash(hash_algorithm);
 
     var data = new Buffer(title);
     shasum.update(data, 'utf8');
@@ -29,7 +30,9 @@ function _create_eid(title, description) {
         shasum.update(data);
     }
 
-    return shasum.digest('hex');
+    var key =  shasum.digest('hex');
+    console.log('title: %s, desc: %s, key: %s', title, desc.substr(0, 20), key);
+    return key;
 }
 
 var _venue_ticket = _.template(' <h3><%= venue_name %></h3>' +
