@@ -41,12 +41,12 @@
                             <a class="accordion-toggle"
                                data-parent="#accordion-<%= movie.tmsId %>"
                                data-toggle="collapse"
-                               href="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>">
+                               href="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
                                 <%= st.theatre.name %>
                             </a>
                         </h4>
                     </div>
-                    <div id="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>"
+                    <div id="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>"
                          class="panel-collapse collapse <%= open_set ? ' in ' : '  ' %>">
                         <div class="panel-body">
                             <%- st.times.map(function(t){
@@ -70,12 +70,12 @@
         <td><%= movie.shortDescription %></td>
     </tr>
 
-    <script language="javascript">
-        $(function () {
-            $("$accordion-<%= movie.tmsId %>").collapse();
-        })
-    </script>
     <% }) // end forEach movies
     %>
     </tbody>
 </table>
+<script language="javascript">
+    $(function () {
+        $(".collapse").collapse();
+    })
+</script>
