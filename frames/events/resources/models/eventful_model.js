@@ -156,6 +156,10 @@ module.exports = function (apiary, cb) {
                 }
             }
 
+            ['page_number', 'page_number', 'page_count'].forEach(function(field){
+                new_data[field] = parseInt(new_data[field]);
+            });
+
             if (new_data.page_number < (new_data.page_count - 1)) {
                 _poll(new_data.page_number + 1);
                 console.log('.... loop again');
