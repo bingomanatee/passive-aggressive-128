@@ -93,8 +93,9 @@ module.exports = {
     on_process: function (context, done) {
         if (SLOGANS[context.location]){
             context.$out.set('slogan', _.first(_.shuffle(SLOGANS[context.location])));
+        } else {
+            context.$out.set('slogan', _.first(_.shuffle(SLOGANS.none)));
         }
-        context.$out.set('slogan', _.first(_.shuffle(SLOGANS.none)));
         done();
     },
 
