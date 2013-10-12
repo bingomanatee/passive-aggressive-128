@@ -8,7 +8,9 @@ var _DEBUG = false;
 
 /* ------------ CLOSURE --------------- */
 
-var EVENTFUL_SEARCH_URL = 'http://api.eventful.com/json/events/search';
+var API = 'http://api.eventful.com/json';
+var EVENTFUL_SEARCH_URL = API + '/events/search';
+var CATS_URL = API + '/categories/list';
 var ITEMS_PER_PAGE = 50;
 
 /** ********************
@@ -49,8 +51,7 @@ module.exports = function (apiary, cb) {
         var out = {
             url: url,
             qs: {
-                app_key: apiary.get_config('eventful_auth_key'),
-                page_size: ITEMS_PER_PAGE
+                app_key: apiary.get_config('eventful_auth_key')
             }
         };
         if (page_number) {
@@ -257,10 +258,10 @@ module.exports = function (apiary, cb) {
         if (cat_cache) {
             callback(null, cat_cache);
         } else {
-            var params = _params('/categories/list');
+            var params = _params(CATS_URL);
             console.log('getting catregories: %s ', util.inspect(params));
-            request.get(params, function(err, req, body){
-                if (err){
+            request.get(params, function (err, req, body) {
+                if (err) {
                     callback(err);
                 } else {
                     console.log('category body: %s', util.inspect(body));
