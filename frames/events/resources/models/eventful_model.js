@@ -21,6 +21,8 @@ var ITEMS_PER_PAGE = 50;
 var hash_algorithm = crypto.getHashes()[0];
 
 function _create_eid(title, description) {
+    if (!description) description = '';
+
     var shasum = crypto.createHash(hash_algorithm);
 
     var data = new Buffer(title);
