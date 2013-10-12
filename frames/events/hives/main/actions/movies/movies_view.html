@@ -39,7 +39,9 @@
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a class="accordion-toggle"
-                               data-target="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>">
+                               data-parent="accordion-<%= movie.tmsId %>"
+                               data-toggle="collapse"
+                               href="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>">
                                 <%= st.theatre.name %>
                             </a>
                         </h4>
