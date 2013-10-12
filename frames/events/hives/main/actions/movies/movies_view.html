@@ -41,7 +41,7 @@
                         <h4 class="panel-title">
                             <a class="accordion-toggle"
                                data-toggle="collapse"
-                               data-target="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
+                               jtrg="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
                                 <%= st.theatre.name %></a>
                         </h4>
                     </div>
@@ -65,7 +65,6 @@
             </div>
             <!-- panel-group -->
         </td>
-        </td>
         <td><%= movie.shortDescription  || movie.description || '' %></td>
     </tr>
 
@@ -75,6 +74,6 @@
 </table>
 <script language="javascript">
     $(function () {
-      //  $(".collapse").collapse();
+        $(".collapse").collapse();
     })
 </script>
