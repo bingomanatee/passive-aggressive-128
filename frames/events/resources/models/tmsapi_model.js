@@ -70,7 +70,9 @@ module.exports = function (apiary, cb) {
             } else {
                 try {
                     var data = JSON.parse(body);
-                    redis.set(zip + '', JSON.stringify(_current_data(data)), function () {
+                    var str_data = JSON.stringify(_current_data(data));
+                    console.log('saving %s data ...', zip, str_data.substr(0, 100));
+                    redis.set(zip + '', str_data, function () {
                         cb(null, data);
                     });
                 } catch (err) {
