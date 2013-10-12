@@ -190,7 +190,7 @@ module.exports = function (apiary, cb) {
 
         function _poll(page) {
             var params = _params(EVENTFUL_SEARCH_URL, ITEMS_PER_PAGE, page);
-            params.qs.date = 'today';
+            params.qs.date = 'This Week';
 
             params.qs.location = query.location;
             if (query.search)  params.qs.keywords = query.search;
