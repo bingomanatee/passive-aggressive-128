@@ -62,10 +62,10 @@
         <% } %>
     </div>
     <div class="span5">
-        <article class="short-description"><%= movie.shortDescription || movie.description || '' %><a href="#movie-<%= movie.tmsId %>" onClick="show_movie('<%= movie.tmsId %>', true)">... more</a>
+        <article class="short-description"><%= movie.shortDescription || movie.longDescription || '' %><a href="#movie-<%= movie.tmsId %>" onClick="show_movie('<%= movie.tmsId %>', true)">... more</a>
         </article>
         <article class="long-description" style="display: none">
-            <%= movie.description %>
+            <%= movie.longDescription %>
         </article>
     </div>
     <div class="span4">
