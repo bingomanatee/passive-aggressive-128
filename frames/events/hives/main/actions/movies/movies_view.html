@@ -26,11 +26,17 @@
                 padding: 0;
             }
 
+            .movie-list {
+                font-size: 85%;
+                font-weight: bold;
+                list-style: square;
+            }
+
         </style>
 
 <div class="row-fluid">
     <h2>Movies</h2>
-    <ul>
+    <ul class="movie-list">
         <% movies.forEach(function(m){ %>
         <li onClick="show_movie('<%= m.tmsId %>')"><%= m.title %></li>
         <% })  %>
@@ -97,7 +103,7 @@
 
 
     function show_movie(id){
-        $('##movie-' + id).css('margin-top', '60px');
-        location.href =('##movie-' + id);
+        $('#movie-' + id).css('margin-top', '60px');
+        location.href =('#movie-' + id);
     }
 </script>
