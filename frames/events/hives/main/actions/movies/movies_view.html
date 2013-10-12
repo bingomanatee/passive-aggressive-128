@@ -3,49 +3,55 @@
 <p>
     <button class="btn" onClick="document.location='/movies/sanfrancisco'">San Francisco</button>
 </p>
-        <style>
-            .movie .panel-heading {
-                padding: 0px;
-            }
-            .movie .panel-title, .movie .panel-body {
-                font-size: 80%;
-                padding: 2px;
-                line-height: 115%;
-            }
+<style>
+    .movie .panel-heading {
+        padding: 0px;
+    }
 
-             .movie {
-                 padding: 0.5em 0;
-                 border-top: 1px dotted rgb(200,200,200);
-             }
+    .movie .panel-title, .movie .panel-body {
+        font-size: 80%;
+        padding: 2px;
+        line-height: 115%;
+    }
 
-            .movie h3 {
-                font-size: 150%;
-                font-weight: normal;
-                margin: 0;
-                padding: 0;
-            }
+    .movie {
+        padding: 0.5em 0;
+        border-top: 1px dotted rgb(200, 200, 200);
+    }
 
-            .movie-list {
-                font-size: 85%;
-                font-weight: bold;
-                list-style: square;
-            }
+    .movie h3 {
+        font-size: 150%;
+        font-weight: normal;
+        margin: 0;
+        padding: 0;
+    }
 
-        </style>
+    .movie-list {
+        font-size: 85%;
+        font-weight: bold;
+        list-style: square;
+    }
+
+    .movie .movie-title {
+        padding-left: 0.8em;
+    }
+
+</style>
 
 <div class="row-fluid">
     <h2>Movies</h2>
     <ul class="movie-list">
         <% movies.forEach(function(m){ %>
         <li onClick="show_movie('<%= m.tmsId %>')"><%= m.title %></li>
-        <% })  %>
+        <% }) %>
     </ul>
 </div>
 
 <% movies.forEach(function(movie){ %>
-<div class="row-fluid movie"  id="movie-<%= movie.tmsId %>">
-    <div class="span3"><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% } %></h3><% if
-        (movie.genres) { %><br/>
+<div class="row-fluid movie" id="movie-<%= movie.tmsId %>">
+    <div class="span3 movie-title"><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% }
+        %></h3><% if
+        (movie.genres) { %>
 
         <p>
             <small><%= movie.genres.join(',') %></small>
@@ -55,42 +61,51 @@
         <div><img src="http://developer.tmsimg.com/<%= movie.preferredImage.uri %>"/></div>
         <% } %>
     </div>
+    <div class="span5">
+        <article class="short-description"><%= movie.shortDescription || movie.description || '' %><a href="movie-<%= movie.tmsId %>" onClick="show_movie('<%= m.tmsId %>', true)">... more</a>
+        </article>
+        <article class="long-description" style="display: none">
+            <%= movie.description %>
+        </article>
+    </div>
     <div class="span4">
         <% if (movie.showtimes.length > 5) { %>
-        <button class="btn" onClick="$('#accordion-<%= movie.tmsId %>').show(); $(this).hide()"><%= movie.showtimes.length %> showtimes</button>
+        <button class="btn" onClick="$('#accordion-<%= movie.tmsId %>').show(); $(this).hide()"><%=
+            movie.showtimes.length %> showtimes
+        </button>
         <% } %>
 
-        <div class="panel-group" <% if (movie.showtimes.length > 5){ %> style="display: none" <% } %> id="accordion-<%= movie.tmsId %>">
-            <div class="panel panel-default">
-                <%
-                var open_set = false
-                _.each(movie.showtimes, function(st, i){
-                %>
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a class="accordion-toggle"
-                           data-toggle="collapse"
-                           href="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
-                            <%= st.theatre.name %></a>
-                    </h4>
-                </div>
-                <div id="accordion-<%= movie.tmsId%>-<%= st.theatre.id %>"
-                     class="panel-collapse collapse <%= i || movie.showtimes.length > 3 ? ' in ' : ' ' %>">
-                    <div class="panel-body">
-                        <%- st.times.map(function(t){
-                        return t.format('MM DD &gt;&gt; hh:mm a');
-                        }).join('<br/>') %>
-                    </div>
-                </div>
-                <!-- collapse -->
-                <% }) // _.each(schedule(movie.showtimes)...
-                %>
+        <div class="panel-group"
+        <% if (movie.showtimes.length > 5){ %> style="display: none" <% } %> id="accordion-<%= movie.tmsId %>">
+        <div class="panel panel-default">
+            <%
+            var open_set = false
+            _.each(movie.showtimes, function(st, i){
+            %>
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="accordion-toggle"
+                       data-toggle="collapse"
+                       href="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
+                        <%= st.theatre.name %></a>
+                </h4>
             </div>
-            <!-- panel -->
+            <div id="accordion-<%= movie.tmsId%>-<%= st.theatre.id %>"
+                 class="panel-collapse collapse <%= i || movie.showtimes.length > 3 ? ' in ' : ' ' %>">
+                <div class="panel-body">
+                    <%- st.times.map(function(t){
+                    return t.format('MM DD &gt;&gt; hh:mm a');
+                    }).join('<br/>') %>
+                </div>
+            </div>
+            <!-- collapse -->
+            <% }) // _.each(schedule(movie.showtimes)...
+            %>
         </div>
-        <!-- panel-group -->
+        <!-- panel -->
     </div>
-    <div class="span5"><%= movie.shortDescription || movie.description || '' %></div>
+    <!-- panel-group -->
+</div>
 </div>
 
 <% }) // end forEach movies
@@ -101,10 +116,11 @@
     })
 
 
-    function show_movie(id){
-        location.href =('#movie-' + id);
+    function show_movie(id) {
+        location.href = ('#movie-' + id);
         $('#movie-' + id).css('background-color', 'rgba(255, 225, 200, 1)').animate({
             'backgroundColor': 'rgba(255,255,230,0)'
-        }, 1500);
+        }, 4).find('.short-description').hide();
+        $('#movie-' + id).find('.long-description').show();
     }
 </script>
