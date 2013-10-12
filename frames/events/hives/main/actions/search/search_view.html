@@ -12,7 +12,19 @@
     </div>
 
     <div class="control-group">
-        <label class="control-label" for="search-input">Search Term</label>
+        <label class="control-label" for="category-input">Category</label>
+
+        <div class="controls">
+            <select name="category" id="category-input">
+                <% cats.forEach(function(cat){ %>
+                <option value="<%= cat.id %>">cat.name</option>
+                <% }) %>
+            </select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="search-input">Search Term (optional)</label>
 
         <div class="controls">
             <input type="text" name="search" id="search-input" required placeholder="Search for events">
@@ -24,9 +36,6 @@
         </div>
     </div>
 </form>
-<pre>
-<%= JSON.stringify(cats, true, 4) %>
-</pre>
 
 <% if (events) { %>
 <h2> Results: </h2>

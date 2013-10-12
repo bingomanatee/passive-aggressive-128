@@ -193,6 +193,7 @@ module.exports = function (apiary, cb) {
 
             params.qs.location = query.location;
             if (query.search)  params.qs.keywords = query.search;
+            if (query.category) params.qs.category = query.category;
 
             if (query.radius) {
                 query.radius = parseInt(query.radius);
@@ -265,7 +266,7 @@ module.exports = function (apiary, cb) {
                     callback(err);
                 } else {
                     console.log('category body: %s', util.inspect(body));
-                    cat_cache = body ? JSON.parse(body) : [];
+                    cat_cache = body ? JSON.parse(body).category : [];
                     callback(null, cat_cache);
                 }
             });
