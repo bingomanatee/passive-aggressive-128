@@ -6,72 +6,62 @@
 
 <h2>Movies:</h2>
 
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Theatres</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% movies.forEach(function(movie){ %>
-    <tr>
-        <td><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% } %></h3><% if
-            (movie.genres) { %><br/>
 
-            <p>
-                <small><%= movie.genres.join(',') %></small>
-            </p>
-            <% } %>
-            <% if (0 && movie.preferredImage) { %>
-            <div><img src="http://developer.tmsimg.com/<%= movie.preferredImage.uri %>"/></div>
-            <% } %>
-        </td>
-        <td>
+<% movies.forEach(function(movie){ %>
+<div class="row-fluid">
+    <div class="span3"><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% } %></h3><% if
+        (movie.genres) { %><br/>
 
-            <div class="panel-group" id="accordion-<%= movie.tmsId %>">
-                <div class="panel panel-default">
-                    <%
-                    var open_set = false
-                    _.each(schedule(movie.showtimes), function(st){
-                    if (st.times.length){
-                    %>
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a class="accordion-toggle"
-                               data-toggle="collapse"
-                               href="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
-                                <%= st.theatre.name %></a>
-                        </h4>
-                    </div>
-                    <div id="accordion-<%= movie.tmsId%>-<%= st.theatre.id %>"
-                         class="panel-collapse collapse">
-                        <div class="panel-body">
-                            <%- st.times.map(function(t){
-                            return t.format('MM DD &gt;&gt; hh:mm a');
-                            }).join('<br/>') %>
-                        </div>
-                    </div>
-                    <!-- collapse -->
-                    <%
-                    open_set = true;
-                    } // if
-                    %>
-                    <% }) // _.each(schedule(movie.showtimes)...
-                    %>
+        <p>
+            <small><%= movie.genres.join(',') %></small>
+        </p>
+        <% } %>
+        <% if (0 && movie.preferredImage) { %>
+        <div><img src="http://developer.tmsimg.com/<%= movie.preferredImage.uri %>"/></div>
+        <% } %>
+    </div>
+    <div class="span2">
+
+        <div class="panel-group" id="accordion-<%= movie.tmsId %>">
+            <div class="panel panel-default">
+                <%
+                var open_set = false
+                _.each(schedule(movie.showtimes), function(st){
+                if (st.times.length){
+                %>
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a class="accordion-toggle"
+                           data-toggle="collapse"
+                           href="#accordion-<%= movie.tmsId%>-<%= st.theatre.id %>">
+                            <%= st.theatre.name %></a>
+                    </h4>
                 </div>
-                <!-- panel -->
+                <div id="accordion-<%= movie.tmsId%>-<%= st.theatre.id %>"
+                     class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <%- st.times.map(function(t){
+                        return t.format('MM DD &gt;&gt; hh:mm a');
+                        }).join('<br/>') %>
+                    </div>
+                </div>
+                <!-- collapse -->
+                <%
+                open_set = true;
+                } // if
+                %>
+                <% }) // _.each(schedule(movie.showtimes)...
+                %>
             </div>
-            <!-- panel-group -->
-        </td>
-        <td><%= movie.shortDescription  || movie.description || '' %></td>
-    </tr>
+            <!-- panel -->
+        </div>
+        <!-- panel-group -->
+    </div>
+    <div class="span7"><%= movie.shortDescription || movie.description || '' %></div>
+</div>
 
-    <% }) // end forEach movies
-    %>
-    </tbody>
-</table>
+<% }) // end forEach movies
+%>
 <script language="javascript">
     $(function () {
         $(".collapse").collapse();
