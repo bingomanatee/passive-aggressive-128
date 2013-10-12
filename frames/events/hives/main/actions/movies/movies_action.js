@@ -100,6 +100,9 @@ module.exports = {
     },
 
     on_output: function (context, done) {
+        if (!context.movies){
+            context.movies = [];
+        }
 
         context.$out.set('movies', context.movies.reduce(function (out, movie) {
             var theatres = _schedule(movie.showtimes);
