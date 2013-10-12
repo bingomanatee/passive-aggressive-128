@@ -27,7 +27,7 @@
 
 <% movies.forEach(function(movie){ %>
 <div class="row-fluid movie" id="movie-<%= movie.tmsId %>">
-    <div class="span3 movie-title"><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% }
+    <div class="span4 movie-title"><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% }
         %></h3><% if
         (movie.genres) { %>
 
@@ -47,7 +47,7 @@
             <%= movie.longDescription %>
         </article>
     </div>
-    <div class="span4">
+    <div class="span3">
         <% if (movie.showtimes.length > 5) { %>
         <button class="btn" onClick="$('#accordion-<%= movie.tmsId %>').show(); $(this).hide()"><%=
             movie.showtimes.length %> showtimes
