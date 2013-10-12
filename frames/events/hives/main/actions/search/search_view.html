@@ -16,6 +16,7 @@
 
         <div class="controls">
             <select name="category" id="category-input">
+                <option value="">(any)</option>
                 <% cats.forEach(function(cat){ %>
                 <option value="<%= cat.id %>"><%= cat.name %></option>
                 <% }) %>
