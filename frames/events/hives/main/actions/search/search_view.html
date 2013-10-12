@@ -25,18 +25,18 @@
 </form>
 
 <% if (events) { %>
-<h2><%= events.length %> Results: </h2>
+<h2> Results: </h2>
 
         <div class="row-fluid">
             <div class="span6">
-                <h3>Events</h3>
+                <h3><%= events.length %> Events</h3>
                 <% events.forEach(function(event){ %>
                 <h4><%= event.title %></h4>
 
                 <% }) %>
             </div>
             <div class="span6">
-                <h3>Venues</h3>
+                <h3><%= venues.lengt %> Venues</h3>
                 <% venues.forEach(function(venue){ %>
                 <h4><%= venue.venue_name %></h4>
                 <% }) %>

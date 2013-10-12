@@ -146,7 +146,7 @@ module.exports = function (apiary, cb) {
                 return done(err);
             }
 
-            console.log('total items: %s, total_pages: %s, page_count: %s', new_data.total_items, new_data.total_pages, new_data.page_count);
+            console.log('total items: %s, page_count: %s, page_number: %s', new_data.total_items, new_data.page_count, new_data.page_number);
 
             if (new_data.events && new_data.events.event && new_data.events.event.length) {
                 if (events) {
