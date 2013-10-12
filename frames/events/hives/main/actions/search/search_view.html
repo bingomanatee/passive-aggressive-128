@@ -6,7 +6,8 @@
 
         <div class="controls">
             <input type="text" name="location" id="location-input" required placeholder="Search for location">
-            <p>Within <input type="number" min="0" max="10000" name="radius" value="10" /> miles</p>
+
+            <p>Within <input type="number" min="0" max="10000" name="radius" value="10"/> miles</p>
         </div>
     </div>
 
@@ -23,25 +24,28 @@
         </div>
     </div>
 </form>
+<pre>
+<%= JSON.stringify(cats, true, 4) %>
+</pre>
 
 <% if (events) { %>
 <h2> Results: </h2>
 
-        <div class="row-fluid">
-            <div class="span6">
-                <h3><%= events.length %> Events</h3>
-                <% events.forEach(function(event){ %>
-                <h4><%= event.title %></h4>
+<div class="row-fluid">
+    <div class="span6">
+        <h3><%= events.length %> Events</h3>
+        <% events.forEach(function(event){ %>
+        <h4><%= event.title %></h4>
 
-                <% }) %>
-            </div>
-            <div class="span6">
-                <h3><%= venues.length %> Venues</h3>
-                <% venues.forEach(function(venue){ %>
-                <h4><%= venue.venue_name %></h4>
-                <% }) %>
-            </div>
+        <% }) %>
+    </div>
+    <div class="span6">
+        <h3><%= venues.length %> Venues</h3>
+        <% venues.forEach(function(venue){ %>
+        <h4><%= venue.venue_name %></h4>
+        <% }) %>
+    </div>
 
-        </div>
+</div>
 <% } // if events
 %>

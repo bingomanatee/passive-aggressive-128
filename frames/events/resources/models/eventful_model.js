@@ -11,8 +11,6 @@ var _DEBUG = false;
 var EVENTFUL_SEARCH_URL = 'http://api.eventful.com/json/events/search';
 var ITEMS_PER_PAGE = 50;
 
-/* ------------ CLOSURE --------------- */
-
 /** ********************
  * Purpose: to proxy data from eventful
  * @return void
@@ -32,8 +30,8 @@ function _create_eid(title, description) {
         shasum.update(data);
     }
 
-    var key =  shasum.digest('hex');
-  //  console.log('title: %s, desc: %s, key: %s', title, description.substr(0, 20), key);
+    var key = shasum.digest('hex');
+    //  console.log('title: %s, desc: %s, key: %s', title, description.substr(0, 20), key);
     return key;
 }
 
@@ -46,6 +44,23 @@ var _venue_ticket = _.template(' <h3><%= venue_name %></h3>' +
 
 
 module.exports = function (apiary, cb) {
+
+    function _params(url, page_size, page_number) {
+        var out = {
+            url: url,
+            qs: {
+                app_key: apiary.get_config('eventful_auth_key'),
+                page_size: ITEMS_PER_PAGE
+            }
+        };
+        if (page_number) {
+            out.qs.page_number = page_number;
+        }
+        if (page_size) {
+            out.qs.page_size = page_size;
+        }
+        return out;
+    }
 
     function _get_results(query, done) {
 
@@ -156,7 +171,7 @@ module.exports = function (apiary, cb) {
                 }
             }
 
-            ['page_number', 'page_number', 'page_count'].forEach(function(field){
+            ['page_number', 'page_number', 'page_count'].forEach(function (field) {
                 new_data[field] = parseInt(new_data[field]);
             });
 
@@ -173,14 +188,10 @@ module.exports = function (apiary, cb) {
         }
 
         function _poll(page) {
-            var params = {
-                url: EVENTFUL_SEARCH_URL,
-                qs: {
-                    app_key: apiary.get_config('eventful_auth_key'),
-                    location: query.location, keywords: query.search,
-                    page_size: ITEMS_PER_PAGE
-                }
-            };
+            var params = _params(EVENTFUL_SEARCH_URL, ITEMS_PER_PAGE, page);
+
+            params.qs.location = query.location;
+            if (query.search)  params.qs.keywords = query.search;
 
             if (query.radius) {
                 query.radius = parseInt(query.radius);
@@ -189,16 +200,13 @@ module.exports = function (apiary, cb) {
                 }
             }
 
-            if (page) {
-                params.qs.page_number = page;
-            }
-
             console.log('polling events: %s', JSON.stringify(params));
             request.get(params, _add_to_events);
         }
 
         _poll();
     }
+
 
     /**
      * Takes the data stored in events.events.event array and normalizes it.
@@ -243,11 +251,26 @@ module.exports = function (apiary, cb) {
 
     }
 
+    var cat_cache = null;
+
+    function _categories(callback) {
+        if (cat_cache) {
+            callback(null, cat_cache);
+        } else {
+            var params = _params('/categories/list');
+            request.get(params, function(err, req, body){
+               cat_cache = JSON.parse(body);
+                callback(null, cat_cache);
+            });
+        }
+    }
+
     var model = {
         name: 'eventful',
         search: _get_results,
         normalize: _normalize_results,
-        venue_ticket: _venue_ticket
+        venue_ticket: _venue_ticket,
+        categories: _categories
     };
 
     cb(null, model);

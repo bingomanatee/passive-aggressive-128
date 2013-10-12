@@ -39,9 +39,13 @@ module.exports = {
     },
 
     on_post_input: function (context, done) {
-        this.model('eventful').search(context, function (err, event_data) {
+       var model = this.model('eventful');
+        model.search(context, function (err, event_data) {
             context.event_data = event_data;
-            done();
+            model.categories(function(err, cats){
+                context.cats = cats;
+                done();
+            })
         });
     },
 
@@ -55,6 +59,7 @@ module.exports = {
     },
 
     on_post_output: function (context, done) {
+        context.$out.set('cats', context.cats);
         done();
     }
 }
