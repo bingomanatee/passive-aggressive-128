@@ -33,7 +33,7 @@ function _create_eid(title, description) {
     }
 
     var key =  shasum.digest('hex');
-    console.log('title: %s, desc: %s, key: %s', title, description.substr(0, 20), key);
+  //  console.log('title: %s, desc: %s, key: %s', title, description.substr(0, 20), key);
     return key;
 }
 
@@ -145,6 +145,9 @@ module.exports = function (apiary, cb) {
             } catch (err) {
                 return done(err);
             }
+
+            console.log('total items: %s, total_pages: %s, page_count: %s', new_data.total_items, new_data.total_pages, new_data.page_count);
+
             if (new_data.events && new_data.events.event && new_data.events.event.length) {
                 if (events) {
                     events.events.event = events.events.event.concat(new_data.events.event);
@@ -155,8 +158,10 @@ module.exports = function (apiary, cb) {
 
             if (new_data.page_number < (new_data.page_count - 1)) {
                 _poll(new_data.page_number + 1);
+                console.log('.... loop again');
             } else {
                 // the exit condition
+                console.log('.... done looping');
 
                 done(null, events);
             }
