@@ -9,6 +9,7 @@ var moment = require('moment');
 
 var redis;
 if (process.env.REDISTOGO_URL) {
+    console.log('redis url: %s', process.env.REDISTOGO_URL);
     var rtg = require("url").parse(process.env.REDISTOGO_URL);
     redis = require("redis").createClient(rtg.port, rtg.hostname);
 
@@ -73,7 +74,7 @@ module.exports = function (apiary, cb) {
                         cb(null, data);
                     });
                 } catch (err) {
-                     cb(err);
+                    cb(err);
                 }
             }
         });
@@ -97,7 +98,11 @@ module.exports = function (apiary, cb) {
         zip = parseInt(zip);
         redis.get(zip + '', function (err, value) {
             if (value) {
+                console.log('getting zip %s: %s', zip, value);
                 cb(null, JSON.parse(value).data);
+            } else if (err) {
+                console.log('error: %s', err);
+                cb(err);
             } else {
                 model.poll_api(zip, cb);
             }
