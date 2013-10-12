@@ -28,13 +28,12 @@
         <td>
             <%
             var lastTitle = '';
-            movie.showtimes.forEach(function(st){ %>
-            <% if (lastTitle!= st.theatre.name) { %>
+            _.each(schedule(movie.showtimes, function(st){
+            if (st.times.length){ %>
             <h4><%= st.theatre.name %></h4>
-            <% } %>
-            <p><%= st.dateTime %></p>
+            <p><%= st.times.map(function(t){ return t.format('hh:mm a')}).join('<br />') %></p>
             <%
-            lastTitle = st.theatre.name;
+            } // if
             }) %>
         </td>
         <td><%= movie.shortDescription %></td>
