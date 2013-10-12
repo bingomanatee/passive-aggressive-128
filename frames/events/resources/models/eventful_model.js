@@ -258,9 +258,15 @@ module.exports = function (apiary, cb) {
             callback(null, cat_cache);
         } else {
             var params = _params('/categories/list');
+            console.log('getting catregories: %s ', util.inspect(params));
             request.get(params, function(err, req, body){
-               cat_cache = JSON.parse(body);
-                callback(null, cat_cache);
+                if (err){
+                    callback(err);
+                } else {
+                    console.log('category body: %s', util.inspect(body));
+                    cat_cache = body ? JSON.parse(body) : [];
+                    callback(null, cat_cache);
+                }
             });
         }
     }
