@@ -1,5 +1,4 @@
 {
-    "layout_name": "pa",
     "routes": {
         "get": "/"
     }

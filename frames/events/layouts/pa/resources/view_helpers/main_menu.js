@@ -32,7 +32,7 @@ module.exports = function (apiary, cb) {
 			test: function (ctx, output) {
                 // note there are other places that layout name can be specified
                 // so this is a "lazy test" to make sure that another layout wasn't named.
-				return (!output.layout_name) || (output.layout_name == 'bootstrap');
+				return (!output.layout_name) || (output.layout_name == 'pa');
 			},
 
 			weight: -55,
@@ -47,7 +47,8 @@ module.exports = function (apiary, cb) {
 					title: 'Site',
 					items: [
 						{name: 'home', title: 'Home', link: '/', weight: -1000000},
-                        {name: 'another_page', title: 'A page in your site', link: '/a_page', weight: 0}
+                        {name: 'events', title: 'Search for events', link: '/search', weight: 0},
+                        {name: 'movies', title: 'Search for movies', 'link': '/movies'}
 					]
 				})
 
