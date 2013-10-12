@@ -13,6 +13,10 @@
         {
             "url": "/js/passive-aggressive/vendor/bootstrap.js",
             "context": "foot"
+        },
+        {
+            "url": "/js/passive-aggressive/vendor/transition.js",
+            "context": "foot"
         }
     ]
 }
