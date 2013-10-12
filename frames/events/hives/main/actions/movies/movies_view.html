@@ -40,11 +40,11 @@
         <% } %>
     </div>
     <div class="span5">
-        <article class="short-description"><%= movie.shortDescription || movie.longDescription || '' %><a
+        <article class="short-description"><%= _.compact([movie.shortDescription , movie.longDescription, '-- none --'])[0] %><a
                 href="#movie-<%= movie.tmsId %>" onClick="show_movie('<%= movie.tmsId %>', true)">... more</a>
         </article>
         <article class="long-description" style="display: none">
-            <%= movie.longDescription %>
+            <%= _.compact([movie.longDescription, movie.shortDescription, ' -- none -- '])[0] %>
         </article>
     </div>
     <div class="span3">
