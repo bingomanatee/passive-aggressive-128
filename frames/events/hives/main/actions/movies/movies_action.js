@@ -27,7 +27,9 @@ function _schedule(showtimes, day){
         t.times = _.reject(t.times, function(time){
             return time.diff(day, 'days');
         })
-    })
+    });
+
+    return theatres;
 }
 
 /* -------------- EXPORT --------------- */
