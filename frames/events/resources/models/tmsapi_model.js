@@ -132,7 +132,7 @@ module.exports = function (apiary, cb) {
 
     var model = {
         name: 'tmsapi',
-        CACHE_DIR: path.resolve(__dirname, '../cache'),
+        CACHE_DIR: path.resolve(__dirname, 'cache'),
         cache_files: null,
         search: _get_movies,
         age: _age,
