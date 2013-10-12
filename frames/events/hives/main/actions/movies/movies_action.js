@@ -25,7 +25,7 @@ function _schedule(showtimes, day){
 
     _.each(theatres, function(t){
         t.times = _.reject(t.times, function(time){
-            return time.diff(day);
+            return time.diff(day, 'days');
         })
     })
 }
