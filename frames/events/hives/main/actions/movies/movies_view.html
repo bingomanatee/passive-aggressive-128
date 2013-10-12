@@ -17,11 +17,13 @@
     <tbody>
     <% movies.forEach(function(movie){ %>
     <tr>
-        <td><h3><%= movie.title %>(<%= movie.releaseYear %>) </h3><br/>
+        <td><h3><%= movie.title %>(<%= movie.releaseYear %>) </h3><% if (movie.genres) { %><br/>
             <p>
                 <small><%= movie.genres.join(',') %></small>
-            </p>
+            </p> <% } %>
+            <% if (movie.preferredImage) { %>
             <div><img src="http://developer.tmsimg.com/<%= movie.preferredImage.uri %>"/></div>
+            <% } %>
         </td>
         <td>
             <% movies.showtimes.forEach(function(st){ %>
