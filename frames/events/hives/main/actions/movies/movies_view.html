@@ -13,7 +13,11 @@
                 line-height: 115%;
             }
 
-
+             .movie {
+                 margin-top: 1em;
+                 padding-top: 0.5em;
+                 border-top: 1px dotted rgb(200,200,200);
+             }
         </style>
 
 <h2>Movies:</h2>
@@ -34,7 +38,7 @@
     </div>
     <div class="span4">
         <% if (movie.showtimes.length > 5) { %>
-        <button style="btn" onClick="$('accordion-<%= movie.tmsId %>').show(); $(this).hide()"><%= movie.showtimes.length %> showtimes</button>
+        <button class="btn" onClick="$('accordion-<%= movie.tmsId %>').show(); $(this).hide()"><%= movie.showtimes.length %> showtimes</button>
         <% } %>
 
         <div class="panel-group" <% if (movie.showtimes.length > 5){ %> style="display: none" <% } %> id="accordion-<%= movie.tmsId %>">
