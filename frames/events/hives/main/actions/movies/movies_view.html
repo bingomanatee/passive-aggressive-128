@@ -21,17 +21,23 @@
             <p>
                 <small><%= movie.genres.join(',') %></small>
             </p> <% } %>
-            <% if (movie.preferredImage) { %>
+            <% if (0 && movie.preferredImage) { %>
             <div><img src="http://developer.tmsimg.com/<%= movie.preferredImage.uri %>"/></div>
             <% } %>
         </td>
         <td>
-            <% movie.showtimes.forEach(function(st){ %>
+            <%
+            var lastTitle = '';
+            movie.showtimes.forEach(function(st){ %>
+            <% if (lastTitle!= st.theatre.name) { %>
             <h4><%= st.theatre.name %></h4>
+            <% } %>
             <p><%= st.dateTime %></p>
-            <% }) %>
+            <%
+            lastTitle = st.theatre.name;
+            }) %>
         </td>
-        <td><%= movie.shortDescriiption %></td>
+        <td><%= movie.shortDescription %></td>
     </tr>
 
     <% }) // end forEach movies
