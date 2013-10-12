@@ -39,10 +39,17 @@ module.exports = {
     },
 
     on_post_input: function (context, done) {
-        this.model('eventful').search(context, done);
+        this.model('eventful').search(context, function (err, event_data) {
+            context.event_data = event_data;
+            done();
+        });
     },
 
     on_post_process: function (context, done) {
+        var norm_data = this.model('eventful').normalize(context.event_data.events.event);
+        _.each(norm_data, function (items, name) {
+            context.$out.set(name, items);
+        });
         done();
     },
 

@@ -25,89 +25,23 @@
 </form>
 
 <% if (events) { %>
-<h2><%= events.events.event.length %> Results: </h2>
+<h2><%= events.length %> Results: </h2>
 
-<% if (false) { %>
-<pre>
-            <%- JSON.stringify(events.events, true, 3) %>
+        <div class="row-fluid">
+            <div class="span6">
+                <h3>Events</h3>
+                <% events.forEach(function(event){ %>
+                <h4><%= event.title %></h4>
 
-        </pre>
-<% } // if false
-%>
-<style>
-    .event-listing tbody td {
-        vertical-align: top;
-        font-size: 85%;
+                <% }) %>
+            </div>
+            <div class="span6">
+                <h3>Venues</h3>
+                <%= venues.forEach(function(venue){ %>
+                <h4><%= venue.venue_name %></h4>
+                <% }) %>
+            </div>
 
-    }
-
-    .event-listing thead th {
-        font-size: 100%;
-        text-transform: uppercase;
-        text-align: left;
-        vertical-align: top;
-    }
-
-    .event-listing .title {
-        font-weight: bold;
-        font-size: 120%;
-        padding: 0em 2em 0em 1em;
-    }
-
-    .event-listing .venue {
-        min-width: 30em;
-        font-weight: bold;
-    }
-
-    .event-listing .venue h3 {
-        font-size: 100%;
-        marign: 0;
-        pardding: 0;
-        margin-bottom: 0.5em;
-        color: magenta;
-    }
-</style>
-<table class="event-listing">
-    <thead>
-    <tr>
-        <th>Venue</th>
-        <th>Description</th>
-    </tr>
-
-    </thead>
-
-    <tbody>
-    <% events.events.event.forEach(function(e){ %>
-    <tr>
-        <td colspan="2" class="title"><%= e.title %></td>
-    </tr>
-    <tr>
-        <td class="venue"><h3><%= e.venue_name %></h3>
-            <address>
-                <% if (e.venu_address) { %><%= e.venue_address %><br/> <% } %>
-                <%= e.city_name %>, <%= e.region_name %> <% if (e.postal_code ){ %> <%= e.postal_code %> <% } %>
-            </address>
-            <% if (e.start_time && e.end_time){%>
-            <dl>
-                <dt>from</dt>
-                <dd><%= e.start_time %></dd>
-                <dt>to</dt>
-                <dd><%= e.end_time %></dd>
-            </dl>
-            <% } else if (e.start_time) { %>
-
-            <dl>
-                <dt>at</dt>
-                <dd><%= e.start_time %></dd>
-            </dl>
-            <% } %>
-        </td>
-        <td><%- e.description %></td>
-    </tr>
-
-    <% })// end foreach
-    %>
-    </tbody>
-</table>
+        </div>
 <% } // if events
 %>
