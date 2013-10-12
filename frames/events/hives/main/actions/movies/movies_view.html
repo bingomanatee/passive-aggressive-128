@@ -29,9 +29,12 @@
             <%
             var lastTitle = '';
             _.each(schedule(movie.showtimes, function(st){
-            if (st.times.length){ %>
+            if (st.times.length){
+            %>
             <h4><%= st.theatre.name %></h4>
-            <p><%= st.times.map(function(t){ return t.format('hh:mm a')}).join('<br />') %></p>
+            <p><%= st.times.map(function(t){
+                return t.format('hh:mm a');
+                }).join('<br />') %></p>
             <%
             } // if
             }) %>
