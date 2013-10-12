@@ -39,14 +39,13 @@
                     <div class="panel-heading">
                         <h4 class="panel-title">
                             <a class="accordion-toggle"
-                               data-toggle="collapse"
-                               data-parent="#accordion-<%= movie.tmsId %>"
                                data-target="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>">
                                 <%= st.theatre.name %>
                             </a>
                         </h4>
                     </div>
-                    <div id="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>" class="panel-collapse collapse <%= open_set ? '' : ' in ' %>">
+                    <div id="#accordian-<%= movie.tmsId%>-<%= st.theatre.id %>"
+                         class="panel-collapse collapse <%= open_set ? '' : ' in ' %>">
                         <div class="panel-body">
                             <%- st.times.map(function(t){
                             return t.format('MM DD &gt;&gt; hh:mm a');
@@ -64,7 +63,7 @@
                 <!-- panel -->
             </div>
             <!-- panel-group -->
-            </td>
+        </td>
         </td>
         <td><%= movie.shortDescription %></td>
     </tr>
@@ -73,3 +72,8 @@
     %>
     </tbody>
 </table>
+<script language="javascript">
+    $(function () {
+        $(".collapse").collapse();
+    })
+</script>
