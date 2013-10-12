@@ -6,7 +6,7 @@ var fs = require('fs');
 /* ------------ CLOSURE --------------- */
 
 LOCATIONS = {
-    sanfrancisco: 9403
+    sanfrancisco: 94103
 };
 
 /* -------------- EXPORT --------------- */
@@ -18,8 +18,9 @@ module.exports = {
     },
 
     on_input: function (context, done) {
+        context.$out.set('movies', {});
         if (context.location){
-            this.model('tmsapi').search(94103, function(err, data){
+            this.model('tmsapi').search( LOCATIONS[context.location], function(err, data){
                 context.movies = data;
                 done();
             });
@@ -32,11 +33,7 @@ module.exports = {
     },
 
     on_output: function (context, done) {
-        if (context.location){
-            context.$out.set('movies', LOCATIONS[context.location]);
-        } else {
-            context.$out.set('movies', {});
-        }
+        context.$out.set('movies', context.movies);
         done();
     }
 }
