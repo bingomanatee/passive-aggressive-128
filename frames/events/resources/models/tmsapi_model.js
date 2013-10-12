@@ -72,7 +72,8 @@ module.exports = function (apiary, cb) {
                     var data = JSON.parse(body);
                     var str_data = JSON.stringify(_current_data(data));
                     console.log('saving %s data ...', zip, str_data.substr(0, 100));
-                    redis.set(zip + '', str_data, function () {
+                    redis.set(zip + '', str_data, function (result) {
+                        console.log('result: %s', result.substr(0, 100));
                         cb(null, data);
                     });
                 } catch (err) {
@@ -100,7 +101,7 @@ module.exports = function (apiary, cb) {
         zip = parseInt(zip);
         redis.get(zip + '', function (err, value) {
             if (value) {
-                console.log('getting zip %s: %s', zip, value);
+                console.log('getting zip %s: %s', zip, value.substr(0, 50));
                 cb(null, JSON.parse(value).data);
             } else if (err) {
                 console.log('error: %s', err);
