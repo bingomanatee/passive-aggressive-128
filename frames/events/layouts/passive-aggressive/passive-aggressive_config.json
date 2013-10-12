@@ -1,0 +1,18 @@
+{
+    "name": "passive-aggressive",
+    "static": {
+        "/img": "/img/passive-aggressive",
+        "/css": "/css/passive-aggressive",
+        "/js": "/js/passive-aggressive"
+    },
+    "javascript": [
+        {
+            "url": "/js/passive-aggressive/vendor/jquery-1.10.2.min.js",
+            "context": "foot"
+        },
+        {
+            "url": "/js/passive-aggressive/vendor/bootstrap.js",
+            "context": "foot"
+        }
+    ]
+}
