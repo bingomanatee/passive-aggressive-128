@@ -28,11 +28,17 @@
 
         </style>
 
-<h2>Movies:</h2>
-
+<div class="row-fluid">
+    <h2>Movies</h2>
+    <ul>
+        <% movies.forEach(function(m){ %>
+        <li onClick="show_movie('<%= m.tmsId %>')"><%= m.title %></li>
+        <% })  %>
+    </ul>
+</div>
 
 <% movies.forEach(function(movie){ %>
-<div class="row-fluid movie">
+<div class="row-fluid movie"  id="movie-<%= movie.tmsId %>">
     <div class="span3"><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% } %></h3><% if
         (movie.genres) { %><br/>
 
@@ -88,4 +94,10 @@
     $(function () {
         $(".collapse").collapse();
     })
+
+
+    function show_movie(id){
+        $('##movie-' + id).css('margin-top', '60px');
+        location.href =('##movie-' + id);
+    }
 </script>
