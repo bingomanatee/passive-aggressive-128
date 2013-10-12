@@ -48,10 +48,16 @@ module.exports = {
     on_input: function (context, done) {
         context.$out.set('movies', {});
         if (context.location) {
-            this.model('tmsapi').search(LOCATIONS[context.location], function (err, data) {
-                context.movies = data;
+            var zip = LOCATIONS[context.location];
+
+            if (zip){
+                this.model('tmsapi').search(zip, function (err, data) {
+                    context.movies = data;
+                    done();
+                });
+            } else {
                 done();
-            });
+            }
         } else {
             done();
         }
