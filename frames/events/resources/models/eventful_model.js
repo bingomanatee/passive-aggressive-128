@@ -31,7 +31,7 @@ function _create_eid(title, description) {
     }
 
     var key =  shasum.digest('hex');
-    console.log('title: %s, desc: %s, key: %s', title, desc.substr(0, 20), key);
+    console.log('title: %s, desc: %s, key: %s', title, description.substr(0, 20), key);
     return key;
 }
 
