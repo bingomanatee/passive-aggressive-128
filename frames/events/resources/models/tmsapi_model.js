@@ -86,7 +86,8 @@ module.exports = function (apiary, cb) {
                 if (err) return cb(err);
                 if (!json_string) return cb(new Err('empty cache file'));
                 j = JSON.parse(json_string);
-                if (model.age(j.startDate) > 6) {
+                console.log('cache file for %s date = %s', zip, j.startDate);
+                if ((!j.startDate)  || (model.age(j.startDate) > 6)) {
                     model.poll_api(zip, cb);
                 } else {
                     cb(null, j);
