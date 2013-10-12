@@ -44,20 +44,31 @@ function _age(date_string) {
 
 module.exports = function (apiary, cb) {
 
+    /**
+     * saves the data INSTANTLY to the file system.
+     *
+     * @param zip
+     * @param body
+     * @private
+     */
     function _save_cache(zip, body) {
+        if (_.isString(body)) {
+            body = JSON.stringify(body);
+        }
         var save_path = path.resolve(model.CACHE_DIR, zip + '');
         fs.writeFileSync(save_path, body);
     }
 
     function _poll_api(zip, cb) {
+        console.log('POLLING API......... %s', zip);
         request.get(_params(zip), function (err, req, body) {
             if (err) {
                 cb(err);
             } else {
-                model.save_cache(zip, body);
 
                 try {
                     var data = JSON.parse(body);
+                    model.save_cache(zip, {startDate: _now(), data: data});
                 } catch (err) {
                     return cb(err);
                 }
@@ -93,7 +104,7 @@ module.exports = function (apiary, cb) {
 
     function _read_cache_files(zip, cb) {
         fs.readdir(model.CACHE_DIR, function (err, files) {
-            model.cache_files = _.map( _.reject(files, function(file){
+            model.cache_files = _.map(_.reject(files, function (file) {
                 return /\D/.test(file);
             }), Number);
             model.get_movies(zip, cb);
@@ -123,7 +134,7 @@ module.exports = function (apiary, cb) {
         }
     }
 
-    function _current_data(data){
+    function _current_data(data) {
         return {
             startDate: _now(),
             data: data
