@@ -212,7 +212,7 @@ module.exports = function (apiary, cb) {
             }
 
             var e_data = _.pick(event, 'title', 'description', 'start_time', 'all_day', 'end_time', 'venue_id');
-            var eid = _create_eid(e_data);
+            var eid = _create_eid(e_data.title, e_data.description);
 
             venues[data.venue_id].eids.push(eid);
 
