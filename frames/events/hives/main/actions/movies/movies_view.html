@@ -2,12 +2,20 @@
 
 <nav class="navbar navbar-default cities" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header"> <a class="navbar-brand" href="#">Cities: </a></div>
+    <div class="navbar-header"><a class="navbar-brand" href="#">Cities: </a></div>
 
-    <button class="btn navbar-btn <%= location == 'sanfrancisco' ? ' active' : '' %>" onClick="document.location='/movies/sanfrancisco'">San Francisco, CA</button>
-    <button class="btn navbar-btn <%= location == 'portlandor' ? ' active' : '' %>" onClick="document.location='/movies/portlandor'">Portland, OR</button>
+    <button class="btn navbar-btn <%= location == 'sanfrancisco' ? ' active' : '' %>"
+            onClick="document.location='/movies/sanfrancisco'">San Francisco, CA
+    </button>
+    <button class="btn navbar-btn <%= location == 'portlandor' ? ' active' : '' %>"
+            onClick="document.location='/movies/portlandor'">Portland, OR
+    </button>
+    <button class="btn navbar-btn <%= location == 'nyc' ? ' active' : '' %>"
+            onClick="document.location='/movies/portlandor'">New York, NY
+    </button>
 </nav>
 
+<p><%= slogan %></p>
 <div class="row-fluid">
     <h2>Movies</h2>
     <ul class="movie-list">
@@ -32,7 +40,8 @@
         <% } %>
     </div>
     <div class="span5">
-        <article class="short-description"><%= movie.shortDescription || movie.longDescription || '' %><a href="#movie-<%= movie.tmsId %>" onClick="show_movie('<%= movie.tmsId %>', true)">... more</a>
+        <article class="short-description"><%= movie.shortDescription || movie.longDescription || '' %><a
+                href="#movie-<%= movie.tmsId %>" onClick="show_movie('<%= movie.tmsId %>', true)">... more</a>
         </article>
         <article class="long-description" style="display: none">
             <%= movie.longDescription %>

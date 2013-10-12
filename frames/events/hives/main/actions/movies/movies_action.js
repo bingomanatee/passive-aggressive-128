@@ -8,8 +8,34 @@ var moment = require('moment');
 
 LOCATIONS = {
     sanfrancisco: 94103,
-    portlandor: 97204
+    portlandor: 97204,
+    nyc: 10001
 };
+
+SLOGANS = {
+    sanfrancisco: [
+        'Young man, there\'s a place you can go...',
+        'They say at night, you can hear George Lucas\' groans near the sewer grates',
+        'The naked joggers are never the ones you want to jog naked...'
+    ],
+
+    portlandor: [
+        'Where young people go to retire',
+        'Featuring adult size rail',
+        'Gleefully anticipating global warming'
+    ],
+
+    nyc: [
+        'We got your movies right here',
+        'Neither rain nor sleet nor snow',
+        'Try our Chicago Style pizza'
+    ],
+    none: [
+        'Click a button to see movie listings. Or just sit there and stare at the screen. Whatever you feel like.',
+        'Every hour you spend at the movies is another hour you don\'t spend deciding on whether or not you need another cat',
+        'Ad free... for now.'
+    ]
+}
 
 function _schedule(showtimes, day) {
     var theatres = {};
@@ -59,11 +85,16 @@ module.exports = {
                 done();
             }
         } else {
+            context.location = 'none';
             done();
         }
     },
 
     on_process: function (context, done) {
+        if (SLOGANS[context.location]){
+            context.$out.set('slogan', _.first(_.shuffle(SLOGANS[context.location])));
+        }
+        context.$out.set('slogan', _.first(_.shuffle(SLOGANS.none)));
         done();
     },
 
@@ -79,7 +110,7 @@ module.exports = {
             return out;
         }, []));
         context.$out.set('schedule', _schedule);
-        context.$out.set('location', context.location || 'none');
+        context.$out.set('location', context.location);
         done();
     }
 }
