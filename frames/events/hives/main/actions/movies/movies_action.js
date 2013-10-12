@@ -24,6 +24,8 @@ module.exports = {
                 context.movies = data;
                 done();
             });
+        } else {
+            done();
         }
     },
 
