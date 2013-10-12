@@ -13,7 +13,12 @@ module.exports = {
     },
 
     on_get_input: function (context, done) {
-        done()
+        var model = this.model('eventful');
+
+        model.categories(function (err, cats) {
+            context.cats = cats;
+            done();
+        })
     },
 
     on_get_process: function (context, done) {
@@ -22,6 +27,7 @@ module.exports = {
 
     on_get_output: function (context, done) {
         context.$out.set('events', '')
+        context.$out.set('cats', context.cats);
         done();
     },
 
@@ -39,10 +45,10 @@ module.exports = {
     },
 
     on_post_input: function (context, done) {
-       var model = this.model('eventful');
+        var model = this.model('eventful');
         model.search(context, function (err, event_data) {
             context.event_data = event_data;
-            model.categories(function(err, cats){
+            model.categories(function (err, cats) {
                 context.cats = cats;
                 done();
             })
