@@ -8,19 +8,25 @@
 
 <table class="table table-bordered">
     <thead>
-    <tr><th>Title</th>
-    <th>Theatres</th>
+    <tr>
+        <th>Title</th>
+        <th>Theatres</th>
+        <th>Description</th>
     </tr>
     </thead>
     <tbody>
     <% movies.forEach(function(movie){ %>
     <tr>
-        <td><h4><%= movie.title %>(<%= movie.lang %>)</h4>
-        <div><img src="http://tmsapi.com/<%= movie.preferredImage.url %>" /></div>
+        <td><h4><%= movie.title %>(<%= movie.releaseYear %>) </h4><br/>
+            <p>
+                <small><%= movie.genres.join(',') %></small>
+            </p>
+            <div><img src="http://developer.tmsimg.com/<%= movie.preferredImage.uri %>"/></div>
         </td>
         <td>
-            <%= _.uniq(_.pluck(movie.showtimes, 'theatre')).join(', ') %>
+            <%= _.uniq(_.pluck(_.pluck(movie.showtimes, 'theatre'), 'name').join(', ') %>
         </td>
+        <td><%= movie.shortDescriiption %></td>
     </tr>
 
     <% }) // end forEach movies
