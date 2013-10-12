@@ -41,8 +41,8 @@
 <div class="row-fluid">
     <h2>Movies</h2>
     <ul class="movie-list">
-        <% movies.forEach(function(m){ %>
-        <li onClick="show_movie('<%= m.tmsId %>')"><%= m.title %></li>
+        <% movies.forEach(function(movie){ %>
+        <li onClick="show_movie('<%= movie.tmsId %>')"><%= movie.title %></li>
         <% }) %>
     </ul>
 </div>
@@ -62,7 +62,7 @@
         <% } %>
     </div>
     <div class="span5">
-        <article class="short-description"><%= movie.shortDescription || movie.description || '' %><a href="movie-<%= movie.tmsId %>" onClick="show_movie('<%= m.tmsId %>', true)">... more</a>
+        <article class="short-description"><%= movie.shortDescription || movie.description || '' %><a href="movie-<%= movie.tmsId %>" onClick="show_movie('<%= movie.tmsId %>', true)">... more</a>
         </article>
         <article class="long-description" style="display: none">
             <%= movie.description %>
