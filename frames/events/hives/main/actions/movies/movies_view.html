@@ -27,7 +27,7 @@
 
 <% movies.forEach(function(movie){ %>
 <div class="row-fluid movie" id="movie-<%= movie.tmsId %>">
-    <div class="span4 movie-title"><h3><%= movie.title %><% if (movie.releaseYear) { %>(<%= movie.releaseYear %>)<% }
+    <div class="span4 movie-title"><h3><%= movie.title %><% if (movie.releaseYear) { %> (<%= movie.releaseYear %>)<% }
         %></h3><% if
         (movie.genres) { %>
 
@@ -40,9 +40,9 @@
         <% } %>
     </div>
     <div class="span5">
-        <article class="short-description"><%= _.compact([movie.shortDescription , movie.longDescription, '-- none
-            --'])[0] %><a
-                    href="#movie-<%= movie.tmsId %>" onClick="show_movie('<%= movie.tmsId %>', true)">... more</a>
+        <article class="short-description">
+            <%= _.compact([movie.shortDescription , movie.longDescription, '-- none --'])[0] %>
+            <a href="#movie-<%= movie.tmsId %>" onClick="show_movie('<%= movie.tmsId %>', true)">... more</a>
         </article>
         <article class="long-description" style="display: none">
             <%= _.compact([movie.longDescription, movie.shortDescription, ' -- none -- '])[0] %>
@@ -93,7 +93,7 @@
 <script language="javascript">
     $(function () {
         $(".collapse").collapse();
-    })
+    });
 
 
     function show_movie(id) {
