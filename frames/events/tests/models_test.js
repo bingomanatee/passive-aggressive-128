@@ -3,168 +3,64 @@ var util = require('util');
 var path = require('path');
 var fs = require('fs');
 var tap = require('tap');
-var moment = require('moment');
 
-var TMSAPI_CACHE_DIR = path.resolve(__dirname, 'test_files/tmsapi_cache');
+tap.test('pg', {timeout: 1000 * 10, skip: false }, function (suite) {
 
+    var pg_lib = require('./../resources/models/lib/pg_lib');
 
-var DATA_12345 = [
-    {
-        tmsID: 'EV0001',
-        title: 'movie 12345',
-        showtimes: [
-            {
-                theatre: {
-                    id: 2,
-                    name: 'Beta Theatre'
-                },
-                dateTime: "2013-10-19T12:00"
+    suite.test('create_sql', {timeout: 1000 * 10, skip: false }, function (test) {
+
+        var foo = new pg_lib.Table('foos');
+        foo.add('id', 'integer', 0, ['PRIMARY'])
+            .add('name', 'string', 32);
+
+        test.deepEqual(foo.toJSON(), {
+            "name": "foos",
+            "columns": {
+                "id": {"name": "id", "type": "integer", "length": 0, "props": ["PRIMARY"]},
+                "name": {"name": "name", "type": "string", "length": 32, "props": []}
             }
-        ]
-    }
-];
+        });
 
-var DATA_54321 = [
-    {
-        tmsID: 'EV00012',
-        title: 'movie 54321',
-        showtimes: [
-            {
-                theatre: {
-                    id: 1,
-                    name: 'Alpha Theatre'
-                },
-                dateTime: "2013-10-19T12:00"
-            }
-        ]
-    }
-];
+        test.equal(foo.create_sql(), "CREATE TABLE foos (\nid integer PRIMARY,\nname string(32) )", 'create SQL');
 
-var ZIPS = [
-    {zip: 12345, age: 0, data: DATA_12345},
-    {zip: 54321, age: 10, data: []}
-];
+        var space_table = new pg_lib.Table('space ghost')
+            .add('id', 'integer', ['PRIMARY'])
+            .add('name', 'char', 20)
+            .add('date created', 'date');
 
-tap.test('models', {timeout: 1000 * 10, skip: false }, function (suite) {
+        test.deepEqual(space_table.create_sql(), "CREATE TABLE 'space ghost' (\nid integer(PRIMARY) ,\nname char(20) ,\n'date created' date )", 'create SQL 2 - with spaces');
 
-    suite.test('tmsapi_model', {timeout: 1000 * 10, skip: false }, function (tmsapi_test) {
-        var apiary_mock = {
-            get_config: function (value) {
-                switch (value) {
-                    case 'tmsapi_auth_key':
-                        return'tmsapi-key';
-                        break;
+        test.end();
+    });
+    suite.test('select_sql', {timeout: 1000 * 10, skip: false }, function (test) {
 
-                    default:
-                        throw new Error('not equipped to get value ' + value);
-                }
-            }
-        };
+        var foo = new pg_lib.Table('foos');
+        foo.add('id', 'integer', 0, ['PRIMARY'])
+            .add('name', 'string', 32)
+            .add('venue id', 'integer', 0);
 
-        function _init_mock_cache(done) {
+        test.equal(foo.select_sql({}), 'SELECT * FROM foos', 'select_sql');
+        test.equal(foo.select_sql({fields: ['name']}), 'SELECT name FROM foos', 'select_sql 1');
+        test.equal(foo.select_sql({fields: ['name', 'venue id']}), 'SELECT name,\'venue id\' FROM foos', 'select_sql 2');
 
-            fs.readdir(TMSAPI_CACHE_DIR, function (err, files) {
-
-                files.forEach(function (file) {
-                    fs.unlinkSync(path.resolve(TMSAPI_CACHE_DIR, file));
-                });
-
-                ZIPS.forEach(function (zip) {
-                    var dest = path.resolve(TMSAPI_CACHE_DIR, zip.zip + '');
-                    var str = JSON.stringify(
-                        _.extend({
-                            startDate: new moment().subtract(zip.age, 'days').format('YYYY-MM-DD')
-                        }, {data: zip.data})
-
-                    );
-
-                 //   console.log('writing to %s: %s', dest, str);
-                    fs.writeFileSync(dest, str);
-                });
+        var space_table = new pg_lib.Table('space ghost')
+            .add('id', 'integer', ['PRIMARY'])
+            .add('name', 'char', 20)
+            .add('date created', 'date');
 
 
-                done();
-            });
+        test.equal(space_table.select_sql({}), "SELECT * FROM 'space ghost'", 'select_sql 3');
+        // note - the column 'badcolumn' is not present so it is dropped
+        test.equal(space_table.select_sql({fields: ['badcolumn', 'date created']}), "SELECT 'date created' FROM 'space ghost'", 'select_sql 4');
 
-        }
-
-        function _tests() {
-
-            require('./../resources/models/tmsapi_model')(apiary_mock, function (err, tmsapi_model) {
-
-                tmsapi_model.CACHE_DIR = TMSAPI_CACHE_DIR;
-
-                // overriding poll_api
-
-                var polls = [];
-                tmsapi_model.poll_api = function (zip, cb) {
-                    if (_.contains(polls, zip)) {
-                        throw new Error('second poll of ' + zip);
-                    }
-                    polls.push(zip);
-
-                    switch (zip) {
-                        case 12345:
-                            tmsapi_model.save_cache(zip, JSON.stringify(tmsapi_model.current_data([])));
-                            cb(null, []);
-                            break;
-
-                        case 54321:
-                            tmsapi_model.save_cache(zip, JSON.stringify(tmsapi_model.current_data(DATA_54321)));
-                            cb(null, DATA_54321);
-                            break;
-
-                        default:
-                            cb(new Error('have no data for zip ' + zip));
-                    }
-                };
-
-                tmsapi_test.test(function (poll_test) {
-
-                    var six_days_ago = new moment().subtract(6, 'days').startOf('day');
-
-                    var then = tmsapi_model.then(six_days_ago.format('YYYY-MM-DD')).startOf('day');
-                    poll_test.equal(then.unix(), six_days_ago.unix(), 'test then conversion');
-                    poll_test.equals(tmsapi_model.age(then), 6, 'then is six days ago');
-
-                    poll_test.test('reading cache file 12345', function (test) {
-
-                        // data in file 12345 is current so doesn't require calling poll_api again.
-                        tmsapi_model.get_movies(12345, function (err, movies) {
-                            test.deepEqual(movies.data, DATA_12345, '12345 movies');
-                            test.end();
-                        });
-
-                    });
-
-                    poll_test.test('polling 54321', function (test) {
-                        // data in file 54321 is out of date so requires a poll.
-
-                        tmsapi_model.get_movies(54321, function (err, movies) {
-                            test.deepEqual(movies, DATA_54321, '54321 movies');
-
-                            tmsapi_model.get_movies(54321, function () {
-                                test.deepEqual(movies, DATA_54321, '54321 movies -- second poll');
-                                test.end();
-                            })
-                        })
-
-                    });
-                });
-
-
-                tmsapi_test.end();
-            });
-        }
-
-        _init_mock_cache(_tests);
-
+        test.end();
     });
 
 
-    suite.test('eventful_model', {timeout: 1000 * 10, skip: false }, function (eventful_test) {
+    suite.test('list', {timeout: 1000 * 10, skip: false }, function (test) {
 
-        eventful_test.end();
+        test.end();
     });
 
     suite.end();
