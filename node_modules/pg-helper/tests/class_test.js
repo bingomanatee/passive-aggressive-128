@@ -30,13 +30,13 @@ tap.test('pg', {timeout: 1000 * 10, skip: false }, function (suite) {
                     })
                     .then(function () {
                         console.log('.... 3 inserting record');
-                        return test_table.insert(client, {name: 'Bob'});
+                        return test_table.insert(client, {name: 'Bob'}, ['name']);
                     }, function (err2) {
                         console.log('creation error: %s', err2);
                         test.end();
                     })
-                    .then(function () {
-                        console.log('.... 4 selecting records');
+                    .then(function (result) {
+                        console.log('.... 4 selecting records %s', util.inspect(result));
                         return test_table.select(client, {});
                     })
                     .then(function (results) {

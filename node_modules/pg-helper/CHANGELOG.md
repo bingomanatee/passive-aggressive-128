@@ -15,3 +15,7 @@ added boolean
 ## 0.0.4
 
 escaping single quotes;
+
+## 0.0.5
+
+added optional returning clause

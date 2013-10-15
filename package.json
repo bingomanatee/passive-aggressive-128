@@ -37,7 +37,7 @@
     "redis": "~0.8.6",
     "pg": "~2.7.0",
     "q": "~0.9.7",
-    "pg-helper": "0.0.4"
+    "pg-helper": "0.0.5"
   },
   "devDependencies": {
     "tap": "~0.4.4"

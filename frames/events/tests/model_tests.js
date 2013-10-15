@@ -30,15 +30,39 @@ tap.test('models', {timeout: 1000 * 10, skip: false }, function (suite) {
                     console.log('error: ', err);
                     return e_test.end();
                 }
-                client.query('TRUNCATE TABLE events', function () {
+                client.query('TRUNCATE TABLE events;TRUNCATE TABLE event_times;', function () {
 
                     var listings = require('./test_files/model/tmsi_movie_listings_94103.json');
 
                     events_table.load_tmsapi_tables(listings, function () {
-                        events_table.select(client, {fields: ['id', 'title']}).then(function(result, f){
-                            e_test.equal(result.rows.length, 75, 'number of events loaded');
-                            done();
-                            e_test.end();
+                        events_table.select(client, {fields: ['id', 'title']}).then(function(result){
+                            e_test.equal(result.rows.length, listings.length, 'number of events loaded');
+
+                            events_table.summary('movie', '94103', function(err, result){
+                                if (err) throw err;
+                                console.log('result: %s', JSON.stringify(result.slice(0, 10)));
+
+                                result.forEach(function(movie){
+
+                                    var listing_movie = _.find(listings, function(l){
+                                        return l.tmsId == movie.id;
+                                    });
+
+                                    if (!listing_movie){
+                                        throw new Error('cannot find ' + util.inspect(movie));
+                                    }
+
+                                    listing_times = _.sortBy(_.pluck(listing_movie.showtimes, 'dateTime'), _.identity);
+
+                                    movie_times = _.sortBy(_.pluck(movie.times, 'start_time'), _.identity);
+
+                                    e_test.deepEqual(movie_times, listing_times, 'found all times');
+
+                                });
+
+                                done();
+                                e_test.end();
+                            })
                         }, function(err){
                             console.log('error: %s', err);
                             e_test.end();

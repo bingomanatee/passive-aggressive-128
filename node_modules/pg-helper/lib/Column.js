@@ -61,12 +61,12 @@ _.extend(Column.prototype, {
 
             case 'time':
                 var m = new moment(val);
-                return m.format("'HH:mm:ss ZZ'");
+                return m.format("'HH:mm:ss'");
                 break;
 
             case 'timestamp':
                 var m = new moment(val);
-                return m.format("'YYYY-MM-DD HH:mm:ss ZZ'");
+                return m.format("'YYYY-MM-DD HH:mm:ss'");
                 break;
 
             case 'date':
