@@ -41,6 +41,7 @@ module.exports = function (apiary, cb) {
         .add('venue_name', 'varchar', 64)// denormalizing the venue name for expedience.
         .add('start_time', 'timestamp')
         .add('stop_time', 'timestamp')
+        .add('area', 'varchar', 16)
         .add('all_day', 'boolean', 0, ['DEFAULT FALSE']);
 
     var _EVENT_TIME_JOIN = _.template('SELECT e.id, e.title, e.summary, t.start_time, t.stop_time, t.all_day, t.venue_name, t.venue_id' +
@@ -84,7 +85,7 @@ module.exports = function (apiary, cb) {
                                             out.times = [];
 
                                         }
-                                        var time = _.pick(grouped_row, 'start_time', 'stop_time', 'all_day', 'venue_id', 'venue_name');
+                                        var time = _.pick(grouped_row, 'start_time', 'stop_time', 'all_day', 'area', 'venue_id', 'venue_name');
                                         if (time.start_time) time.start_time = new moment(time.start_time).format('YYYY-MM-DDTHH:mm');
                                         if (time.end_time) time.end_time = new moment(time.end_time).format('YYYY-MM-DDTHH:mm');
                                         out.times.push(time)

@@ -4,7 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var tap = require('tap');
 
-var DB = {database: 'test_db', host: 'localhost:5432'};
+var DB = process.env.DATABASE_URL? process.env.DATABASE_URL : {database: 'test_db', host: 'localhost:5432'};
 
 tap.test('models', {timeout: 1000 * 10, skip: false }, function (suite) {
 

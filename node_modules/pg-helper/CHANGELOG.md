@@ -19,3 +19,7 @@ escaping single quotes;
 ## 0.0.5
 
 added optional returning clause
+
+## 0.0.6
+
+allowing for string definition of connection DB

@@ -72,9 +72,28 @@ module.exports = function (apiary, cb) {
                     var data = JSON.parse(body);
                     var str_data = JSON.stringify(_current_data(data));
                     console.log('saving %s data ...', zip, str_data.substr(0, 100));
+
                     redis.set(zip + '', str_data, function (result) {
                         console.log('result: %s', result.substr(0, 100));
-                        cb(null, data);
+
+                        var events_table_model = apiary.model('events_table_model');
+
+                        events_table_model.connect(function(err, client){
+
+                            if(err){
+                                cb(err);
+                            } else {
+
+                                client.query(util.format("DELETE from events WHERE area = '%s'", zip), function(){
+                                    client.query(util.format("DELETE from event_times WHERE area = '%s'", zip), function(){
+                                        client.end();
+                                        events_table_model.load_tmsapi_tables(data, cb);
+                                    });
+                                });
+                            }
+
+                        })
+
                     });
                 } catch (err) {
                     cb(err);

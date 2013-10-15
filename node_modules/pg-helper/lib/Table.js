@@ -26,9 +26,8 @@ function Table(name, db, columns) {
     this.name = name;
     this.columns = columns || {};
     this._ = _;
-    this.db = _.defaults(db ? db : {}, DB_DEFAULTS);
+    this.db = (db && _.isString(db)) ? db : _.defaults(db ? db : {}, DB_DEFAULTS);
 }
-
 
 /**
  * note -- the connection is stored externally to the table because the table is stateless;
@@ -69,7 +68,7 @@ _.extend(Table.prototype, {
     },
 
     connection_string: function () {
-        return _DB_CONN(this.db);
+        return _.isString(this.db) ? this.db : _DB_CONN(this.db);
     },
 
     /**
@@ -212,10 +211,10 @@ _.extend(Table.prototype, {
     },
 
     insert: function (client, record, returning, cb) {
-        if (_.isFunction(returning)){
+        if (_.isFunction(returning)) {
             cb = returning;
             retrning = null;
-        } else if (!_.isArray(returning)){
+        } else if (!_.isArray(returning)) {
             returning = false;
         }
 
