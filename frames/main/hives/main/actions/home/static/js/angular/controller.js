@@ -1,12 +1,9 @@
 (function(window){
 
-    function paHomeCtrl($scope){
+    function paHomeCtrl($scope, Locations){
         $scope.foo = 'bar';
 
-        $scope.locations=[{
-            name: 'San Francisco, CA',
-            zip: 94103
-        }]
+        $scope.locations = Locations.query();
     }
 
     angular.module('paApp').controller('paHomeCtrl', paHomeCtrl);
