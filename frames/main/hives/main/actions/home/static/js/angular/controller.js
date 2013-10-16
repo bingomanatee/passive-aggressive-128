@@ -10,6 +10,10 @@
         $scope.event_types = EventTypes.query();
 
         $scope.event_type = null;
+
+        $scope.show_loc_button = function(loc){
+            return (!$scope.location) || $scope.location.zip == loc.zip;
+        }
     }
 
     angular.module('paApp').controller('paHomeCtrl', paHomeCtrl);
