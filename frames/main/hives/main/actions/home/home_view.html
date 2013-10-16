@@ -6,6 +6,8 @@
         <p>Select your location: {{ foo }}</p>
 
         <button ng-repeat="loc in locations" class="btn btn-large"
+                ng-show="(!location) || (location.code == loc.code"
+                ng-click="location = loc"
                 title="within 100 miles of zip code {{ loc.zip }}">{{ loc.name }}</button>
 
     </div>
