@@ -1,7 +1,12 @@
-<h1>Home</h1>
-<p>Welcome to Passive Aggressive 1248</p>
+<div ng-app="paApp">
+    <div ng-controller="paHomeCtrl" ng-cloak>
 
-<p>
-    <button class="btn btn-large btn-primary" onclick="document.location='/search'">Search for events</button>
-    <button class="btn btn-large btn-primary" onclick="document.location='/movies'">Search for movies</button>
-</p>
+        <h1>Welcome to the Passive Agressive Events Listing!</h1>
+
+        <p>Select your location: {{ foo }}</p>
+
+        <button ng-repeat="loc in locations" class="btn btn-large"
+                title="within 100 miles of zip code {{ loc.zip }}"><%= loc.name %></button>
+
+    </div>
+</div>
