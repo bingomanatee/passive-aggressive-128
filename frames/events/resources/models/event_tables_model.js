@@ -110,6 +110,7 @@ module.exports = function (apiary, cb) {
         },
 
         load_tmsapi_tables: function (input, finish) {
+            console.log('loading tmsi tables from data %s', util.format(input.slice(0,4)));
             events_table.connect(function (err, client, done) {
                 if (err) {
                     return finish(err);
@@ -117,11 +118,9 @@ module.exports = function (apiary, cb) {
                 var date = new Date();
 
                 event_times_table.create(client, function (err, result) {
-                    if (err) {
-                        console.log('ett create: %s from %s', err, event_times_table.create_sql());
-                    }
-                    events_table.create(client, function () {
-
+                    console.log('creating table event times: %s, %s', err, result);
+                    events_table.create(client, function (err, result) {
+                        console.log('creating table events: %s, %s', err, result);
                         var add_event_queue = async.queue(function (event, event_queue_callback) {
 
                             var record = {
@@ -180,7 +179,14 @@ module.exports = function (apiary, cb) {
         },
 
         connect: function (cb) {
-            events_table.connect(cb);
+            events_table.connect(function (err, client, done){
+                if (err){
+                    console.log('ERROR CANNOT CONNECT TO DATABASE');
+                    cb(err);
+                } else {
+                    cb(err, client, done);
+                }
+            });
         },
 
         truncate: function(client, cb){
