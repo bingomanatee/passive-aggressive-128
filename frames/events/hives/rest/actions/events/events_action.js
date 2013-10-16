@@ -21,7 +21,7 @@ module.exports = {
 
     on_input: function (context, done) {
         var model = this.model('event_tables');
-        model.summary('movies', context.area, function(err, results){
+        model.summary('movie', context.area, function(err, results){
             if(err) return done(err);
             context.$send(results, done);
         });
