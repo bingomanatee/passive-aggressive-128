@@ -38,6 +38,7 @@ server.on('close', function () {
     console.log('======== closing server');
 });
 
+console.log('database URL: %s', process.env.DATABASE_URL);
 
 var log_file = path.resolve(__dirname, 'actions.log');
 
