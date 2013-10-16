@@ -19,7 +19,7 @@
             $scope.location = loc;
         };
 
-        $script.all_loc = function(){
+        $scope.all_loc = function(){
             $script.locction = null;
         };
 
