@@ -7,7 +7,7 @@
 
         <button ng-repeat="loc in locations" class="btn btn-large"
                 ng-show="show_loc_button(loc)"
-                ng-click="location = loc"
+                ng-click="set_loc(loc)"
                 title="within 100 miles of zip code {{ loc.zip }}">{{ loc.name }}</button>
 
     </div>

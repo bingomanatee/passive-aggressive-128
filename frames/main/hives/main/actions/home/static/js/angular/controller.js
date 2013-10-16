@@ -14,6 +14,10 @@
         $scope.show_loc_button = function(loc){
             return (!$scope.location) || $scope.location.zip == loc.zip;
         }
+
+        $script.set_loc = function(loc){
+            $scope.location = loc;
+        }
     }
 
     angular.module('paApp').controller('paHomeCtrl', paHomeCtrl);
