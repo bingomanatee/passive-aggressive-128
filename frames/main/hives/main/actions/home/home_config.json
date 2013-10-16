@@ -9,7 +9,7 @@
     },
     "javascript": [
         {
-            "url": "/js/home/vendor/angular.min.js",
+            "url": "/js/home/vendor/angular/angular.min.js",
             "context": "foot",
             "defer": "true",
             "name": "angular"
