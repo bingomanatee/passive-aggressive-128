@@ -17,7 +17,11 @@
 
         $scope.set_loc = function(loc){
             $scope.location = loc;
-        }
+        };
+
+        $script.all_loc = function(){
+            $script.locction = null;
+        };
 
         $scope.event_buttons = [];
 

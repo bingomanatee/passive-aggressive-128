@@ -9,6 +9,7 @@
                 ng-show="show_loc_button(loc)"
                 ng-click="set_loc(loc)"
                 title="within 100 miles of zip code {{ loc.zip }}">{{ loc.name }}</button>
+        <button ng-show="location" class="btn btn-warning" ng-click="all_loc()">All Locations</button>
 
         <div ng-show="event_buttons.length">
 
