@@ -1,3 +1,5 @@
 {
-    "get": "/rest/events/:area"
+    "routes": {
+        "get": "/rest/events/:area"
+    }
 }
