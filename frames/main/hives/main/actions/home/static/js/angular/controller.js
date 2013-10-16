@@ -1,7 +1,7 @@
 (function(window){
 
     function paHomeCtrl($scope){
-        $scope.foo = bar;
+        $scope.foo = 'bar';
 
         $scope.locations=[{
             name: 'San Francisco, CA',
