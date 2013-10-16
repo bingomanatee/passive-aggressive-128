@@ -15,7 +15,7 @@
             return (!$scope.location) || $scope.location.zip == loc.zip;
         }
 
-        $script.set_loc = function(loc){
+        $scope.set_loc = function(loc){
             $scope.location = loc;
         }
     }
