@@ -11,7 +11,7 @@
                 title="within 100 miles of zip code {{ loc.zip }}">{{ loc.name }}</button>
         <button ng-show="location" class="btn btn-warning" ng-click="all_loc()">All Locations</button>
 
-        <div ng-show="event_buttons.length">
+        <div ng-show="event_buttons.length && location">
 
             <h2>Events in {{location.name }}:</h2>
 
