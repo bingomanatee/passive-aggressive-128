@@ -9,6 +9,12 @@
     },
     "javascript": [
         {
+            "url": "/js/home/vendor/underscore_min.js",
+            "context": "foot",
+            "defer": "true",
+            "name": "underscore"
+        },
+        {
             "url": "/js/home/vendor/angular/angular.min.js",
             "context": "foot",
             "defer": "true",
@@ -32,7 +38,7 @@
             "url": "/js/home/angular/controller.js",
             "context": "foot",
             "defer": "true",
-            "requires": ["angular", "app"]
+            "requires": ["angular", "app", "underscore"]
         }
 
 

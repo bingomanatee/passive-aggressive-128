@@ -10,5 +10,16 @@
                 ng-click="set_loc(loc)"
                 title="within 100 miles of zip code {{ loc.zip }}">{{ loc.name }}</button>
 
+        <div ng-show="event_buttons.length">
+
+            <p>Choose which events to view:</p>
+
+            <button ng-repeat="eb in event_buttons" class="btn"
+                    title="{{eb.event_type.label}} within 100 miles of zip code {{ eb.location.zip }}">
+                {{eb.event_type.label}} in {{eb.location.name }}
+            </button>
+
+        </div>
+
     </div>
 </div>

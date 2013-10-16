@@ -18,6 +18,24 @@
         $scope.set_loc = function(loc){
             $scope.location = loc;
         }
+
+        $scope.event_buttons = [];
+
+        function refresh_ebs(){
+            if ($scope.location
+                && $scope.event_types && $scope.event_types.length){
+                $scope.event_buttons = _.map($scope.event_types, function(et){
+                    return {
+                        location: $scope.location,
+                        event_type: et
+                    }
+                })
+            }
+        }
+
+        $scope.$watch('location', function(loc){
+            refresh_ebs()
+        })
     }
 
     angular.module('paApp').controller('paHomeCtrl', paHomeCtrl);
