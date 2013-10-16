@@ -1,7 +1,5 @@
 (function(){
 
-    angular.module('paApp', []);
-
 
     angular.module('locationsService', ['ngResource']).factory('Locations',
         function ($resource) {
@@ -9,5 +7,7 @@
                 query: {method: 'GET', isArray: true}
             });
         });
+
+    angular.module('paApp', ['locationsService']);
 
 })();
