@@ -18,11 +18,13 @@
             "url": "/js/home/angular/app.js",
             "context": "foot",
             "requires": ["angular"],
+            "defer": "true",
             "name": "app"
         },
         {
             "url": "/js/home/angular/controller.js",
             "context": "foot",
+            "defer": "true",
             "requires": ["angular", "app"]
         }
 
