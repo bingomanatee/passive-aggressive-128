@@ -20,7 +20,7 @@
         };
 
         $scope.all_loc = function(){
-            $script.locction = null;
+            $scope.locction = null;
         };
 
         $scope.event_buttons = [];
