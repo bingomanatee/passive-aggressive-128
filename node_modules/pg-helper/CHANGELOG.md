@@ -23,3 +23,7 @@ added optional returning clause
 ## 0.0.6
 
 allowing for string definition of connection DB
+
+## 0.0.7
+
+adding truncate

@@ -181,6 +181,12 @@ module.exports = function (apiary, cb) {
 
         connect: function (cb) {
             events_table.connect(cb);
+        },
+
+        truncate: function(client, cb){
+            events_table.truncate(client, function(){
+                event_times_table.truncate(client,cb);
+            })
         }
     };
 

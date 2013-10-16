@@ -211,6 +211,41 @@ _.extend(Table.prototype, {
         }
     },
 
+
+
+
+    /**
+     * Creates a SQL string that destroys a table.
+     *
+     * @returns {String}
+     */
+    truncate_sql: function () {
+        return 'TRUNCATE TABLE ' + _q(this.name) + ';';
+    },
+
+    truncate: function (client, cb) {
+        if (cb) {
+            client.query(this.truncate_sql(), cb);
+        } else {
+            var deferred = Q.defer();
+
+            client.query(this.truncate_sql(), function (err, result) {
+                if (err) {
+                    if (/does not exist$/.test(err.message)) {
+                        // this is an "ok error" and we can still proceed
+                        deferred.resolve(err)
+                    } else {
+                        deferred.reject(err);
+                    }
+                } else {
+                    deferred.resolve(result);
+                }
+            });
+
+            return deferred.promise;
+        }
+    },
+
     insert: function (client, record, returning, cb) {
         if (_.isFunction(returning)) {
             cb = returning;

@@ -138,7 +138,13 @@ module.exports = function (apiary, cb) {
         };
     }
 
+    function _flush(cb){
+        redis.flushall(cb);
+    }
+
+
     var model = {
+        flush: _flush,
         name: 'tmsapi',
         search: _get_movies,
         age: _age,
