@@ -22,8 +22,8 @@ app.configure(function () {
     app.use(express.methodOverride());
     app.use(express.cookieParser('rhinestones are forever'));
     app.use(express.session());
-    app.use(passport.initialize());
-    app.use(passport.session());
+ //   app.use(passport.initialize());
+  //  app.use(passport.session());
     app.use(app.router);
     app.use(express.static(path.join(__dirname, 'public')));
 

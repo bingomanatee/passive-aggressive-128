@@ -6,7 +6,7 @@
         <p>Select your location: {{ foo }}</p>
 
         <button ng-repeat="loc in locations" class="btn btn-large"
-                title="within 100 miles of zip code {{ loc.zip }}"><%= loc.name %></button>
+                title="within 100 miles of zip code {{ loc.zip }}">{{ loc.name }}</button>
 
     </div>
 </div>
