@@ -2,5 +2,5 @@
     "routes": {
         "get": ["/movies", "/movies/:location"]
     },
-    "handler_failsafe_time": 20000
+    "handler_failsafe_time": 100000
 }
