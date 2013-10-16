@@ -20,7 +20,7 @@ module.exports = {
     },
 
     on_input: function (context, done) {
-        var model = this.model('event_table');
+        var model = this.model('event_tables');
         model.summary(context.area, function(err, results){
             if(err) return done(err);
             context.$send(results, done);

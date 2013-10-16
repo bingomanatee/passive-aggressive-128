@@ -50,6 +50,7 @@ module.exports = function (apiary, cb) {
         ' ORDER BY e.id, t.venue_id, t.start_time;');
 
     var model = {
+        name: 'event_tables',
 
         summary: function (category, area, finish) {
             area += '';
