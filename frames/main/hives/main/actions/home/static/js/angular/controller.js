@@ -1,6 +1,6 @@
 (function(window){
 
-    function paHomeCtrl($scope, Locations){
+    function paHomeCtrl($scope, Locations, Event_Types){
         $scope.foo = 'bar';
 
         $scope.locations = Locations.query();
