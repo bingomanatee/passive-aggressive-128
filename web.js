@@ -43,6 +43,7 @@ var log_file = path.resolve(__dirname, 'actions.log');
 
 server.listen(app.get('port'), function () {
     var apiary = mvc.Apiary({log_file: log_file, action_handler_failsafe_time: 3000}, __dirname + '/frames');
+    apiary.set_config('db', process.env.DATABASE_URL);
     apiary._config.setAll(require('./site_identity.json'));
     apiary._config.setAll(require('./passport_config.json'));
     apiary.set_config('god_mode', true);
