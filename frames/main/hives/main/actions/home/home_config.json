@@ -9,19 +9,19 @@
     },
     "javascript": [
         {
-            "src": "/js/home/vendor/angular.min.js",
+            "url": "/js/home/vendor/angular.min.js",
             "context": "foot",
             "defer": "true",
             "name": "angular"
         },
         {
-            "src": "/js/home/angular/app.js",
+            "url": "/js/home/angular/app.js",
             "context": "foot",
             "requires": ["angular"],
             "name": "app"
         },
         {
-            "src": "/js/home/angular/controller.js",
+            "url": "/js/home/angular/controller.js",
             "context": "foot",
             "requires": ["angular", "app"]
         }
