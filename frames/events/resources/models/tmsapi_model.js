@@ -81,7 +81,7 @@ module.exports = function (apiary, cb) {
                         }
                         console.log('result: of zip %s: %s', zip, result.substr(0, 100));
 
-                        var events_table_model = apiary.model('events_table_model');
+                        var events_table_model = apiary.model('event_tables');
 
                         events_table_model.connect(function (err, client) {
 
