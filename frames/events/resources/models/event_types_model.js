@@ -5,7 +5,9 @@ module.exports = function (apiary, cb) {
     model = {
         name: 'event_types',
         event_types: [
-            'movie']
+            {id: 'movie',
+                label: 'Movies'}
+        ]
     };
     cb(null, model);
 };
