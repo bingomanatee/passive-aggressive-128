@@ -9,6 +9,6 @@
     <div ng-controller="paEventsCtrl" ng-cloak id="paEventsCtrl">
         <h1>{{category_label()}} in zip {{place_label()}} </h1>
 
-        <button ng-repeat="event in events">{{ event.title }}</button>
+        <button class="btn btn-small" ng-repeat="event in events">{{ event.title }}</button>
     </div>
 </div>
