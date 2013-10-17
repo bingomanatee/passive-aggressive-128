@@ -60,7 +60,7 @@
                 data.starts = _.reduce(time, function(out, t){
                     // only returning todays times.
                     var start = new Date(t.start_time);
-                    if (start.getDate() == now.getDate() && start.getMonth() == now.getMonth()){
+                    if (start.getDate() <= (now.getDate() + 2) && start.getMonth() == now.getMonth()){
                         out.push(start);
                     }
                     return out;
