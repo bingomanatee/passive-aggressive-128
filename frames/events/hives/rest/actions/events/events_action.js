@@ -10,23 +10,22 @@ var fs = require('fs');
 module.exports = {
 
     on_validate: function (context, done) {
-        if (!context.category) {
-            done('no category')
-        } else if (!context.area) {
-            done('no area passed');
-        } else if (!_.contains(['94103'], context.area)) {
-            done('bad area code ' + context.area);
-        } else {
-            done();
-        }
+        done();
     },
 
     on_input: function (context, done) {
         var model = this.model('event_tables');
-        model.summary(context.category, context.area, function (err, results) {
-            if (err) return done(err);
-            context.$send(results, done);
-        });
+        if (context.id){
+            model.event(context.id, function(err, event){
+                if (err) return done(err);
+                context.$send(event, done);
+            })
+        } else {
+            model.summary(context.category, context.area, function (err, results) {
+                if (err) return done(err);
+                context.$send(results, done);
+            });
+        }
     },
 
     on_process: function (context, done) {

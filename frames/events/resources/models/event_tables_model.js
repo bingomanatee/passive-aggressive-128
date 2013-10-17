@@ -14,6 +14,39 @@ var moment = require('moment');
 // long movie title:
 //Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
 
+function _compress_events(results){
+    var tally = [];
+
+    var by_id = _.groupBy(results.rows, 'id');
+    _.each(by_id, function (rows, id) {
+        var out;
+
+        rows.forEach(function (grouped_row) {
+            if (!out) {
+                out = _.clone(grouped_row);
+                out.times = [];
+
+            }
+            var time = _.pick(grouped_row, 'start_time', 'stop_time', 'all_day', 'area', 'venue_id', 'venue_name');
+            if (time.start_time) time.start_time = new moment(time.start_time).format('YYYY-MM-DDTHH:mm');
+            if (time.end_time) time.end_time = new moment(time.end_time).format('YYYY-MM-DDTHH:mm');
+            out.times.push(time)
+
+        });
+
+        if (out) {
+            tally.push(out);
+        }
+    });
+
+    return tally;
+}
+
+
+var _EVENT_ID_TIME_JOIN = _.template('SELECT e.id, e.title, e.source, e.description, e.summary, e.html, e.repeating, e.category, e.area, t.start_time, t.stop_time, t.all_day, t.venue_name, t.venue_id' +
+    ' FROM events e LEFT JOIN event_times t ON t.event_id = e.id' +
+    ' WHERE e.area = \'<%= area %>\' AND e.id=<%= id %> AND category = \'<%= category %>\'' +
+    ' ORDER BY e.id, t.venue_id, t.start_time;');
 
 /* -------------- EXPORT --------------- */
 
@@ -44,10 +77,6 @@ module.exports = function (apiary, cb) {
         .add('area', 'varchar', 16)
         .add('all_day', 'boolean', 0, ['DEFAULT FALSE']);
 
-    var _EVENT_TIME_JOIN = _.template('SELECT e.id, e.title, e.summary, t.start_time, t.stop_time, t.all_day, t.venue_name, t.venue_id' +
-        ' FROM events e LEFT JOIN event_times t ON t.event_id = e.id' +
-        ' WHERE e.area = \'<%= area %>\' AND e.repeating = TRUE AND category = \'<%= category %>\'' +
-        ' ORDER BY e.id, t.venue_id, t.start_time;');
 
     var model = {
         name: 'event_tables',
@@ -71,6 +100,7 @@ module.exports = function (apiary, cb) {
                         tally = results.rows;
                         console.log('tally of nonrepeating: %s', util.inspect(tally));
                         var q = _EVENT_TIME_JOIN({category: category, area: area});
+                        // now get all the events that DO repeat
                         client.query(q, function (err, results) {
                             if (err) {
                                 console.log('repeating error: %s from %s', q);
@@ -109,14 +139,29 @@ module.exports = function (apiary, cb) {
             });
         },
 
+        event: function(category, id, finish){
+          events_table.connect(function(err, client, done){
+              var q = _EVENT_ID_TIME_JOIN({category: category, id: id});
+              client.query(q, function(err, results){
+                  done();
+                  if (err){
+                      finish(err);
+                  } else {
+                      finish(null, _compress_events(results)[0]);
+                  }
+              })
+          });
+        },
+
         summary: function (category, area, finish) {
             events_table.connect(function (err, client, done) {
                 var query = {
                     fields: ['id', 'title', 'summary', 'category'],
                     terms: {where: util.format('category = \'%s\' AND area = \'%s\'', category, area)}
                 };
-                events_table.select(client, query, function(err, result){
-                    if (err){
+                events_table.select(client, query, function (err, result) {
+                    done();
+                    if (err) {
                         finish(err);
                     } else {
                         finish(null, result.rows);
@@ -133,61 +178,55 @@ module.exports = function (apiary, cb) {
                 }
                 var date = new Date();
 
-                event_times_table.create(client, function (err, result) {
-                    console.log('creating table event times: %s, %s', err, result);
-                    events_table.create(client, function (err, result) {
-                        console.log('creating table events: %s, %s', err, result);
-                        var add_event_queue = async.queue(function (event, event_queue_callback) {
+                var add_event_queue = async.queue(function (event, event_queue_callback) {
 
-                            var record = {
-                                id: event.tmsId,
-                                source: 'tmsapi',
-                                title: event.title,
-                                poll_date: date,
-                                description: event.longDescription,
-                                summary: event.shortDescription,
-                                html: false,
-                                category: 'movie',
-                                repeating: true,
-                                area: '94103'
-                            };
+                    var record = {
+                        id: event.tmsId,
+                        source: 'tmsapi',
+                        title: event.title,
+                        poll_date: date,
+                        description: event.longDescription,
+                        summary: event.shortDescription,
+                        html: false,
+                        category: 'movie',
+                        repeating: true,
+                        area: '94103'
+                    };
 
-                            events_table.insert(client, record, ['id'])
-                                .then(function (result) {
-                                    var showtime_queue = async.queue(function (time, callback) {
-                                        event_times_table.insert(client, {
-                                            event_id: event.tmsId,
-                                            venue_id: time.theatre.id,
-                                            venue_name: time.theatre.name,
-                                            start_time: time.dateTime,
-                                            area: '94103'
-                                        }).then(function (result) {
-                                                callback();
-                                            }, function (err) {
-                                                console.log('time error: %s', err);
-                                                callback(err);
-                                            });
-                                    }, 5);
+                    events_table.insert(client, record, ['id'])
+                        .then(function (result) {
+                            var showtime_queue = async.queue(function (time, callback) {
+                                event_times_table.insert(client, {
+                                    event_id: event.tmsId,
+                                    venue_id: time.theatre.id,
+                                    venue_name: time.theatre.name,
+                                    start_time: time.dateTime,
+                                    area: '94103'
+                                }).then(function (result) {
+                                        callback();
+                                    }, function (err) {
+                                        console.log('time error: %s', err);
+                                        callback(err);
+                                    });
+                            }, 5);
 
-                                    showtime_queue.drain = event_queue_callback;
-                                    showtime_queue.push(event.showtimes);
+                            showtime_queue.drain = event_queue_callback;
+                            showtime_queue.push(event.showtimes);
 
-                                }, function (err) {
-                                    console.log('err: %s', err);
-                                    callback(err);
-                                });
+                        }, function (err) {
+                            console.log('err: %s', err);
+                            callback(err);
+                        });
 
-                        }, 10);
+                }, 10);
 
-                        add_event_queue.push(input);
+                add_event_queue.push(input);
 
-                        add_event_queue.drain = function (err) {
-                            finish(err);
-                        };
+                add_event_queue.drain = function (err) {
+                    finish(err);
+                };
 
-                    });
-                });
-            })
+            });
         },
 
         select: function (client, query, cb) {
@@ -212,5 +251,19 @@ module.exports = function (apiary, cb) {
         }
     };
 
-    cb(null, model)
+    // initializing tables, indices; may error out after first run
+    model.connect(function (err, client, done) {
+        event_times_table.create(client, function (err, result) {
+            console.log('creating table event times: %s, %s', err, result);
+            events_table.create(client, function (err, result) {
+                console.log('creating table events: %s, %s', err, result);
+                client.query('CREATE INDEX idx_area_cat ON events (area, category);', function () {
+                    client.query('CREATE INDEX idx_events ON event_times (event_id);', function () {
+                        done();
+                        cb(null, model);
+                    });
+                });
+            });
+        });
+    })
 };

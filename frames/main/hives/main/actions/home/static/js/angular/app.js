@@ -17,7 +17,7 @@
 
     angular.module('eventsService', ['ngResource']).factory('Events',
         function ($resource) {
-            return $resource('/rest/events/:category/:zip', {category: '@category', zip: '@zip'}, {
+            return $resource('/rest/event/:id', {id: '@id'}, {
                 query: {method: 'GET', isArray: true}
             });
         });

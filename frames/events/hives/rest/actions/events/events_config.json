@@ -1,5 +1,5 @@
 {
     "routes": {
-        "get": "/rest/events/:category/:area"
+        "get": ["/rest/event", "/rest/event/:id"]
     }
 }
