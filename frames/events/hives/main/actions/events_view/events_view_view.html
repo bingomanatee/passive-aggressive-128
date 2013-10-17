@@ -18,11 +18,7 @@
 
         </div>
 
-<span ng-repeat="event in events | filter: search_term">
-        <button ng-hide="event.expand" ng-clidk="expand_event(event)" class="btn btn-sm">{{ event.title }}</button>
-    <div ng-show="event.expand">
-        {{event.sumary }}
-    </div>
-        </span>
-    </div>
+<span ng-repeat="event in events | filter: search_term"><button ng-hide="event.expand" ng-clidk="expand_event(event)" class="btn btn-sm">{{ event.title }}</button><div ng-show="event.expand">
+        <p>{{event.summary }}</p>
+    </div></span></div>
 </div>
