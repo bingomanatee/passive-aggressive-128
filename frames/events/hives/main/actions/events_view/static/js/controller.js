@@ -47,6 +47,30 @@
 
         $scope.close_event = function(event){
             event.expand = false;
+        };
+
+        $scope.group_times = function(times){
+
+            var groups = _.groupBy(times, 'venue_id');
+
+            var now = new Date();
+
+            _.each(groups, function(time, venue_id){
+                var data = time[0];
+                data.starts = _.reduce(time, function(out, t){
+                    // only returning todays times.
+                    var start = new Date(t.start_time);
+                    if (start.getDate() == now.getDate() && start.getMonth() == now.getMonth()){
+                        out.push(start);
+                    }
+                    return out;
+                }, []);
+
+                groups[venue_id] = data;
+
+            });
+
+            return groups;
         }
 
     }
