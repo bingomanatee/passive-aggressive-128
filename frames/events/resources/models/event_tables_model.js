@@ -45,7 +45,7 @@ function _compress_events(results) {
 
 var _EVENT_ID_TIME_JOIN = _.template('SELECT e.id, e.title, e.source, e.description, e.summary, e.html, e.repeating, e.category, e.area, t.start_time, t.stop_time, t.all_day, t.venue_name, t.venue_id' +
     ' FROM events e LEFT JOIN event_times t ON t.event_id = e.id' +
-    ' WHERE e.id=<%= id %>' +
+    ' WHERE e.id=\'<%= id %>\'' +
     ' ORDER BY e.id, t.venue_id, t.start_time;');
 
 /* -------------- EXPORT --------------- */
