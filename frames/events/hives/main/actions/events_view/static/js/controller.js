@@ -38,6 +38,10 @@
             event.expand = !event.expand;
         }
 
+        $scope.close_event = function(event){
+            event.expand = false;
+        }
+
     }
 
     angular.module('paApp').controller('paEventsCtrl', paEventsCtrl);
