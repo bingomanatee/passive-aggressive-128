@@ -160,6 +160,9 @@ module.exports = function (apiary, cb) {
                     terms: {where: util.format('category = \'%s\' AND area = \'%s\'', category, area)}
                 };
                 events_table.select(client, query, function (err, result) {
+                    console.log('summary of cat %s, zip %s: result %s',
+                    category, area, util.inspect(result.rows.slice(0, 4))
+                    );
                     done();
                     if (err) {
                         finish(err);
