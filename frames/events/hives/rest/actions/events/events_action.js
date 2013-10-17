@@ -10,7 +10,7 @@ var fs = require('fs');
 module.exports = {
 
     on_validate: function (context, done) {
-        if (!content.category) {
+        if (!context.category) {
             done('no category')
         } else if (!context.area) {
             done('no area passed');
