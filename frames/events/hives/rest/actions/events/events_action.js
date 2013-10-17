@@ -21,7 +21,7 @@ module.exports = {
                 context.$send(event, done);
             })
         } else {
-            model.summary(context.category, context.area, function (err, results) {
+            model.summary(context.category, context.zip, function (err, results) {
                 if (err) return done(err);
                 context.$send(results, done);
             });
