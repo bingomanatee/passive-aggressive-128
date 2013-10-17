@@ -22,8 +22,8 @@ module.exports = {
     },
 
     on_output: function (context, done) {
-        context.$out.set('category_name', context.category);
-        context.$out.set('location_name', context.zip);
+        context.$out.set('category', context.category);
+        context.$out.set('zip', context.zip);
         done();
     }
 }
