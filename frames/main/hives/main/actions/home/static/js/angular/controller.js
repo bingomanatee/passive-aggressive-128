@@ -1,5 +1,7 @@
 (function(window){
 
+    var _event_url = _.template('/events/view/<%= event_type.id %>/<%= location.zip %>');
+
     function paHomeCtrl($scope, Locations, EventTypes){
         $scope.foo = 'bar';
 
@@ -40,6 +42,10 @@
         $scope.$watch('location', function(loc){
             refresh_ebs()
         })
+
+        $scope.view_events = function(ed){
+            document.location = _event_url(ed);
+        }
     }
 
     angular.module('paApp').controller('paHomeCtrl', paHomeCtrl);

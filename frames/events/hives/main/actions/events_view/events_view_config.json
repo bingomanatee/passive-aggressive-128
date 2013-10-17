@@ -1,0 +1,8 @@
+{
+    "routes": {
+
+        "get": "/events/view/:category/:zip"
+
+    }
+
+}
