@@ -115,7 +115,13 @@ module.exports = function (apiary, cb) {
                     fields: ['id', 'title', 'summary', 'category'],
                     terms: {where: util.format('category = \'%s\' AND area = \'%s\'', category, area)}
                 };
-                events_table.select(client, query, finish);
+                events_table.select(client, query, function(err, result){
+                    if (err){
+                        finish(err);
+                    } else {
+                        finish(null, result.rows);
+                    }
+                });
             })
         },
 
