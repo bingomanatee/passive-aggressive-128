@@ -17,7 +17,7 @@
 
             <p>Choose which events to view:</p>
 
-            <button ng-repeat="eb in event_buttons" class="btn event-{{eb.event.id}}"
+            <button ng-repeat="eb in event_buttons" class="btn event-{{eb.event_type.id}}"
                     ng_click="view_events(eb)"
                     title="{{eb.event_type.label}} within 100 miles of zip code {{ eb.location.zip }}">
                 {{eb.event_type.label}} in {{eb.location.name }}
