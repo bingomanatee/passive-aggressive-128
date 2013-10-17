@@ -10,9 +10,11 @@ var fs = require('fs');
 module.exports = {
 
     on_validate: function (context, done) {
-        if (!context.area){
+        if (!content.category) {
+            done('no category')
+        } else if (!context.area) {
             done('no area passed');
-        } else if (!_.contains(['94103'], context.area)){
+        } else if (!_.contains(['94103'], context.area)) {
             done('bad area code ' + context.area);
         } else {
             done();
@@ -21,8 +23,8 @@ module.exports = {
 
     on_input: function (context, done) {
         var model = this.model('event_tables');
-        model.summary('movie', context.area, function(err, results){
-            if(err) return done(err);
+        model.summary(context.category, context.area, function (err, results) {
+            if (err) return done(err);
             context.$send(results, done);
         });
     },

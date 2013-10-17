@@ -52,7 +52,7 @@ module.exports = function (apiary, cb) {
     var model = {
         name: 'event_tables',
 
-        summary: function (category, area, finish) {
+        full_listing: function (category, area, finish) {
             area += '';
             events_table.connect(function (err, client, done) {
                 if (err) {
@@ -109,8 +109,18 @@ module.exports = function (apiary, cb) {
             });
         },
 
+        summary: function (category, area, finish) {
+            events_table.connect(function (err, client, done) {
+                var query = {
+                    fields: ['id', 'title', 'summary', 'category'],
+                    terms: {where: util.format('category = \'%s\' AND area = \'%s\'', category, area)}
+                };
+                events_table.select(client, query, finish);
+            })
+        },
+
         load_tmsapi_tables: function (input, finish) {
-            console.log('loading tmsi tables from data %s', util.format(input.slice(0,4)));
+            console.log('loading tmsi tables from data %s', util.format(input.slice(0, 4)));
             events_table.connect(function (err, client, done) {
                 if (err) {
                     return finish(err);
@@ -179,8 +189,8 @@ module.exports = function (apiary, cb) {
         },
 
         connect: function (cb) {
-            events_table.connect(function (err, client, done){
-                if (err){
+            events_table.connect(function (err, client, done) {
+                if (err) {
                     console.log('ERROR CANNOT CONNECT TO DATABASE');
                     cb(err);
                 } else {
@@ -189,9 +199,9 @@ module.exports = function (apiary, cb) {
             });
         },
 
-        truncate: function(client, cb){
-            events_table.truncate(client, function(){
-                event_times_table.truncate(client,cb);
+        truncate: function (client, cb) {
+            events_table.truncate(client, function () {
+                event_times_table.truncate(client, cb);
             })
         }
     };
