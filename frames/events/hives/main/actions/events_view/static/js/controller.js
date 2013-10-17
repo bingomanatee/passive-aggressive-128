@@ -36,7 +36,7 @@
 
         $scope.expand_event = function(event){
             event.expand = !event.expand;
-            Events.get(event.id, function(event_data){
+            Events.get({id: event.id}, function(event_data){
                 _.extend(event, event_data);
             })
         }
