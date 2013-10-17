@@ -35,7 +35,7 @@
             "name": "app"
         },
         {
-            "url": "/js/home/events_view/controller.js",
+            "url": "/js/events_view/controller.js",
             "context": "foot",
             "defer": "true",
             "requires": ["angular", "app", "underscore"]
