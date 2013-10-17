@@ -32,7 +32,7 @@
             return $scope.event_type ? $scope.event_type.label : $scope.category;
         }
 
-        $scope.expand_event(event){
+        $scope.expand_event = function(event){
             event.expand = !event.expand;
         }
 
