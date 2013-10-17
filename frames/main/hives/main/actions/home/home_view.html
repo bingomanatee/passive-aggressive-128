@@ -1,11 +1,11 @@
 <div ng-app="paApp">
-    <div ng-controller="paHomeCtrl" ng-cloak>
+    <div ng-controller="paHomeCtrl" ng-cloak id="paHomeCtrl">
 
         <h1>Welcome to the Passive Agressive Events Listing!</h1>
 
         <p>Select your location: {{ foo }}</p>
 
-        <button ng-repeat="loc in locations" class="btn btn-large"
+        <button ng-repeat="loc in locations" class="btn btn-large locationButton {{loc.code}}"
                 ng-show="show_loc_button(loc)"
                 ng-click="set_loc(loc)"
                 title="within 100 miles of zip code {{ loc.zip }}">{{ loc.name }}</button>
@@ -17,7 +17,7 @@
 
             <p>Choose which events to view:</p>
 
-            <button ng-repeat="eb in event_buttons" class="btn"
+            <button ng-repeat="eb in event_buttons" class="btn {{eb.event.id}}"
                     title="{{eb.event_type.label}} within 100 miles of zip code {{ eb.location.zip }}">
                 {{eb.event_type.label}} in {{eb.location.name }}
             </button>
