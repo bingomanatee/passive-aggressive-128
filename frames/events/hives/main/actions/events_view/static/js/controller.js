@@ -36,7 +36,14 @@
 
         $scope.expand_event = function(event){
             event.expand = !event.expand;
+            Events.get(event.id, function(event_data){
+                _.extend(event, event_data);
+            })
         }
+
+        $scope.event_text = function(event){
+            return _.compact([event.description, event.summary, ' -- no description available --'])[0];
+        };
 
         $scope.close_event = function(event){
             event.expand = false;

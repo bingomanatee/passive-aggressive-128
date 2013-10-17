@@ -7,8 +7,6 @@
 </script>
 <div ng-app="paApp">
     <div ng-controller="paEventsCtrl" ng-cloak id="paEventsCtrl">
-
-
         <h1>{{category_label()}} in zip {{place_label()}} </h1>
 
         <div>
@@ -18,8 +16,19 @@
 
         </div>
 
-<span ng-repeat="event in events | filter: search_term"><button ng-hide="event.expand" ng-click="expand_event(event)" class="btn btn-sm">{{ event.title }}</button><div ng-show="event.expand">
-    <h2>{{event.title }}</h2>
-        <p>{{event.summary }} <button ng-click="close_event(event)">&times;</button></p>
-    </div></span></div>
+        <span ng-repeat="event in events | filter: search_term">
+            <button ng-hide="event.expand" ng-click="expand_event(event)" class="btn btn-sm">{{ event.title }}</button>
+            <div ng-show="event.expand">
+                <h2>{{ event.title }}</h2>
+
+                <p>{{ event_text(event) }} </p>
+
+                <dl>
+                    <dt ng-repeat-start="time in event.times">{{time.venue_name }}</dt>
+                    <dd repeat-end>{{time.start_time}}</dd>
+                </dl>
+                <button ng-click="close_event(event)">&times; close</button>
+            </div>
+        </span>
+    </div>
 </div>

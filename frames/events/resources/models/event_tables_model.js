@@ -65,6 +65,7 @@ module.exports = function (apiary, cb) {
         .add('end_time', 'timestamp')
         .add('all_day', 'boolean')
         .add('category', 'varchar', 64)
+        .add('venue_name', 'varchar', 64)
         .add('venue_id', 'varchar', 64)
         .add('area', 'varchar', 16);
 
