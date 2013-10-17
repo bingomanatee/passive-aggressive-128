@@ -1,8 +1,47 @@
 {
     "routes": {
-
         "get": "/events/view/:category/:zip"
+    },
+    "static": {
+        "js": "/js/events_view",
+        "css": "/css/events_view",
+        "img": "/img/homevents_viewe"
+    },
+    "javascript": [
+        {
+            "url": "/js/home/vendor/underscore-min.js",
+            "context": "foot",
+            "defer": "true",
+            "name": "underscore"
+        },
+        {
+            "url": "/js/home/vendor/angular/angular.min.js",
+            "context": "foot",
+            "defer": "true",
+            "name": "angular"
+        },
+        {
+            "url": "/js/home/vendor/angular/angular-resource.min.js",
+            "context": "foot",
+            "defer": "true",
+            "name": "angular-resource",
+            "requires": ["angular"]
+        },
+        {
+            "url": "/js/home/angular/app.js",
+            "context": "foot",
+            "requires": ["angular"],
+            "defer": "true",
+            "name": "app"
+        },
+        {
+            "url": "/js/home/events_view/controller.js",
+            "context": "foot",
+            "defer": "true",
+            "requires": ["angular", "app", "underscore"]
+        }
 
-    }
+
+    ]
 
 }
