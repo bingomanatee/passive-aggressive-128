@@ -16,6 +16,8 @@
 
         $scope.event_types = EventTypes.query();
 
+        $scope.search_term = {};
+
         $scope.events = Events.query($window._pa_search_query);
 
         $scope.$watch('event_types', function (event_types) {
