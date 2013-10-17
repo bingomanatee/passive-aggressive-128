@@ -18,6 +18,7 @@
     angular.module('eventsService', ['ngResource']).factory('Events',
         function ($resource) {
             return $resource('/rest/event/:id', {id: '@id'}, {
+                get: {method: 'GET'},
                 query: {method: 'GET', isArray: true}
             });
         });
