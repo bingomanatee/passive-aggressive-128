@@ -27,7 +27,7 @@
         }
 
         $scope.category_label = function(){
-            return $scope.event_type ? $scope.event_type.name : $scope.category;
+            return $scope.event_type ? $scope.event_type.label : $scope.category;
         }
 
     }
