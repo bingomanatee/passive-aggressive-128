@@ -30,7 +30,7 @@
                 <ul>
                     <li ng-repeat="time in group_times(event.times)">{{time.venue_name}}:
                     <ul>
-                        <li ng-repeat="start in time.starts">{{start | date:'MM/DD: HH-mm'}} ({{start}})</li>
+                        <li ng-repeat="start in time.starts" title="{{start}}">{{start | date:'MMM/dd hh:mm a'}} </li>
                     </ul>
 
                     </li>
