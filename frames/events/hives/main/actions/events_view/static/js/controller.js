@@ -1,6 +1,6 @@
 (function (window) {
 
-    function paEventsCtrl($scope, Locations, EventTypes, $window) {
+    function paEventsCtrl($scope, Locations, EventTypes, Events, $window) {
         $scope.zip = $window._pa_search_query.zip;
         $scope.category = $window._pa_search_query.category;
 
@@ -15,6 +15,8 @@
         $scope.location = null;
 
         $scope.event_types = EventTypes.query();
+
+        $scope.events = Events.query($window._pa_search_query);
 
         $scope.$watch('event_types', function (event_types) {
             $scope.event_type = _.find(event_types, function (et) {

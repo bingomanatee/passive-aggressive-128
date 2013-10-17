@@ -15,6 +15,13 @@
             });
         });
 
-    angular.module('paApp', ['locationsService', 'eventTypesService']);
+    angular.module('eventsService', ['ngResource']).factory('Events',
+        function ($resource) {
+            return $resource('/rest/events/:category/:zip', {category: '@category', zip: '@zip'}, {
+                query: {method: 'GET', isArray: true}
+            });
+        });
+
+    angular.module('paApp', ['locationsService', 'eventsService', 'eventTypesService']);
 
 })();
