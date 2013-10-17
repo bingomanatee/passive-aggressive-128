@@ -7,8 +7,18 @@
 </script>
 <div ng-app="paApp">
     <div ng-controller="paEventsCtrl" ng-cloak id="paEventsCtrl">
+
+
         <h1>{{category_label()}} in zip {{place_label()}} </h1>
 
-        <button class="btn btn-small" ng-repeat="event in events">{{ event.title }}</button>
+        <form role="search">
+            <div class="form-group">
+                <span class="glyphicon glyphicon-search"></span>
+                <input type="text" class="form-control" placeholder="Search" ng-model="search_term" />
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+
+        <button class="btn btn-small" ng-repeat="event in events | filter: search_term">{{ event.title }}</button>
     </div>
 </div>
