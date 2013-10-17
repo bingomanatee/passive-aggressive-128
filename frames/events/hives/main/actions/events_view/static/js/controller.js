@@ -32,6 +32,10 @@
             return $scope.event_type ? $scope.event_type.label : $scope.category;
         }
 
+        $scope.expand_event(event){
+            event.expand = !event.expand;
+        }
+
     }
 
     angular.module('paApp').controller('paEventsCtrl', paEventsCtrl);

@@ -12,12 +12,17 @@
         <h1>{{category_label()}} in zip {{place_label()}} </h1>
 
         <div>
-        <label for="search-input">Search</label>
-            <input type="text" class="input input-xlarge" placeholder="Search" id="search-input" ng-model="search_term" />
+            <label for="search-input">Search</label>
+            <input type="text" class="input input-xlarge" placeholder="Search" id="search-input"
+                   ng-model="search_term"/>
 
         </div>
 
-
-        <button class="btn btn-sm" ng-repeat="event in events | filter: search_term">{{ event.title }}</button>
+<span ng-repeat="event in events | filter: search_term">
+        <button ng-hide="event.expand" ng-clidk="expand_event(event)" class="btn btn-sm">{{ event.title }}</button>
+    <div ng-show="event.expand">
+        {{event.sumary }}
+    </div>
+        </span>
     </div>
 </div>
