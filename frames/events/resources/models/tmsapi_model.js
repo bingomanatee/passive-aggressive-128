@@ -63,8 +63,9 @@ module.exports = function (apiary, cb) {
      */
 
     function _poll_api(zip, cb) {
-        console.log('POLLING API......... %s', zip);
-        request.get(_params(zip), function (err, req, body) {
+        var p = _params(zip);
+        console.log('POLLING API......... %s', util.inspect(p));
+        request.get(p, function (err, req, body) {
             if (err) {
                 cb(err);
             } else {
@@ -90,17 +91,6 @@ module.exports = function (apiary, cb) {
                         }
 
                     });
-              /*
-                    redis.set(zip + '', str_data, function (err, result) {
-                        if (err) {
-                            return cb(err);
-                        } else if (!result) {
-                            return cb(new Error('cannot get data for result ' + zip));
-                        }
-                        console.log('result: of zip %s: %s', zip, result.substr(0, 100));
-
-
-                    });*/
                 } catch (err) {
                     cb(err);
                 }
