@@ -34,7 +34,7 @@ module.exports = {
                             var start = new moment(time.start_time);
                             console.log('moment time: %s', start.format(F));
                             start.add('hours', loc.timezone);
-                            console.llg('after adding hours: %s: %s', loc.timezone, start.format(F));
+                            console.log('after adding hours: %s: %s', loc.timezone, start.format(F));
                             time.start_time = start.format(F);
                             return time;
                         })
