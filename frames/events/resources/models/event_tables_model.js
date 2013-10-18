@@ -175,6 +175,7 @@ module.exports = function (apiary, cb) {
         },
 
         load_tmsapi_tables: function (input, zip, finish) {
+            zip += '';
             console.log('loading tmsi tables from data %s', util.format(input.slice(0, 4)).substr(0, 200));
             events_table.connect(function (err, client, done) {
                 if (err) {
