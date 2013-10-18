@@ -249,9 +249,20 @@ module.exports = function (apiary, cb) {
         },
 
         truncate: function (client, cb) {
-            events_table.truncate(client, function () {
-                event_times_table.truncate(client, cb);
-            })
+            if (!callback && _.isFunction(client)) {
+                cb = client;
+                return model.connect(function (err, real_client, done) {
+                    if (err) return cb(err);
+                    model.truncate(real_client, function () {
+                        done();
+                        cb();
+                    });
+                });
+            } else {
+                events_table.truncate(client, function () {
+                    event_times_table.truncate(client, cb);
+                })
+            }
         }
     };
 

@@ -19,11 +19,11 @@ module.exports = function (apiary, cb) {
         var tmsapi_model = apiary.model('tmsapi');
         var location_model = apiary.model('locations');
 
-        location_model.locations.forEach(function (loc) {
-
-            tmsapi_model.poll_api(loc.zip, _.identity);
-        })
-
+        tmsapi_model.truncate(function () {
+            location_model.locations.forEach(function (loc) {
+                tmsapi_model.poll_api(loc.zip, _.identity);
+            })
+        });
     }
 
     cb(null, {
