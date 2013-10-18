@@ -249,7 +249,7 @@ module.exports = function (apiary, cb) {
         },
 
         truncate: function (client, cb) {
-            if (!callback && _.isFunction(client)) {
+            if (!cb && _.isFunction(client)) {
                 cb = client;
                 return model.connect(function (err, real_client, done) {
                     if (err) return cb(err);
