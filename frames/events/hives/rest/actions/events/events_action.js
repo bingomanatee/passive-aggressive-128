@@ -32,7 +32,7 @@ module.exports = {
                         event.times = event.times.map(function(time){
                             var start = new moment(time.start_time);
                             start.add('hours', loc.timezone);
-                            time.start_time = time.format(); // ISO date
+                            time.start_time = start.format(); // ISO date
                             return time;
                         })
                     }
