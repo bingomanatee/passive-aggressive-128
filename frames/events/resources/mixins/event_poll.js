@@ -18,8 +18,9 @@ module.exports = function (apiary, cb) {
     function poll() {
         var tmsapi_model = apiary.model('tmsapi');
         var location_model = apiary.model('locations');
+        var et_model = apiary.model('event_tables');
 
-        tmsapi_model.truncate(function () {
+        et_model.truncate(function () {
             location_model.locations.forEach(function (loc) {
                 tmsapi_model.poll_api(loc.zip, _.identity);
             })
