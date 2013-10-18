@@ -5,7 +5,7 @@ var fs = require('fs');
 var moment = require('moment');
 
 /* ------------ CLOSURE --------------- */
-
+var F = 'YYYY-MM-DD HH:mm';
 /* -------------- EXPORT --------------- */
 
 module.exports = {
@@ -30,9 +30,12 @@ module.exports = {
                     console.log('offsetting event times with location %s', util.inspect(loc));
                     if (loc){
                         event.times = event.times.map(function(time){
+                            console.log('start time: %s', time.start_time);
                             var start = new moment(time.start_time);
+                            console.log('moment time: %s', start.format(F));
                             start.add('hours', loc.timezone);
-                            time.start_time = start.format(); // ISO date
+                            console.llg('after adding hours: %s: %s', loc.timezone, start.format(F));
+                            time.start_time = start.format(F);
                             return time;
                         })
                     }

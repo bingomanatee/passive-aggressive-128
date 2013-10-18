@@ -18,7 +18,7 @@ module.exports = function (apiary, cb) {
     function poll(loc) {
         var tmsapi_model = apiary.model('tmsapi');
 
-        return function(){
+        return function () {
             tmsapi_model.poll_api(loc.zip, _.identity);
         }
 
@@ -31,12 +31,11 @@ module.exports = function (apiary, cb) {
             var chronometer = apiary.get_config('chronometer');
             var location_model = apiary.model('locations');
             var et_model = apiary.model('event_tables');
-            et_model.truncate(function () {
-                location_model.locations.forEach(function (loc, i) {
-                    chronometer.add_time_listener('poll data', poll(loc), EVERY_SIX_HOURS + (i * 1000 * 10));
-                    setTimeout(poll(loc), i * 1000 * 10);
-                })
-            });
+
+            location_model.locations.forEach(function (loc, i) {
+                chronometer.add_time_listener('poll data', poll(loc), EVERY_SIX_HOURS + (i * 1000 * 10));
+                setTimeout(poll(loc), i * 1000 * 10);
+            })
             done();
         }
     }); // end callback

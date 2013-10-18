@@ -22,11 +22,7 @@ module.exports = {
         var event_tables_model = this.model('event_tables');
         event_tables_model.connect(function(err, client, finish){
             event_tables_model.truncate(client, function(){
-                tmsapi_model.flush(function(){
-                    finish();
-                    done();
-
-                })
+               done();
             })
         })
     },
