@@ -30,7 +30,7 @@ module.exports = function (apiary, cb) {
         respond: function (done) {
             var chronometer = apiary.get_config('chronometer');
             var location_model = apiary.model('locations');
-            var et_model = apiary.model('event_times');
+            var et_model = apiary.model('event_tables');
             et_model.truncate(function () {
                 location_model.locations.forEach(function (loc) {
                     chronometer.add_time_listener('poll data', poll(loc), EVERY_SIX_HOURS);
