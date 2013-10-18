@@ -72,7 +72,7 @@ module.exports = function (apiary, cb) {
                 try {
                     var data = JSON.parse(body);
                //     var str_data = JSON.stringify(_current_data(data));
-                    console.log('saving %s records of %s data ...', zip, data.length,  body.substr(0, 100));
+                    console.log('saving %s records of %s data ...', zip, data.length,  body.substr(0, 2));
 
                     var events_table_model = apiary.model('event_tables');
 
@@ -113,18 +113,7 @@ module.exports = function (apiary, cb) {
     }
 
     function _get_movies(zip, cb) {
-        zip = parseInt(zip);
-        redis.get(zip + '', function (err, value) {
-            if (value) {
-                console.log('getting zip %s: %s', zip, value.substr(0, 50));
-                cb(null, JSON.parse(value).data);
-            } else if (err) {
-                console.log('error: %s', err);
-                cb(err);
-            } else {
-                model.poll_api(zip, cb);
-            }
-        })
+        model.poll_api(zip, cb);
     }
 
     function _current_data(data) {
