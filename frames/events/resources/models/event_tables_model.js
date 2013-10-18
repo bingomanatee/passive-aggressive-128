@@ -174,7 +174,7 @@ module.exports = function (apiary, cb) {
             })
         },
 
-        load_tmsapi_tables: function (input, finish) {
+        load_tmsapi_tables: function (input, zip, finish) {
             console.log('loading tmsi tables from data %s', util.format(input.slice(0, 4)).substr(0, 200));
             events_table.connect(function (err, client, done) {
                 if (err) {
@@ -194,7 +194,7 @@ module.exports = function (apiary, cb) {
                         html: false,
                         category: 'movie',
                         repeating: true,
-                        area: '94103'
+                        area: zip
                     };
 
                     events_table.insert(client, record, ['id'])
@@ -205,7 +205,7 @@ module.exports = function (apiary, cb) {
                                     venue_id: time.theatre.id,
                                     venue_name: time.theatre.name,
                                     start_time: time.dateTime,
-                                    area: '94103'
+                                    area: zip
                                 }).then(function (result) {
                                         callback();
                                     }, function (err) {

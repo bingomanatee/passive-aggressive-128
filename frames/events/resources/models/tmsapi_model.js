@@ -85,7 +85,7 @@ module.exports = function (apiary, cb) {
                             client.query(util.format("DELETE from events WHERE area = '%s'", zip), function () {
                                 client.query(util.format("DELETE from event_times WHERE area = '%s'", zip), function () {
                                     client.end();
-                                    events_table_model.load_tmsapi_tables(data, cb);
+                                    events_table_model.load_tmsapi_tables(data, zip, cb);
                                 });
                             });
                         }
