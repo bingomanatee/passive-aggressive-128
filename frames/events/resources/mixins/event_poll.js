@@ -15,16 +15,13 @@ var EVERY_SIX_HOURS = 60 * 12;
 
 module.exports = function (apiary, cb) {
 
-    function poll() {
+    function poll(loc) {
         var tmsapi_model = apiary.model('tmsapi');
-        var location_model = apiary.model('locations');
-        var et_model = apiary.model('event_tables');
 
-        et_model.truncate(function () {
-            location_model.locations.forEach(function (loc) {
-                tmsapi_model.poll_api(loc.zip, _.identity);
-            })
-        });
+        return function(){
+            tmsapi_model.poll_api(loc.zip, _.identity);
+        }
+
     }
 
     cb(null, {
@@ -32,8 +29,13 @@ module.exports = function (apiary, cb) {
         weight: 10000,
         respond: function (done) {
             var chronometer = apiary.get_config('chronometer');
-            chronometer.add_time_listener('poll data', poll, EVERY_SIX_HOURS);
-            poll();
+            var location_model = apiary.model('locations');
+            et_model.truncate(function () {
+                location_model.locations.forEach(function (loc) {
+                    chronometer.add_time_listener('poll data', poll(loc), EVERY_SIX_HOURS);
+                    process.nextTick(poll(loc))
+                })
+            });
             done();
         }
     }); // end callback

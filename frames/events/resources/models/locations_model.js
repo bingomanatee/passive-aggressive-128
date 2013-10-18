@@ -26,8 +26,8 @@ module.exports = function (apiary, cb) {
     model = {
         name: 'locations',
         locations: [],
-        add_location: function (zip, name, code) {
-            model.locations.push(new Location(zip, name, code));
+        add_location: function (zip, name, code, timezone) {
+            model.locations.push(new Location(zip, name, code, timezone));
             return model;
         },
 
