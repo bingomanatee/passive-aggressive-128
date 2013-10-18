@@ -32,9 +32,9 @@ module.exports = function (apiary, cb) {
             var location_model = apiary.model('locations');
             var et_model = apiary.model('event_tables');
             et_model.truncate(function () {
-                location_model.locations.forEach(function (loc) {
-                    chronometer.add_time_listener('poll data', poll(loc), EVERY_SIX_HOURS);
-                    process.nextTick(poll(loc))
+                location_model.locations.forEach(function (loc, i) {
+                    chronometer.add_time_listener('poll data', poll(loc), EVERY_SIX_HOURS + (i * 1000 * 10));
+                    setTimeout(poll(loc), i * 1000 * 10);
                 })
             });
             done();
