@@ -70,9 +70,27 @@ module.exports = function (apiary, cb) {
             } else {
                 try {
                     var data = JSON.parse(body);
-                    var str_data = JSON.stringify(_current_data(data));
-                    console.log('saving %s data ...', zip, str_data.substr(0, 100));
+               //     var str_data = JSON.stringify(_current_data(data));
+                    console.log('saving %s records of %s data ...', zip, data.length,  body.substr(0, 100));
 
+                    var events_table_model = apiary.model('event_tables');
+
+                    events_table_model.connect(function (err, client) {
+
+                        if (err) {
+                            cb(err);
+                        } else {
+
+                            client.query(util.format("DELETE from events WHERE area = '%s'", zip), function () {
+                                client.query(util.format("DELETE from event_times WHERE area = '%s'", zip), function () {
+                                    client.end();
+                                    events_table_model.load_tmsapi_tables(data, cb);
+                                });
+                            });
+                        }
+
+                    });
+              /*
                     redis.set(zip + '', str_data, function (err, result) {
                         if (err) {
                             return cb(err);
@@ -81,25 +99,8 @@ module.exports = function (apiary, cb) {
                         }
                         console.log('result: of zip %s: %s', zip, result.substr(0, 100));
 
-                        var events_table_model = apiary.model('event_tables');
 
-                        events_table_model.connect(function (err, client) {
-
-                            if (err) {
-                                cb(err);
-                            } else {
-
-                                client.query(util.format("DELETE from events WHERE area = '%s'", zip), function () {
-                                    client.query(util.format("DELETE from event_times WHERE area = '%s'", zip), function () {
-                                        client.end();
-                                        events_table_model.load_tmsapi_tables(data, cb);
-                                    });
-                                });
-                            }
-
-                        })
-
-                    });
+                    });*/
                 } catch (err) {
                     cb(err);
                 }
