@@ -33,7 +33,7 @@ tap.test('pg', {timeout: 1000 * 10, skip: false }, function (suite) {
             .add('name', 'char', 20)
             .add('date created', 'date');
 
-        test.deepEqual(space_table.create_sql(), "CREATE TABLE \"space ghost\" (\nid integer(PRIMARY) ,\nname char(20) ,\n\"date created\" date );", 'create SQL 2 - with spaces');
+        test.deepEqual(space_table.create_sql(), "CREATE TABLE 'space ghost' (\nid integer(PRIMARY) ,\nname char(20) ,\n'date created' date );", 'create SQL 2 - with spaces');
 
         test.end();
     });
@@ -46,7 +46,7 @@ tap.test('pg', {timeout: 1000 * 10, skip: false }, function (suite) {
 
         test.equal(foo.select_sql({}), 'SELECT * FROM foos;', 'select_sql');
         test.equal(foo.select_sql({fields: ['name']}), 'SELECT name FROM foos;', 'select_sql 1');
-        test.equal(foo.select_sql({fields: ['name', 'venue id']}), 'SELECT name,"venue id" FROM foos;', 'select_sql 2');
+        test.equal(foo.select_sql({fields: ['name', 'venue id']}), "SELECT name,'venue id' FROM foos;", 'select_sql 2');
 
         var space_table = new pg_lib.Table('space ghost')
             .add('id', 'integer', ['PRIMARY'])
@@ -54,9 +54,9 @@ tap.test('pg', {timeout: 1000 * 10, skip: false }, function (suite) {
             .add('date created', 'date');
 
 
-        test.equal(space_table.select_sql({}), "SELECT * FROM \"space ghost\";", 'select_sql 3');
+        test.equal(space_table.select_sql({}), "SELECT * FROM 'space ghost';", 'select_sql 3');
         // note - the column 'badcolumn' is not present so it is dropped
-        test.equal(space_table.select_sql({fields: ['badcolumn', 'date created']}), "SELECT \"date created\" FROM \"space ghost\";", 'select_sql 4');
+        test.equal(space_table.select_sql({fields: ['badcolumn', 'date created']}), "SELECT 'date created' FROM 'space ghost';", 'select_sql 4');
 
         test.end();
     });
@@ -71,7 +71,7 @@ tap.test('pg', {timeout: 1000 * 10, skip: false }, function (suite) {
     });
 
 
-    suite.test('insert sql', function (test) {
+    suite.test('insert sql', {}, function (test) {
 
         var glummy = new pg_lib.Table('rummy', {host: 'apicdn:1234', database: 'beerville'})
             .add('id', 'integer', ['PRIMARY'])
@@ -80,8 +80,29 @@ tap.test('pg', {timeout: 1000 * 10, skip: false }, function (suite) {
             .add('popularity', 'float')
             .add('notes', 'text');
 
-        test.equal(glummy.insert_sql({name: 'bob', 'area code': 503, 'popularity': 2.3, notes: 'a friend'}),
-            'INSERT INTO rummy (name,"area code",popularity,notes) VALUES (\'bob\',503,2.3,\'a friend\');', 'insert string');
+        test.equal(glummy.insert.insert_sql(glummy, {name: 'bob', 'area code': 503, 'popularity': 2.3, notes: 'a friend'}),
+            "INSERT INTO rummy (name,'area code',popularity,notes) VALUES ('bob',503,2.3,'a friend');", 'insert string');
+        test.end();
+    });
+
+    suite.test('inserts sql', {}, function (test) {
+
+        var glummy = new pg_lib.Table('rummy', {host: 'apicdn:1234', database: 'beerville'})
+            .add('id', 'integer', ['PRIMARY'])
+            .add('name', 'char', 32)
+            .add('area code', 'int')
+            .add('popularity', 'float')
+            .add('notes', 'text');
+
+        var rows = [
+            {name: 'bob', 'area code': 503, 'popularity': 2.3, notes: 'a friend'},
+            {name: 'rob', 'area code': 503, 'popularity': 4.3, notes: 'a better friend'}
+        ];
+
+        var isql = glummy.inserts.insert_sql(glummy, rows);
+
+        test.equal(isql,
+            "INSERT INTO rummy (name,'area code',popularity,notes) VALUES (('bob',503,2.3,'a friend'),('rob',503,4.3,'a better friend'));", 'insert mulit string');
         test.end();
     });
 

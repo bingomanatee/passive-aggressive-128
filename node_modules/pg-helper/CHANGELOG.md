@@ -27,3 +27,7 @@ allowing for string definition of connection DB
 ## 0.0.7
 
 adding truncate
+
+## 0.0.8
+
+using single quotes for spaced fields; adding inserts for multi row inserts; using seperate files for table methods

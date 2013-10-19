@@ -46,3 +46,27 @@ body {
 .cities .active {
     background-color: rgb(255, 131, 2);
 }
+
+.event-times {
+    padding: 0.5em;
+    margin: 0.5em;
+    width: 20%;
+    display: inline-block;
+    border: 1px solid rgb(100,100,100);
+}
+.event-times h3.event-times-venu {
+    font-size: 150%;
+    margin: 0;
+    padding: 0;
+}
+
+.event-times li {
+    list-style-type: none;
+    margin-left: 0;
+    padding-le: 0;
+}
+
+.event-times i {
+    color: rgb(150,150,150);
+    font-style: normal;
+}

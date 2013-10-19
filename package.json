@@ -1,45 +1,47 @@
 {
-  "name": "passive-aggressive-1248",
-  "version": "0.0.1",
-  "description": "A hive-mvc sample app",
-  "main": "web.js",
-  "engines": {
-    "node": ">=0.10.15"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/bingomanatee/passive-aggressive-1248.git"
-  },
-  "keywords": [
-    "hive-mvc"
-  ],
-  "author": "David Edelhart",
-  "license": "BSD",
-  "bugs": {
-    "url": "https://github.com/bingomanatee/wonderland/issues"
-  },
-  "dependencies": {
-    "hive-loader": "0.0.2",
-    "hive-component": "0.0.1-a",
-    "hive-mvc": "~0.1.0",
-    "passport": "~0.1.17",
-    "express": "~3.3.8",
-    "ejs": "~0.8.4",
-    "gate": "~0.3.0",
-    "underscore": "~1.5.1",
-    "async": "~0.2.9",
-    "hive-menu": "0.0.1",
-    "request": "~2.27.0",
-    "moment": "~2.3.1",
-    "redis": "~0.8.6",
-    "pg": "~2.7.0",
-    "q": "~0.9.7",
-    "pg-helper": "0.0.7"
-  },
-  "devDependencies": {
-    "tap": "~0.4.4"
-  }
+    "name": "passive-aggressive-1248",
+    "version": "0.0.1",
+    "description": "A hive-mvc sample app",
+    "main": "web.js",
+    "engines": {
+        "node": ">=0.10.15"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/bingomanatee/passive-aggressive-1248.git"
+    },
+    "keywords": [
+        "hive-mvc"
+    ],
+    "author": "David Edelhart",
+    "license": "BSD",
+    "bugs": {
+        "url": "https://github.com/bingomanatee/wonderland/issues"
+    },
+    "dependencies": {
+        "hive-loader": "0.0.2",
+        "hive-component": "0.0.1-a",
+        "hive-mvc": "~0.1.0",
+        "passport": "~0.1.17",
+        "express": "~3.3.8",
+        "ejs": "~0.8.4",
+        "gate": "~0.3.0",
+        "underscore": "~1.5.1",
+        "async": "~0.2.9",
+        "hive-menu": "0.0.1",
+        "request": "~2.27.0",
+        "moment": "~2.3.1",
+        "hive-loader": "0.0.2",
+        "hive-component": "0.0.1-a",
+        "redis": "~0.8.6",
+        "pg": "~2.7.0",
+        "q": "~0.9.7",
+        "pg-helper": "0.0.8"
+    },
+    "devDependencies": {
+        "tap": "~0.4.4"
+    }
 }

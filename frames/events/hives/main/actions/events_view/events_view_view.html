@@ -23,18 +23,13 @@
 
                 <p>{{ event_text(event) }} </p>
 
-                <dl>
-                    <dt ng-repeat-start="time in event.times">{{time.venue_name }}</dt>
-                    <dd ng-repeat-end>{{time.start_time}}</dd>
-                </dl>
-                <ul>
-                    <li ng-repeat="time in group_times(event.times)">{{time.venue_name}}:
+                <div class="event-times" ng-repeat="time in group_times(event.times)" >
+                    <h3 class="event-times-venue">{{time.venue_name}}: </h3>
                     <ul>
-                        <li ng-repeat="start in time.starts" title="{{start}}">{{start | date:'MMM/dd hh:mm a'}} </li>
+                        <li ng-repeat="start in time.starts" title="{{start}}"><i>{{start | date:'MMM dd'}}</i> {{start | date:'hh:mm a'}} </li>
                     </ul>
 
-                    </li>
-                </ul>
+                </div>
                 <button ng-click="close_event(event)">&times; close</button>
             </div>
         </span>

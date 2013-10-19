@@ -1,0 +1,10 @@
+{
+    "routes": {
+        "get": "/poll/:zip"
+
+    },
+
+    "handler_failsafe_time": 10000000
+
+
+}

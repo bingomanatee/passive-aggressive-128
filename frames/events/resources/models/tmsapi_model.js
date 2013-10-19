@@ -6,27 +6,22 @@ var request = require('request');
 var crypto = require('crypto');
 var _DEBUG = false;
 var moment = require('moment');
+/*
+ var redis;
+ if (process.env.REDISTOGO_URL) {
+ console.log('redis url: %s', process.env.REDISTOGO_URL);
+ var rtg = require("url").parse(process.env.REDISTOGO_URL);
+ redis = require("redis").createClient(rtg.port, rtg.hostname);
 
-var redis;
-if (process.env.REDISTOGO_URL) {
-    console.log('redis url: %s', process.env.REDISTOGO_URL);
-    var rtg = require("url").parse(process.env.REDISTOGO_URL);
-    redis = require("redis").createClient(rtg.port, rtg.hostname);
-
-    redis.auth(rtg.auth.split(":")[1]);
-} else {
-    redis = require("redis").createClient();
-}
+ redis.auth(rtg.auth.split(":")[1]);
+ } else {
+ redis = require("redis").createClient();
+ }
+ */
 
 /* ------------ CLOSURE --------------- */
 
 var API = 'http://data.tmsapi.com/v1/movies/showings';
-/*+
- 'startDate=2013-10-12' +
- '&numDays=30&zip=94103' +
- '&radius=100' +
- '&units=mi' +
- '&api_key=dtcd4eyz79x78yk84yjp45en';*/
 
 var _cache_files = null;
 var DATE_FORMAT = 'YYYY-MM-DD';
@@ -71,29 +66,39 @@ module.exports = function (apiary, cb) {
             } else {
                 try {
                     var data = JSON.parse(body);
-               //     var str_data = JSON.stringify(_current_data(data));
-                    console.log('saving %s records of %s data ...', zip, data.length,  body.substr(0, 2));
-
-                    var events_table_model = apiary.model('event_tables');
-
-                    events_table_model.connect(function (err, client) {
-
-                        if (err) {
-                            cb(err);
-                        } else {
-
-                            client.query(util.format("DELETE from events WHERE area = '%s'", zip), function () {
-                                client.query(util.format("DELETE from event_times WHERE area = '%s'", zip), function () {
-                                    client.end();
-                                    events_table_model.load_tmsapi_tables(data, zip, cb);
-                                });
-                            });
-                        }
-
-                    });
                 } catch (err) {
-                    cb(err);
+                    console.log('tms_api_model poll error: %s', err);
+                    console.log(body);
+                    return cb(err);
                 }
+                //     var str_data = JSON.stringify(_current_data(data));
+                console.log('saving %s records of %s data ...', zip, data.length, body.substr(0, 2));
+
+                var events_table_model = apiary.model('event_tables');
+
+                events_table_model.connect(function (err, client) {
+
+                    if (err) {
+                        cb(err);
+                    } else {
+
+                        client.query(util.format("DELETE from events WHERE area = '%s' AND source = 'tmsapi';", zip), function () {
+                            client.query(util.format("DELETE from event_times WHERE area = '%s' AND source = 'tmsapi';", zip), function () {
+                                client.end();
+                                events_table_model.load_tmsapi_tables(data, zip, cb);
+                                process.nextTick(function () {
+                                    var fpath = path.resolve(__dirname, 'cache', zip + '.json');
+                                    console.log('writing %s', fpath);
+                                    fs.writeFile(
+                                        fpath,
+                                        body, {encoding: 'utf8'}, _.identity);
+
+                                })
+                            });
+                        });
+                    }
+
+                });
             }
         });
     }
@@ -106,7 +111,7 @@ module.exports = function (apiary, cb) {
                 api_key: apiary.get_config('tmsapi_auth_key'),
                 radius: 100,
                 units: 'mi',
-                numDays: 30,
+                numDays: 10,
                 zip: zip
             }
         };

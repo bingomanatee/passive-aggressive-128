@@ -40,11 +40,16 @@ server.on('close', function () {
 
 console.log('environment: %s', (process.env.HEROKU_POSTGRESQL_BLACK_URL));
 
+var db = process.env.HEROKU_POSTGRESQL_BLACK_URL;
+if (!db){
+    db = 'postgres://localhost:5432/events'
+}
+
 var log_file = path.resolve(__dirname, 'actions.log');
 
 server.listen(app.get('port'), function () {
     var apiary = mvc.Apiary({log_file: log_file, action_handler_failsafe_time: 3000}, __dirname + '/frames');
-    apiary.set_config('db', process.env.HEROKU_POSTGRESQL_BLACK_URL);
+    apiary.set_config('db', db);
     apiary._config.setAll(require('./site_identity.json'));
     apiary._config.setAll(require('./passport_config.json'));
     apiary.set_config('god_mode', true);
