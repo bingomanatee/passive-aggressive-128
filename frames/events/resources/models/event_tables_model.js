@@ -186,7 +186,7 @@ module.exports = function (apiary, cb) {
                 var add_event_queue = async.queue(function (event, event_queue_callback) {
 
                     var record = {
-                        id: event.tmsId,
+                        id: (event.tmsId + event.title).substr(0, 64),
                         source: 'tmsapi',
                         title: event.title,
                         poll_date: date,
@@ -202,7 +202,7 @@ module.exports = function (apiary, cb) {
                         .then(function (result) {
                             var showtime_queue = async.queue(function (time, callback) {
                                 event_times_table.insert(client, {
-                                    event_id: event.tmsId,
+                                    event_id: record.id,
                                     venue_id: time.theatre.id,
                                     venue_name: time.theatre.name,
                                     start_time: time.dateTime,
