@@ -4,7 +4,8 @@
 
     },
 
-    "handler_failsafe_time": 10000000
+    "handler_failsafe_time": 10000000,
 
+    "layout_name": "pa"
 
 }

@@ -136,6 +136,10 @@ module.exports = function (apiary, cb) {
     var model = {
             name: 'event_tables',
 
+            events_table: events_table,
+
+            event_times_table: event_times_table,
+
             full_listing: function (category, area, finish) {
                 area += '';
                 events_table.connect(function (err, client, done) {

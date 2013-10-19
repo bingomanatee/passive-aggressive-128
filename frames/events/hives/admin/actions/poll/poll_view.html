@@ -1,0 +1,21 @@
+<h1>Events</h1>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>Zip Code</th>
+        <th>From</th>
+        <th>To</th>
+    </tr>
+
+    <% events.forEach(function(event){ %>
+    <tr>
+        <td><%= event.id %></td>
+        <td><%= event.title %></td>
+        <td><%= event.area %></td>
+        <td><%= event.start_date</td>
+        <td><%= event.end_date</td>
+    </tr>
+    <% } %>
+</table>
