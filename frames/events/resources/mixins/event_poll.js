@@ -33,8 +33,9 @@ module.exports = function (apiary, cb) {
             var et_model = apiary.model('event_tables');
 
             location_model.locations.forEach(function (loc, i) {
-                chronometer.add_time_listener('poll data', poll(loc), EVERY_SIX_HOURS + (i * 1000 * 10));
-                setTimeout(poll(loc), i * 1000 * 10);
+                chronometer.add_time_listener('poll data', poll(loc), function (time) {
+                    return (time.minutes() == 10 * i) & _.contains([2, 5, 6, 7, 8, 10, 16, 22], time.hour())
+                });
             })
             done();
         }
