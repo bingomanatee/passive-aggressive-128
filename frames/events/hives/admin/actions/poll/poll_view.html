@@ -1,5 +1,11 @@
 <h1>Events</h1>
 
+<style>
+    .active td {
+        font-weight: bold;
+        color: rgb(204, 0, 0)
+    }
+</style>
 <table>
     <tr>
         <th>id</th>
@@ -10,12 +16,12 @@
     </tr>
 
     <% events.forEach(function(event){ %>
-    <tr>
-        <td><%= event.id %></td>
-        <td><%= event.title %></td>
-        <td><%= event.area %></td>
-        <td><%= event.start_date</td>
-        <td><%= event.end_date</td>
+    <tr <% if (event.area == zip){ %> class="active" <% } %>>
+    <td><%= event.id %></td>
+    <td><%= event.title %></td>
+    <td><%= event.area %></td>
+    <td><%= event.start_date</td>
+    <td><%= event.end_date</td>
     </tr>
     <% } %>
 </table>
