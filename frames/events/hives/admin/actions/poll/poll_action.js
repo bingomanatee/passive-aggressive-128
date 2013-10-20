@@ -24,14 +24,14 @@ module.exports = {
         var event_tables_model = this.model('event_tables');
 
         event_tables_model.events_table.connect(function (err, client, db_done) {
-
+            console.log('selecting all events: ');
             event_tables_model.select(client, {
                 fields: ['id', 'title', 'area', 'start_date', 'end_date'],
                 terms: {
-                    WHERE: "type='movie'"
+                    WHERE: "category='movie'"
                 }
-            })
-                .then(function (err, result) {
+            },function (err, result) {
+                    console.log('done selecting all events: %s, %s', err,  util.inspect(result).substr(0, 200));
                     context.$out.set('events', result.rows);
                     db_done();
                     done();

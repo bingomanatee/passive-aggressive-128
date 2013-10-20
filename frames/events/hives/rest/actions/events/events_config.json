@@ -1,5 +1,7 @@
 {
     "routes": {
-        "get": ["/rest/event", "/rest/event/:id"]
+        "get": ["/rest/event", "/rest/event/:id"],
+
+        "put": ["/rest/event", "/rest/event/:id"]
     }
 }

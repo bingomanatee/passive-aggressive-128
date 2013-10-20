@@ -13,7 +13,7 @@ var moment = require('moment');
 
 function _event_record(event, date, zip) {
     return {
-        id: ((event.tmsId || zip) + event.title).substr(0, 64),
+        id: ((event.tmsId || '') +zip + event.title).substr(0, 64),
         source: 'tmsapi',
         title: event.title,
         poll_date: date,
@@ -63,6 +63,9 @@ function _date(event, which) {
 // long movie title:
 //Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
 
+function _qe(s){
+    return s.replace(/[']+/g, "'").replace(/'/g, "''");
+}
 
 function _compress_events(results) {
     var tally = [];
@@ -95,7 +98,7 @@ function _compress_events(results) {
 
 var _EVENT_ID_TIME_JOIN = _.template('SELECT e.id, e.title, e.source, e.description, e.summary, e.html, e.repeating, e.category, e.area, t.start_time, t.stop_time, t.all_day, t.venue_name, t.venue_id' +
     ' FROM events e LEFT JOIN event_times t ON t.event_id = e.id' +
-    ' WHERE e.id=\'<%= id %>\'' +
+    ' WHERE e.id=\'<%= _qe(id) %>\'' +
     ' ORDER BY e.id, t.venue_id, t.start_time;');
 
 /* -------------- EXPORT --------------- */
@@ -103,7 +106,7 @@ var _EVENT_ID_TIME_JOIN = _.template('SELECT e.id, e.title, e.source, e.descript
 module.exports = function (apiary, cb) {
 
     var events_table = new pg_helper.Table('events', apiary.get_config('db'))
-        .add('id', 'varchar', 64, ['PRIMARY KEY'])
+        .add('id', 'varchar', 100, ['PRIMARY KEY'])
         .add('title', 'varchar', 64)
         .add('source', 'varchar', 64)
         .add('poll_date', 'timestamp')
@@ -122,7 +125,7 @@ module.exports = function (apiary, cb) {
         .add('area', 'varchar', 16);
 
     var event_times_table = new pg_helper.Table('event_times', apiary.get_config('db'))
-        .add('event_id', 'varchar', 64)
+        .add('event_id', 'varchar', 100)
         .add('venue_id', 'varchar', 64)
         .add('poll_date', 'timestamp')
         .add('venue_name', 'varchar', 64)// denormalizing the venue name for expedience.
@@ -191,10 +194,11 @@ module.exports = function (apiary, cb) {
 
             event: function (id, finish) {
                 events_table.connect(function (err, client, done) {
-                    var q = _EVENT_ID_TIME_JOIN({ id: id});
+                    var q = _EVENT_ID_TIME_JOIN({ id: id, _qe: _qe});
                     client.query(q, function (err, results) {
                         done();
                         if (err) {
+                            console.log('error with get join: %s', q);
                             finish(err);
                         } else {
                             finish(null, _compress_events(results)[0]);
@@ -267,11 +271,13 @@ module.exports = function (apiary, cb) {
 
                     }, 10);
 
-                    add_event_queue.push(input, _process_record_batch);
-
                     add_event_queue.drain = function (err) {
+                        console.log("DONE WITH EVENT QUEUE");
                         finish(err);
                     };
+
+                    add_event_queue.push(input, _process_record_batch);
+
 
                 });
             },

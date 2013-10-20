@@ -53,11 +53,11 @@ module.exports = function (apiary, cb) {
      * saves the data INSTANTLY to the file system.
      *
      * @param zip {number}
-     * @param cb {function}
+     * @param callback {function}
      * @private
      */
 
-    function _poll_api(zip, cb) {
+    function _poll_api(zip, callback) {
         var p = _params(zip);
         console.log('POLLING API......... %s', util.inspect(p));
         request.get(p, function (err, req, body) {
@@ -85,7 +85,11 @@ module.exports = function (apiary, cb) {
                         client.query(util.format("DELETE from events WHERE area = '%s' AND source = 'tmsapi';", zip), function () {
                             client.query(util.format("DELETE from event_times WHERE area = '%s' AND source = 'tmsapi';", zip), function () {
                                 client.end();
-                                events_table_model.load_tmsapi_tables(data, zip, cb);
+                                events_table_model.load_tmsapi_tables(data, zip, function(){
+
+                                    console.log('DONE POLLING API');
+                                    callback();
+                                });
                                 process.nextTick(function () {
                                     var fpath = path.resolve(__dirname, 'cache', zip + '.json');
                                     console.log('writing %s', fpath);

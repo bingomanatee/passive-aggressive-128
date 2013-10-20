@@ -48,8 +48,8 @@ module.exports = function (apiary, cb) {
 					items: [
 						{name: 'home', title: 'Home', link: '/', weight: -1000000},
                         {name: 'sf_movies', title: 'San Francisco Movies', link: '/events/view/movie/94103', weight: 0},
-                        {name: 'sf_movies', title: 'Portland, OR Movies', link: '/events/view/movie/94103', weight: 0},
-                        {name: 'sf_movies', title: 'San Francisco Movies', link: '/events/view/movie/94103', weight: 0}
+                        {name: 'sf_movies', title: 'Portland, OR Movies', link: '/events/view/movie/97204', weight: 0},
+                        {name: 'sf_movies', title: 'New York Movies', link: '/events/view/movie/10001', weight: 0}
 					]
 				})
 
