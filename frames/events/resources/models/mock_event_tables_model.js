@@ -4,8 +4,22 @@ var path = require('path');
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var rmdir = require('rmdir');
-
+var moment = require('moment');
 /* ------------ CLOSURE --------------- */
+
+ function _force_today(event){
+     if (event.time){
+         var now = new Moment();
+         event.times.forEach(function(time){
+            var t = new moment(time.start_time);
+             t.year(now.year());
+             t.day(now.day());
+             t.month(now.month());
+
+             time.start_time = t.format('YYYY-MM-DD HH:mm');
+         });
+     }
+}
 
 var TEST_CASES_DIR = path.resolve(__dirname, 'test_cases');
 /** ********************
@@ -34,8 +48,11 @@ function met(apiary, callback) {
             }
         },
 
-        get_event: function (test_case, zip, id, done) {
-            model.get_events(test_case, zip + '_' + id, done);
+        get_event: function (test_case, zip, id, done, force_today) {
+            model.get_events(test_case, zip + '_' + id, function(err, events){
+                if (!err && force_today){   _force_today(events);};
+                done(err, events)
+            });
         },
 
         get_events: function (test_case, zip, done) {
@@ -48,7 +65,7 @@ function met(apiary, callback) {
             var zip_file = path.resolve(test_dir, encodeURIComponent(zip) + '.json');
 
             if (!fs.existsSync(zip_file)) {
-                return done(new Error('no data file for test case ' + test_case + ', zip ' + zip));
+                return done(new Error(util.format('no data file for file %s', zip_file)));
             }
 
             fs.readFile(zip_file, {encoding: 'utf8'}, function (err, data) {

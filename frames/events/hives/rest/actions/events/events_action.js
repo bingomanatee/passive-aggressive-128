@@ -11,8 +11,9 @@ var F = 'YYYY-MM-DD HH:mm';
 module.exports = {
 
     on_validate: function (context, done) {
-        if (!context.zip) {
-            done('no zip');
+
+        if (!(context.zip || context.id)) {
+            done('no zip or ID');
         } else {
             done();
         }
@@ -32,8 +33,12 @@ module.exports = {
             }
 
             if (context.id) {
-                mock_model.get_event(context.mock, context.zip, context.id, _done);
+                    mock_model.get_event(context.mock, context.zip, context.id, _done, true);
+
             } else {
+                console.log('getting mock data for zip %s', context.zip);
+
+
                 mock_model.get_events(context.mock, context.zip, _done);
             }
         } else {
@@ -50,14 +55,14 @@ module.exports = {
                         var z = event.area;
 
                         var loc = locations.get_zip(z);
-                    //    console.log('offsetting event times with location %s', util.inspect(loc));
+                        //    console.log('offsetting event times with location %s', util.inspect(loc));
                         if (loc) {
                             event.times = event.times.map(function (time) {
-                            //    console.log('start time: %s', time.start_time);
+                                //    console.log('start time: %s', time.start_time);
                                 var start = new moment(time.start_time);
-                              //  console.log('moment time: %s', start.format(F));
+                                //  console.log('moment time: %s', start.format(F));
                                 start.add('hours', loc.timezone);
-                             //   console.log('after adding hours: %s: %s', loc.timezone, start.format(F));
+                                //   console.log('after adding hours: %s: %s', loc.timezone, start.format(F));
                                 time.start_time = start.format(F);
                                 return time;
                             })

@@ -1,0 +1,13 @@
+[
+    {
+        "id": "mockid10001",
+        "title": "Handmade Movie",
+        "source": "tmsapi",
+        "description": "Long mock description.",
+        "summary": "Short mock description.",
+        "html": "false", "repeating": "true", "category": "movie",
+        "area": "10001", "start_time": "2013-10-21T00:30:00.000Z",
+        "all_day": "false", "venue_name": "Museum of Modern Arts"
+    }
+
+]

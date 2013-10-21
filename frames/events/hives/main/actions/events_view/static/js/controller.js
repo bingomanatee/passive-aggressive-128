@@ -36,7 +36,13 @@
 
         $scope.expand_event = function(event){
             event.expand = !event.expand;
-            Events.get({id: event.id}, function(event_data){
+
+            var q = {id: event.id, zip: _pa_search_query.zip};
+
+            if ($window._pa_search_query.mock){
+                q.mock = $window._pa_search_query.mock;
+            }
+            Events.get(q, function(event_data){
                 _.extend(event, event_data);
             })
         }
