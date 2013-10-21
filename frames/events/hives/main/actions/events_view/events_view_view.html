@@ -17,8 +17,9 @@
 
         </div>
 
-        <span ng-repeat="event in events | filter: search_term">
-            <button ng-hide="event.expand" ng-click="expand_event(event)" class="btn btn-sm">{{ event.title }}</button>
+        <span ng-repeat="event in events | filter: search_term" clas="event-list">
+            <button ng-hide="event.expand" data-id="{{ event.id }}" ng-click="expand_event(event)"
+                    class="btn btn-sm event-toggle-open">{{ event.title }}</button>
             <div ng-show="event.expand">
                 <h2>{{ event.title }}</h2>
 
@@ -31,7 +32,7 @@
                     </ul>
 
                 </div>
-                <button ng-click="close_event(event)">&times; close</button>
+                <button class="event-toggle-close" ng-click="close_event(event)">&times; close</button>
             </div>
         </span>
     </div>

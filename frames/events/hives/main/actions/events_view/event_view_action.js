@@ -24,6 +24,7 @@ module.exports = {
     on_output: function (context, done) {
         context.$out.set('category', context.category);
         context.$out.set('zip', context.zip);
+        context.$out.set('page_title', 'PA: ' + context.category + ": " + context.zip);
         context.$out.set('mock', context.mock ? context.mock : '');
         done();
     }
