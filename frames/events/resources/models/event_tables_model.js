@@ -13,7 +13,7 @@ var moment = require('moment');
 
 function _event_record(event, date, zip) {
     return {
-        id: ((event.tmsId || '') +zip + event.title).substr(0, 64),
+        id: ((event.tmsId || '') + zip + event.title).substr(0, 64),
         source: 'tmsapi',
         title: event.title,
         poll_date: date,
@@ -63,7 +63,7 @@ function _date(event, which) {
 // long movie title:
 //Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
 
-function _qe(s){
+function _qe(s) {
     return s.replace(/[']+/g, "'").replace(/'/g, "''");
 }
 
@@ -204,6 +204,22 @@ module.exports = function (apiary, cb) {
                             finish(null, _compress_events(results)[0]);
                         }
                     })
+                });
+            },
+
+            recreate_tables: function (callback) {
+                events_table.connect(function (err, client, done) {
+                    events_table.drop(client)
+                        .then(function () {
+                            return event_times_table.drop(client);
+                        }).then(function () {
+                            return  events_table.create(client)
+                        }).then(function () {
+                            return event_times_table.create(client)
+                        }).then(function(){
+                            done();
+                            model.create(callback);
+                        });
                 });
             },
 

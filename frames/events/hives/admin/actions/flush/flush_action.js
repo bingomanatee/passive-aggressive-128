@@ -18,16 +18,11 @@ module.exports = {
     },
 
     on_process: function (context, done) {
-        var tmsapi_model = this.model('tmsapi');
         var event_tables_model = this.model('event_tables');
-        event_tables_model.connect(function(err, client, finish){
-            event_tables_model.truncate(client, function(){
-               done();
-            })
-        })
+        event_tables_model.recreate_tables(done);
     },
 
     on_output: function (context, done) {
-      context.$send('data flushed', done);
+        context.$send('data flushed', done);
     }
 }
