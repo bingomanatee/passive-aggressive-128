@@ -212,10 +212,6 @@ module.exports = function (apiary, cb) {
                     events_table.drop(client)
                         .then(function () {
                             return event_times_table.drop(client);
-                        }).then(function () {
-                            return  events_table.create(client)
-                        }).then(function () {
-                            return event_times_table.create(client)
                         }).then(function(){
                             done();
                             model.create(callback);
