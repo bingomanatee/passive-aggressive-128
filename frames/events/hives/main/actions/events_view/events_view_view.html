@@ -17,22 +17,28 @@
 
         </div>
 
-        <span ng-repeat="event in events | filter: search_term" clas="event-list">
+        <span ng-repeat="event in events | filter: search_term" class="event-list">
             <button ng-hide="event.expand" data-id="{{ event.id }}" ng-click="expand_event(event)"
                     class="btn btn-sm event-toggle-open">{{ event.title }}</button>
             <div ng-show="event.expand">
                 <h2>{{ event.title }}</h2>
 
                 <p>{{ event_text(event) }} </p>
+              <p>
+                  <button class="btn btn-xs" ng-show="show_playtime_button(null, event)" ng-click="show_all_playtimes(event)" >Show ALL Playtimes</button>
+                  <button class="btn btn-xs event-toggle-close" ng-click="close_event(event)">&times; close</button>
+              </p>
 
-                <div class="event-times" ng-repeat="time in group_times(event.times)" >
-                    <h3 class="event-times-venue">{{time.venue_name}}: </h3>
-                    <ul>
+                <div class="event-times" ng-repeat="time in event.group_times" >
+                    <h3 class="event-times-venue">{{time.venue_name}}
+                    <button class="btn btn-xs pull-right event-times-venue-show-playtimes" ng-show="show_playtime_button(time, event)" ng-click="toggle_show_playtime(time)">Playtimes</button>
+
+                    </h3>
+                    <ul ng-show="show_event_time(time, event)">
                         <li ng-repeat="start in time.starts" title="{{start}}"><i>{{start | date:'MMM dd'}}</i> {{start | date:'hh:mm a'}} </li>
                     </ul>
 
                 </div>
-                <button class="event-toggle-close" ng-click="close_event(event)">&times; close</button>
             </div>
         </span>
     </div>

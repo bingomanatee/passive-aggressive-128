@@ -49,13 +49,18 @@ body {
 
 .event-times {
     padding: 0.5em;
-    margin: 0.5em;
-    width: 20%;
+    margin: 0.125em;
+    width: 24%;
     display: inline-block;
-    border: 1px solid rgb(100,100,100);
+    border: 1px solid rgb(0,0,0);
 }
-.event-times h3.event-times-venu {
-    font-size: 150%;
+.event-times h3.event-times-venue button {
+    color: white;
+    background-color: black;
+}
+.event-times h3.event-times-venue {
+    font-size: 80%;
+    font-weight: bold;
     margin: 0;
     padding: 0;
 }

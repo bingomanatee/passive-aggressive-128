@@ -8,15 +8,16 @@ var moment = require('moment');
 /* ------------ CLOSURE --------------- */
 
  function _force_today(event){
-     if (event.time){
-         var now = new Moment();
+     if (event.times){
+         var now = new moment();
          event.times.forEach(function(time){
             var t = new moment(time.start_time);
              t.year(now.year());
-             t.day(now.day());
+             t.date(now.date());
              t.month(now.month());
 
              time.start_time = t.format('YYYY-MM-DD HH:mm');
+             console.log('setting time to %s', time.start_time);
          });
      }
 }
@@ -53,6 +54,9 @@ function met(apiary, callback) {
         },
 
         get_event: function (test_case, zip, id, done, force_today) {
+            if (!force_today){
+                throw new Error('use more force!');
+            }
             model.get_events(test_case, zip + '_' + id, function(err, events){
                 if (!err && force_today){   _force_today(events);};
                 done(err, events)

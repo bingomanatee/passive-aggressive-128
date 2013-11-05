@@ -44,7 +44,15 @@
             }
             Events.get(q, function(event_data){
                 _.extend(event, event_data);
+                event.group_times = _.values($scope.group_times(event.times));
             })
+        }
+
+        $scope.MAX_GROUP_TIMES = 8;
+
+        $scope.show_playtime_button = function(time, event){
+            console.log('event: ', event.title, 'gt:', event.group_times ? event.group_times.length : 0);
+            return (!event.group_times) || (event.group_times.length > $scope.MAX_GROUP_TIMES);
         }
 
         $scope.event_text = function(event){
@@ -54,6 +62,20 @@
         $scope.close_event = function(event){
             event.expand = false;
         };
+
+        $scope.show_all_playtimes = function(event){
+            _.each(event.times, function(time){
+                time.show_time = true;
+            });
+        };
+
+        $scope.show_event_time = function(time, event){
+            return (event.group_times.length <= $scope.MAX_GROUP_TIMES) || time.show_time;
+        }
+
+        $scope.toggle_show_playtime = function(time){
+            time.show_time = !!!time.show_time;
+        }
 
         $scope.group_times = function(times){
 
