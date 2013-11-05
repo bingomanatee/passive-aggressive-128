@@ -362,9 +362,12 @@ module.exports = function (apiary, cb) {
 
 // initializing tables, indices; may error out after first run
 
-    model.create(function () {
+    if (apiary.get_config('use mock data')){
         cb(null, model);
-    })
+    } else {
+        model.create(function () {
+            cb(null, model);
+        })
+    }
 
 }
-;

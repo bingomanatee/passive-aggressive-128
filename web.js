@@ -52,6 +52,7 @@ server.listen(app.get('port'), function () {
     apiary.set_config('db', db);
     apiary._config.setAll(require('./site_identity.json'));
     apiary._config.setAll(require('./passport_config.json'));
+    apiary.set_config('use mock data', 'mock_data');
     apiary.set_config('god_mode', true);
     console.log('initializing apiary for port %s', PORT);
     apiary.init(function () {

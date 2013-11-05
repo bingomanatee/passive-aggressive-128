@@ -20,9 +20,13 @@ module.exports = {
     },
 
     on_get_input: function (context, done) {
-
-        if (context.mock) {
+        var mock = context.mock || context.$apiary.get_config('use mock data');
+        if (mock) {
+            context.mock = mock;
             var mock_model = this.model('mock_event_tables');
+            if (!mock_model.test_case_exists(mock)){
+                return done;
+            }
 
             function _done(err, results) {
                 if (err) {
@@ -33,13 +37,13 @@ module.exports = {
             }
 
             if (context.id) {
-                    mock_model.get_event(context.mock, context.zip, context.id, _done, true);
+                    mock_model.get_event(mock, context.zip, context.id, _done, true);
 
             } else {
                 console.log('getting mock data for zip %s', context.zip);
 
 
-                mock_model.get_events(context.mock, context.zip, _done);
+                mock_model.get_events(mock, context.zip, _done);
             }
         } else {
 

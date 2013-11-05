@@ -48,6 +48,10 @@ function met(apiary, callback) {
             }
         },
 
+        test_case_exists: function(test_case){
+            return fs.existsSync(get_test_dir(test_case));
+        },
+
         get_event: function (test_case, zip, id, done, force_today) {
             model.get_events(test_case, zip + '_' + id, function(err, events){
                 if (!err && force_today){   _force_today(events);};
